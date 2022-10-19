@@ -44,7 +44,7 @@ Folgende Module beinhaltet die Deye Library (vorerst):
 
   Über den 'Module-Store' in IPS das Modul 'Deye PV Hybrid-Wechselrichter' hinzufügen.  
    **Bei kommerzieller Nutzung (z.B. als Errichter oder Integrator) wenden Sie sich bitte an den Autor.**  
-![Module-Store](imgs/install.png)  
+![Module-Store](imgs/installDeye.png)  
 
 ## 4. Einrichten der Instanzen in IP-Symcon
 

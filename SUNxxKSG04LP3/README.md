@@ -40,12 +40,12 @@ Zusätzlich können mehrere Wechelrichter auf einem physikalischen RS485-Bus bet
 ## 4. Einrichten der Instanzen in IP-Symcon
 
 Das Modul ist im Dialog 'Instanz hinzufügen' unter dem Hersteller 'B+G E-Tech' zu finden.  
-![Instanz hinzufügen](../imgs/add1.png)  
+![Instanz hinzufügen](../imgs/addDeye.png)  
 
 Es wird automatisch ein 'ModBus Gateway' als Splitter-Instanz, sowie ein 'Client Socket' als dessen I/O-Instanz erzeugt.  
 In dem sich öffnenden Konfigurationsformular muss der Abfrage-Zyklus eingestellt werden.  
  Über den Button 'Gateway konfigurieren' wird das Konfigurationsformular des 'ModBus Gateway' geöffnet.  
-![Instanz konfigurieren](../imgs/config.png)    
+![Instanz konfigurieren](../imgs/configDeye.png)    
 Hier muss jetzt der Modus passend zur Hardwareanbindung (TCP /RTU) sowie die Geräte-ID des Zählers eingestellt und übernommen werden.  
 Anschließend über den Button 'Schnittstelle konfigurieren' das Konfigurationsformular der I/O-Instanz öffnen.  
 Je nach Hardwareanbindung müssen hier die RS485 Parameter oder die IP-Adresse des ModBus-Umsetzers eingetragen werden.  
