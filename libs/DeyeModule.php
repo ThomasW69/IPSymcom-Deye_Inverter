@@ -100,7 +100,8 @@ class Deye extends IPSModule
                     'Function' => $NewVariable[4],
                     'Quantity' => $NewVariable[5],
                     'Pos'      => ++$NewPos,
-                    'Keep'     => $NewVariable[6]
+                    'Factor'   => $NewVariable[6]
+                    'Keep'     => $NewVariable[7]
                 ];
             }
             IPS_SetProperty($this->InstanceID, 'Variables', json_encode($Variables));
