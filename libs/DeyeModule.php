@@ -248,7 +248,7 @@ class Deye extends IPSModule
                 }
                 break;
             case VARIABLETYPE_STRING:
-                return $Value;
+                return strrev($Value);  //Strings immer in korrekter reihenfolge
         }
         return null;
     }
