@@ -26,13 +26,13 @@ class SUNxxKSG04LP3 extends Deye
 
     public static $Variables = [
 	//Name, VarType, Profile,Address,Function,Quantity, Keep
-        ['Inverter Voltage L1', 	VARIABLETYPE_INTEGER, 	'Volt.I', 		154, 0x03, 2, 0.1, true],
-        ['Inverter Voltage L2', 	VARIABLETYPE_INTEGER, 	'Volt.I', 		155, 0x03, 2, 0.1, true],
-        ['DayActive PowerWh', 		VARIABLETYPE_FLOAT, 	'Electricity.I', 60, 0x03, 2, 0.1, true],
-        ['DayReactive PowerWh', 	VARIABLETYPE_FLOAT, 	'kVArh', 		 61, 0x03, 2, 0.1, true],
-        ['Today_Gen_PowerWh', 		VARIABLETYPE_FLOAT, 	'Electricity.I', 62, 0x03, 2, 0.1, true],  //Heute erzeugte Arbeit
-        ['Load Voltage L1', 		VARIABLETYPE_INTEGER, 	'Volt.I', 		157, 0x03, 2, 1,   true],  //Spannung am Load Phase L1
-        ['Load Voltage L2', 		VARIABLETYPE_INTEGER, 	'Volt.I', 		158, 0x03, 2, 1,   true],   //Spannung am Load Phase L2
-        ['SerialNo', 				VARIABLETYPE_STRING, 	'', 			  3, 0x03, 5, 0,   true]
+        ['Inverter Voltage L1', 	VARIABLETYPE_INTEGER, 	'Volt.I', 		0x009A, 0x03, 0x0002, 0.1, true],
+        ['Inverter Voltage L2', 	VARIABLETYPE_INTEGER, 	'Volt.I', 		0x009B, 0x03, 0x0002, 0.1, true],
+        ['DayActive PowerWh', 		VARIABLETYPE_FLOAT, 	'Electricity.I',0x003C, 0x03, 0x0002, 0.1, true],
+        ['DayReactive PowerWh', 	VARIABLETYPE_FLOAT, 	'kVArh', 		0x003D, 0x03, 0x0002, 0.1, true],
+        ['TodayGenPowerWh', 		VARIABLETYPE_FLOAT, 	'Electricity.I',0x003E, 0x03, 0x0002, 0.1, true],  //Heute erzeugte Arbeit
+        ['Load Voltage L1', 		VARIABLETYPE_INTEGER, 	'Volt.I', 		0x009D, 0x03, 0x0002, 1,   true],  //Spannung am Load Phase L1
+        ['Load Voltage L2', 		VARIABLETYPE_INTEGER, 	'Volt.I', 		0x009E, 0x03, 0x0002, 1,   true],   //Spannung am Load Phase L2
+        ['SerialNo', 				VARIABLETYPE_STRING, 	'', 			0x0003, 0x03, 0x0005, 0,   true]
 	];
 }
