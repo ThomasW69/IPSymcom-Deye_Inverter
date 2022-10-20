@@ -25,14 +25,14 @@ class SUNxxKSG04LP3 extends Deye
     const PREFIX = 'SUNxxKSG04LP3';
 
     public static $Variables = [
-	//Name, VarType, Profile,Address,Function,Quantity, Keep
-        ['Inverter Voltage L1', 	VARIABLETYPE_INTEGER, 	'Volt.I', 		0x009A, 0x03, 0x0002, 0.1, true],
-        ['Inverter Voltage L2', 	VARIABLETYPE_INTEGER, 	'Volt.I', 		0x009B, 0x03, 0x0002, 0.1, true],
-        ['DayActive PowerWh', 		VARIABLETYPE_FLOAT, 	'Electricity.I',0x003C, 0x03, 0x0002, 0.1, true],
-        ['DayReactive PowerWh', 	VARIABLETYPE_FLOAT, 	'kVArh', 		0x003D, 0x03, 0x0002, 0.1, true],
-        ['TodayGenPowerWh', 		VARIABLETYPE_FLOAT, 	'Electricity.I',0x003E, 0x03, 0x0002, 0.1, true],  //Heute erzeugte Arbeit
-        ['Load Voltage L1', 		VARIABLETYPE_INTEGER, 	'Volt.I', 		0x009D, 0x03, 0x0002, 1,   true],  //Spannung am Load Phase L1
-        ['Load Voltage L2', 		VARIABLETYPE_INTEGER, 	'Volt.I', 		0x009E, 0x03, 0x0002, 1,   true],   //Spannung am Load Phase L2
-        ['SerialNo', 				VARIABLETYPE_STRING, 	'', 			0x0003, 0x03, 0x0005, 0,   true]
+	//Name, VarType, Profile,AddressHi,Address Lo,Function,Quantity, Keep
+        ['Inverter Voltage L1', 	VARIABLETYPE_INTEGER, 	'Volt.I', 		0x00, 0x9A, 0x03, 0x0002, 0.1, true],
+        ['Inverter Voltage L2', 	VARIABLETYPE_INTEGER, 	'Volt.I', 		0x00, 0x9B, 0x03, 0x0002, 0.1, true],
+        ['DayActive PowerWh', 		VARIABLETYPE_FLOAT, 	'Electricity.I',0x00, 0x3C, 0x03, 0x0002, 0.1, true],
+        ['DayReactive PowerWh', 	VARIABLETYPE_FLOAT, 	'kVArh', 		0x00, 0x3D, 0x03, 0x0002, 0.1, true],
+        ['TodayGenPowerWh', 		VARIABLETYPE_FLOAT, 	'Electricity.I',0x00, 0x3E, 0x03, 0x0002, 0.1, true],  //Heute erzeugte Arbeit
+        ['Load Voltage L1', 		VARIABLETYPE_INTEGER, 	'Volt.I', 		0x00, 0x9D, 0x03, 0x0002, 1,   true],  //Spannung am Load Phase L1
+        ['Load Voltage L2', 		VARIABLETYPE_INTEGER, 	'Volt.I', 		0x00, 0x9E, 0x03, 0x0002, 1,   true],   //Spannung am Load Phase L2
+        ['SerialNo', 				VARIABLETYPE_STRING, 	'', 			0x00, 0x03, 0x03, 0x0005, 0,   true]
 	];
 }
