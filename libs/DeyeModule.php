@@ -209,7 +209,8 @@ class Deye extends IPSModule
         }
         return true;
     }
-
+    
+	// Hier die Konvertierung der Variablen
     private function ConvertValue(array $Variable, string $Value)
     {
         switch ($Variable['VarType']) {
