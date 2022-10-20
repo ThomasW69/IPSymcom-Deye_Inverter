@@ -43,13 +43,12 @@ class Deye extends IPSModule
                 'Name'     => $this->Translate($Variable[0]),
                 'VarType'  => $Variable[1],
                 'Profile'  => $Variable[2],
-                'AddressHi'=> $Variable[3],
-                'AddressLo'=> $Variable[4],
-                'Function' => $Variable[5],
-                'Quantity' => $Variable[6],
+                'Address'  => $Variable[3],
+                'Function' => $Variable[4],
+                'Quantity' => $Variable[5],
                 'Pos'      => $Pos + 1,
-				'Factor'   => $Variable[7],
-                'Keep'     => $Variable[8]
+				'Factor'   => $Variable[6],
+                'Keep'     => $Variable[7]
             ];
         }
         $this->RegisterPropertyString('Variables', json_encode($Variables));
@@ -97,13 +96,12 @@ class Deye extends IPSModule
                     'Name'     => $this->Translate($NewVariable[0]),
                     'VarType'  => $NewVariable[1],
                     'Profile'  => $NewVariable[2],
-                    'AddressHi'=> $NewVariable[3],
-                    'AddressLo'=> $NewVariable[4],
-                    'Function' => $NewVariable[5],
-                    'Quantity' => $NewVariable[6],
+                    'Address'  => $NewVariable[3],
+                    'Function' => $NewVariable[4],
+                    'Quantity' => $NewVariable[5],
                     'Pos'      => ++$NewPos,
-                    'Factor'   => $NewVariable[7],
-                    'Keep'     => $NewVariable[8]
+                    'Factor'   => $NewVariable[6],
+                    'Keep'     => $NewVariable[7]
                 ];
             }
             IPS_SetProperty($this->InstanceID, 'Variables', json_encode($Variables));
@@ -190,8 +188,7 @@ class Deye extends IPSModule
             }
             $SendData['DataID'] = '{E310B701-4AE7-458E-B618-EC13A1A6F6A8}';
             $SendData['Function'] = $Variable['Function'];                  //in der Regel 0x03 zum lesen und 0x10 zum Schreiben
-            $SendData['AddressHi'] = $Variable['AddressHi'];
-            $SendData['AddressLo'] = $Variable['AddressLo'];
+            $SendData['Address']  = $Variable['Address'];
             $SendData['Quantity'] = $Variable['Quantity'];
             $SendData['Data'] = '';
             set_error_handler([$this, 'ModulErrorHandler']);
