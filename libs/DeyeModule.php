@@ -192,6 +192,8 @@ class Deye extends IPSModule
             $SendData['Quantity'] = $Variable['Quantity'];
             $SendData['Data'] = '';
             set_error_handler([$this, 'ModulErrorHandler']);
+            $this->SendDebug(' SendData', $ReadData, 1);
+
             $ReadData = $this->SendDataToParent(json_encode($SendData));
             restore_error_handler();
             if ($ReadData === false) {
