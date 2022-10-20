@@ -27,8 +27,8 @@ class SUNxxKSG04LP3 extends Deye
     public static $Variables = [
 	//Name, VarType, Profile,Address,Function,Quantity, Keep
         ['DayActive PowerWh', VARIABLETYPE_FLOAT, 'Electricity.I', 60, 4, 2, 0.1, true],
-        ['DayReactive PowerWh', VARIABLETYPE_FLOAT, 'kVArh', 61, 4, 2, 0.1, true]
-        ['Today_Gen_PowerWh', VARIABLETYPE_FLOAT, 'Electricity.I', 62, 4, 2, 0.1, true],  //Heute erzeugte Arbeit
+        ['DayReactive PowerWh', VARIABLETYPE_FLOAT, 'kVArh', 61, 4, 2, 0.1, true],
+        ['Today_Gen_PowerWh', VARIABLETYPE_FLOAT, 'Electricity.I', 62, 4, 2, 0.1, true]  //Heute erzeugte Arbeit
      /*   ['Current L1', VARIABLETYPE_FLOAT, 'Ampere', 0x0006, 4, 2, true],
         ['Current L2', VARIABLETYPE_FLOAT, 'Ampere', 0x0008, 4, 2, true],
         ['Current L3', VARIABLETYPE_FLOAT, 'Ampere', 0x000A, 4, 2, true],
