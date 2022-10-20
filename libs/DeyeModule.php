@@ -47,7 +47,8 @@ class Deye extends IPSModule
                 'Function' => $Variable[4],
                 'Quantity' => $Variable[5],
                 'Pos'      => $Pos + 1,
-                'Keep'     => $Variable[6]
+				'Factor'   => $Variable[6],
+                'Keep'     => $Variable[7]
             ];
         }
         $this->RegisterPropertyString('Variables', json_encode($Variables));
@@ -175,7 +176,8 @@ class Deye extends IPSModule
         $this->SetValue($Variable['Ident'], $Value);
         return true;
     }
-
+    
+	// lesen der Daten aus den übergeordneten Modbus Instanz
     private function ReadData()
     {
         $Variables = json_decode($this->ReadPropertyString('Variables'), true);
@@ -184,7 +186,7 @@ class Deye extends IPSModule
                 continue;
             }
             $SendData['DataID'] = '{E310B701-4AE7-458E-B618-EC13A1A6F6A8}';
-            $SendData['Function'] = $Variable['Function'];
+            $SendData['Function'] = $Variable['Function'];                  //in der Regel 0x03 zum lesen und 0x10 zum Schreiben
             $SendData['Address'] = $Variable['Address'];
             $SendData['Quantity'] = $Variable['Quantity'];
             $SendData['Data'] = '';
@@ -194,6 +196,8 @@ class Deye extends IPSModule
             if ($ReadData === false) {
                 return false;
             }
+            $this->SendDebug($Variable['Name'] . ' ReadData', $ReadData, 1);
+
             $ReadValue = substr($ReadData, 2);
             $this->SendDebug($Variable['Name'] . ' RAW', $ReadValue, 1);
             if (static::Swap) {
