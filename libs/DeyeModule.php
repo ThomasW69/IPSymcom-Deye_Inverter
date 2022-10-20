@@ -26,7 +26,7 @@ class Deye extends IPSModule
 {
     use \Deye\SemaphoreHelper;
     use \Deye\VariableProfileHelper;
-    const Swap = true;
+    const Swap = false;
 
     /**
      * Interne Funktion des SDK.
