@@ -16,6 +16,9 @@ declare(strict_types=1);
  */
 require_once __DIR__ . '/../libs/DeyeModule.php';  // diverse Klassen
 
+
+
+
 /**
  * SUNxxKSG04LP3 ist die Klasse für die SUN-xxK-SG04LP3 Hybridwechselrichter der Firma Deye
  * Erweitert Deye.
@@ -23,16 +26,25 @@ require_once __DIR__ . '/../libs/DeyeModule.php';  // diverse Klassen
 class SUNxxKSG04LP3 extends Deye
 {
     const PREFIX = 'SUNxxKSG04LP3';
+    
+/*
+                'Name'     => $this->Translate($Variable[0]),
+                'VarType'  => $Variable[1],
+                'ValType'  => $Variable[2],
+                'Profile'  => $Variable[3],
+                'Address'  => $Variable[4],
+                'Function' => $Variable[5],
+                'Quantity' => $Variable[6],
+                'Pos'      => $Pos + 1,
+				'Factor'   => $Variable[7],
+                'Keep'     => $Variable[8]
+*/
 
     public static $Variables = [
-	//Name, VarType, Profile, Address, Function, Quantity, Keep
-        ['Inverter Voltage L1', 	VARIABLETYPE_INTEGER, 	'Volt.I', 		 154, 3, 0x0003, 0.1, true],
-        ['Inverter Voltage L2', 	VARIABLETYPE_INTEGER, 	'Volt.I', 		 155, 3, 0x0002, 0.1, true],
-        ['DayActive PowerWh', 		VARIABLETYPE_FLOAT, 	'Electricity.I', 60 , 3, 0x0002, 0.1, true],
-        ['DayReactive PowerWh', 	VARIABLETYPE_FLOAT, 	'kVArh', 		 61, 3, 0x0002, 0.1, true],
-        ['TodayGenPowerWh', 		VARIABLETYPE_FLOAT, 	'Electricity.I', 63, 3, 0x0002, 0.1, true],  //Heute erzeugte Arbeit
-        ['Load Voltage L1', 		VARIABLETYPE_INTEGER, 	'Volt.I', 		 157, 3, 0x0002, 1,   true],  //Spannung am Load Phase L1
-        ['Load Voltage L2', 		VARIABLETYPE_INTEGER, 	'Volt.I', 		 158, 3, 0x0002, 1,   true],   //Spannung am Load Phase L2
-        ['SerialNo', 				VARIABLETYPE_STRING, 	'', 			 3, 3, 0x0005, 0,   true]
+	//Name, VarType, ValueType, Profile, Address, Function, Quantity, Keep
+    ['Type',    	VARIABLETYPE_INTEGER,   VALTYPE_BYTE, 	    '', 		 0, 3, 1, 1,    true],
+    ['ModbusID', 	VARIABLETYPE_INTEGER,   VALTYPE_BYTE, 	    '', 		 1, 3, 1, 0.1,  true],
+    ['ProtVer', 	VARIABLETYPE_STRING,    VALTYPE_STRING,	    '', 		 2, 3, 1, 0.1,  true],
+    ['SerNo', 	    VARIABLETYPE_STRING,    VALTYPE_ASTRING,	'', 		 3, 3, 5, 0.1,  true]
 	];
 }

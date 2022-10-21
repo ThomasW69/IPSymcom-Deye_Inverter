@@ -17,8 +17,17 @@ declare(strict_types=1);
 require_once __DIR__ . '/SemaphoreHelper.php';  // diverse Klassen
 eval('declare(strict_types=1);namespace Deye {?>' . file_get_contents(__DIR__ . '/helper/VariableProfileHelper.php') . '}');
 
+
+
+    //spezielle Konstanten für die Typkonvertierung
+    const VALTYPE_BYTE      = 0;      //Quelldaten sind Byte 0x00 - 0XFF
+    const VALTYPE_WORD      = 1;      //Quellsaten sind WORD 0x0000 - 0XFFFF
+    const VALTYPE_DWORD     = 2;      //Quellsaten sind WORD 0x00000000 - 0XFFFFFFFF
+    const VALTYPE_ASTRING   = 3;      //Quelldaten sind ASCI-String
+    const VALTYPE_STRING    = 4;      //Quelldaten sind byte Codierter String z.B. Für Versionsnummern 0x01 0x04 -> 1.04
+
 /**
- * Deye ist die Basisklasse für alle Energie-Zähler der Firma B+G E-Tech
+ * Deye ist die Basisklasse für alle  Wechselrichter der Forma Deye
  * Erweitert ipsmodule.
  * @property array $Variables
  */
@@ -42,13 +51,14 @@ class Deye extends IPSModule
                 'Ident'    => str_replace(' ', '', $Variable[0]),
                 'Name'     => $this->Translate($Variable[0]),
                 'VarType'  => $Variable[1],
-                'Profile'  => $Variable[2],
-                'Address'  => $Variable[3],
-                'Function' => $Variable[4],
-                'Quantity' => $Variable[5],
+                'ValType'  => $Variable[2],
+                'Profile'  => $Variable[3],
+                'Address'  => $Variable[4],
+                'Function' => $Variable[5],
+                'Quantity' => $Variable[6],
                 'Pos'      => $Pos + 1,
-				'Factor'   => $Variable[6],
-                'Keep'     => $Variable[7]
+				'Factor'   => $Variable[7],
+                'Keep'     => $Variable[8]
             ];
         }
         $this->RegisterPropertyString('Variables', json_encode($Variables));
@@ -95,13 +105,14 @@ class Deye extends IPSModule
                     'Ident'    => str_replace(' ', '', $NewVariable[0]),
                     'Name'     => $this->Translate($NewVariable[0]),
                     'VarType'  => $NewVariable[1],
-                    'Profile'  => $NewVariable[2],
-                    'Address'  => $NewVariable[3],
-                    'Function' => $NewVariable[4],
-                    'Quantity' => $NewVariable[5],
+                    'ValType'  => $NewVariable[2],
+                    'Profile'  => $NewVariable[3],
+                    'Address'  => $NewVariable[4],
+                    'Function' => $NewVariable[5],
+                    'Quantity' => $NewVariable[6],
                     'Pos'      => ++$NewPos,
-                    'Factor'   => $NewVariable[6],
-                    'Keep'     => $NewVariable[7]
+                    'Factor'   => $NewVariable[7],
+                    'Keep'     => $NewVariable[8]
                 ];
             }
             IPS_SetProperty($this->InstanceID, 'Variables', json_encode($Variables));
@@ -192,7 +203,7 @@ class Deye extends IPSModule
             $SendData['Quantity'] = $Variable['Quantity'];
             $SendData['Data'] = '';
             set_error_handler([$this, 'ModulErrorHandler']);
-            $this->SendDebug(' SendData:', $SendData, 1);
+           // $this->SendDebug(' SendData:', $SendData, 1);
 
             $ReadData = $this->SendDataToParent(json_encode($SendData));
             restore_error_handler();
@@ -251,8 +262,13 @@ class Deye extends IPSModule
                 }
                 break;
             case VARIABLETYPE_STRING:
-                return strrev($Value);  //Strings immer in korrekter reihenfolge
-        }
+                switch ($Variable['ValType']) {
+                    case VALTYPE_ASTRING:
+                       return strrev($Value);  //Strings immer in korrekter reihenfolge
+                    case VALTYPE_STRING:
+                        return 'Kommt noch';  //Strings immer in korrekter reihenfolge        
+                }
+        }        
         return null;
     }
 }
