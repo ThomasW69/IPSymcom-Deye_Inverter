@@ -226,8 +226,8 @@ class Deye extends IPSModule
                 $this->LogMessage(sprintf($this->Translate('Combination of type and size of value (%s) not supported.'), $Variable['Name']), KL_ERROR);
                 continue;
             }
-            //Bei FloatVAriablen jetzt noch den Faktor einrechnen
-            if ($Variable['VarType']=VARIABLETYPE_FLOAT){
+            //Bei FloatVAriablen jetzt noch den Faktor einrechnen //Hier noch eventuell den Offset einrechnen falls vorhanden
+            if ($Variable['VarType'] == VARIABLETYPE_FLOAT){
                 $Value= $Value * $Variable['Factor'];
             }
 
