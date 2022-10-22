@@ -23,8 +23,9 @@ eval('declare(strict_types=1);namespace Deye {?>' . file_get_contents(__DIR__ . 
     const VALTYPE_BYTE      = 0;      //Quelldaten sind Byte 0x00 - 0XFF
     const VALTYPE_WORD      = 1;      //Quellsaten sind WORD 0x0000 - 0XFFFF
     const VALTYPE_DWORD     = 2;      //Quellsaten sind WORD 0x00000000 - 0XFFFFFFFF
-    const VALTYPE_ASTRING   = 3;      //Quelldaten sind ASCI-String
-    const VALTYPE_STRING    = 4;      //Quelldaten sind byte Codierter String z.B. Für Versionsnummern 0x01 0x04 -> 1.04
+    const VALTYPE_DWWORD     = 3;      //Quellsaten sind WORD 0x0000000000000000 - 0XFFFFFFFFFFFFFFFF
+    const VALTYPE_ASTRING   = 4;      //Quelldaten sind ASCI-String
+    const VALTYPE_STRING    = 54;      //Quelldaten sind byte Codierter String z.B. Für Versionsnummern 0x01 0x04 -> 1.04
 
 /**
  * Deye ist die Basisklasse für alle  Wechselrichter der Forma Deye
@@ -254,12 +255,12 @@ class Deye extends IPSModule
                 }
                 break;
             case VARIABLETYPE_FLOAT:
-                switch ($Variable['Quantity']) {
-                    case 2:
+                switch ($Variable['ValType']) {
+                    case VALTYPE_WORD:
                         return unpack('f', $Value)[1];
-                    case 4:
+                    case VALTYPE_DWORD:
                         return unpack('f', $Value)[1];
-                    case 8:
+                    case VALTYPE_DWWORD:
                         return unpack('f', $Value)[1];
                 }
                 break;
