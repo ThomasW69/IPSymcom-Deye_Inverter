@@ -235,7 +235,7 @@ class Deye extends IPSModule
     
 	// Hier die Konvertierung der Variablen
     private function ConvertValue(array $Variable, string $Value)
-    
+    $vt = 0; 
     {
         switch ($Variable['VarType']) {
             case VARIABLETYPE_BOOLEAN:
@@ -264,15 +264,15 @@ class Deye extends IPSModule
                     case VALTYPE_DWWORD:
                         return unpack('f', $Value)[1];*/
                         case VALTYPE_BYTE:
-                            ord($Value);
+                            $vt=ord($Value);
                         case VALTYPE_WORD:
-                            unpack('n', $Value)[1];
+                            $vt=unpack('n', $Value)[1];
                         case VALTYPE_DWORD:
-                            unpack('N', $Value)[1];
+                            $vt=unpack('N', $Value)[1];
                         case VALTYPE_DWWORD:
-                            unpack('J', $Value)[1];
+                            $vt=unpack('J', $Value)[1];
                 } 
-                return $Value*$Variable['Factor'];
+                return $vt*$Variable['Factor'];
                 break;
             case VARIABLETYPE_STRING:
                 switch ($Variable['ValType']) {
