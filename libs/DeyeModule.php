@@ -244,13 +244,13 @@ class Deye extends IPSModule
                 break;
             case VARIABLETYPE_INTEGER:
                 switch ($Variable['Quantity']) {
-                    case 1:
+                    case VALTYPE_BYTE:
                         return ord($Value);
-                    case 2:
+                    case VALTYPE_WORD:
                         return unpack('n', $Value)[1];
-                    case 4:
+                    case VALTYPE_DWORD:
                         return unpack('N', $Value)[1];
-                    case 8:
+                    case VALTYPE_DWWORD:
                         return unpack('J', $Value)[1];
                 }
                 break;
