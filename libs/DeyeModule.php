@@ -36,7 +36,7 @@ class Deye extends IPSModule
 {
     use \Deye\SemaphoreHelper;
     use \Deye\VariableProfileHelper;
-    const Swap = false;
+    const Swap = true;
 
     /**
      * Interne Funktion des SDK.
@@ -246,9 +246,9 @@ class Deye extends IPSModule
                     case VALTYPE_BYTE:
                         return ord($Value);
                     case VALTYPE_WORD:
-                        return unpack('n', $Value)[1]; //Vorzichenlos Short
+                        return unpack('v', $Value)[1]; //Vorzichenlos Short
                     case VALTYPE_DWORD:
-                        return unpack('N', $Value)[1]; //Vorzeichenlos Long
+                        return unpack('V', $Value)[1]; //Vorzeichenlos Long
                     case VALTYPE_DWWORD:
                         return unpack('J', $Value)[1]; //Vorzeichenlos LongLong
                 }
