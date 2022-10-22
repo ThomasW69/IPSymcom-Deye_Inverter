@@ -250,7 +250,7 @@ class Deye extends IPSModule
                     case VALTYPE_DWORD:
                         return unpack('V', $Value)[1]; //Vorzeichenlos Long
                     case VALTYPE_DWWORD:
-                        return unpack('J', $Value)[1]; //Vorzeichenlos LongLong
+                        return unpack('P', $Value)[1]; //Vorzeichenlos LongLong
                 }
                 break;
             
