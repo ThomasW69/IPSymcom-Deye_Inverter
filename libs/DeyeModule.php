@@ -228,7 +228,7 @@ class Deye extends IPSModule
             }
             //Bei FloatVAriablen jetzt noch den Faktor einrechnen //Hier noch eventuell den Offset einrechnen falls vorhanden
             if ($Variable['VarType'] == VARIABLETYPE_FLOAT){
-                $Value= $Value * $Variable['Factor'];
+                $Value= ($Value - $Variable['Offset']) * $Variable['Factor'];
             }
 
             
