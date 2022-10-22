@@ -264,14 +264,15 @@ class Deye extends IPSModule
                     case VALTYPE_DWWORD:
                         return unpack('f', $Value)[1];*/
                         case VALTYPE_BYTE:
-                            return (ord($Value)*$Variable['Factor']);
+                            ord($Value);
                         case VALTYPE_WORD:
-                            return unpack('n', $Value)[1]**$Variable['Factor'];
+                            unpack('n', $Value)[1];
                         case VALTYPE_DWORD:
-                            return unpack('N', $Value)[1]**$Variable['Factor'];
+                            unpack('N', $Value)[1];
                         case VALTYPE_DWWORD:
-                            return unpack('J', $Value)[1]**$Variable['Factor'];
-                }
+                            unpack('J', $Value)[1];
+                } 
+                return $Value*$Variable['Factor'];
                 break;
             case VARIABLETYPE_STRING:
                 switch ($Variable['ValType']) {
