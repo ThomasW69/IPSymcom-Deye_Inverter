@@ -36,7 +36,7 @@ class Deye extends IPSModule
 {
     use \Deye\SemaphoreHelper;
     use \Deye\VariableProfileHelper;
-    const Swap = true;
+    const Swap = false;
 
     /**
      * Interne Funktion des SDK.
@@ -217,11 +217,9 @@ class Deye extends IPSModule
 
             $ReadValue = substr($ReadData, 2);
             $this->SendDebug($Variable['Name'] . ' RAW', $ReadValue, 1);
-            //if ($Variable['VarType']!= VARIABLETYPE_STRING){  
 			 if (static::Swap) {
                 $ReadValue = strrev($ReadValue);
              }
-			//}
             $Value = $this->ConvertValue($Variable, $ReadValue);
             if ($Value === null) {
                 $this->LogMessage(sprintf($this->Translate('Combination of type and size of value (%s) not supported.'), $Variable['Name']), KL_ERROR);

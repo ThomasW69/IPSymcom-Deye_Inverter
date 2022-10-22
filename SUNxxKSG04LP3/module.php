@@ -48,8 +48,8 @@ class SUNxxKSG04LP3 extends Deye
     ['SerNo', 	        VARIABLETYPE_STRING,    VALTYPE_ASTRING,	'', 		 3,     3, 5, 0.1,      0,  true],
     ['DC_Trans_Temp', 	VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    '', 	   540,     3, 1, 0.1,   1000,  true],
     ['Batt_Temp',    	VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    '', 	   586,     3, 1, 0.1,   1000,  true],
-    ['Batt_V',      	VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    '', 	   587,     3, 1, 0.001,  0,  true],
+    ['Batt_V',      	VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    '', 	   587,     3, 1, 1,  0,  true],
     ['Batt_Lvl',      	VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    'Percent', 588,     3, 1,    1,  0,  true],
-    ['Batt_I',      	VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    '', 	   591,     3, 1, 0.001,  0,  true]
+    ['Batt_I',      	VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    '', 	   591,     3, 1, 1,  0,  true]
 	];
 }
