@@ -221,10 +221,17 @@ class Deye extends IPSModule
                 $ReadValue = strrev($ReadValue);
              }
             $Value = $this->ConvertValue($Variable, $ReadValue);
+            
             if ($Value === null) {
                 $this->LogMessage(sprintf($this->Translate('Combination of type and size of value (%s) not supported.'), $Variable['Name']), KL_ERROR);
                 continue;
             }
+            //Bei FloatVAriablen jetzt noch den Faktor einrechnen
+            if ($Variable['VarType']=VARIABLETYPE_FLOAT){
+                $Value= $Value * $Variable['Factor'];
+            }
+
+            
             $this->SendDebug($Variable['Name'], $Value, 0);
             $this->SetValueExt($Variable, $Value);
         }
@@ -242,7 +249,7 @@ class Deye extends IPSModule
                 }
                 break;
             case VARIABLETYPE_INTEGER:
-                switch ($Variable['Quantity']) {
+                switch ($Variable['ValType']) {
                     case VALTYPE_BYTE:
                         return ord($Value);
                     case VALTYPE_WORD:
@@ -256,6 +263,17 @@ class Deye extends IPSModule
             
             case VARIABLETYPE_FLOAT:
                 switch ($Variable['ValType']) {
+                    case VALTYPE_BYTE:
+                        return ord($Value);
+                    case VALTYPE_WORD:
+                        return unpack('v', $Value)[1]; //Vorzichenlos Short
+                    case VALTYPE_DWORD:
+                        return unpack('V', $Value)[1]; //Vorzeichenlos Long
+                    case VALTYPE_DWWORD:
+                        return unpack('P', $Value)[1]; //Vorzeichenlos LongLong
+                }
+                break;
+/*                switch ($Variable['ValType']) { 
                     case VALTYPE_WORD:
                         return unpack('f', $Value)[1];
                     case VALTYPE_DWORD:
@@ -264,7 +282,7 @@ class Deye extends IPSModule
                         return unpack('f', $Value)[1];
                 } 
                 break;
-            
+*/            
             case VARIABLETYPE_STRING:
                 switch ($Variable['ValType']) {
                     case VALTYPE_ASTRING:
