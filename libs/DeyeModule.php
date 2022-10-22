@@ -235,8 +235,8 @@ class Deye extends IPSModule
     
 	// Hier die Konvertierung der Variablen
     private function ConvertValue(array $Variable, string $Value)
-    $vt = 0; 
     {
+        $vt = 0; 
         switch ($Variable['VarType']) {
             case VARIABLETYPE_BOOLEAN:
                 if ($Variable['Quantity'] == 1) {
