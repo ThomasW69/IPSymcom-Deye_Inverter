@@ -84,7 +84,7 @@ class Deye extends IPSModule
         $this->RegisterProfileInteger('VaR.I', '', '', ' VAr', 0, 0, 0);
         $this->RegisterProfileInteger('VA.I', '', '', ' VA', 0, 0, 0);
         $this->RegisterProfileInteger('Electricity.I', '', '', ' kWh', 0, 0, 0);
-
+        $this->RegisterProfileInteger('Percent', '', '', ' %', 0, 0, 0);
         //Create Variables and check when new Rows in config appear after an update.
         $NewRows = static::$Variables;
         $NewPos = 0;
