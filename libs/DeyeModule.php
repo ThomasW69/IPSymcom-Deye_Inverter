@@ -58,7 +58,8 @@ class Deye extends IPSModule
                 'Quantity' => $Variable[6],
                 'Pos'      => $Pos + 1,
 				'Factor'   => $Variable[7],
-                'Keep'     => $Variable[8]
+				'Offset'   => $Variable[8],
+                'Keep'     => $Variable[9]
             ];
         }
         $this->RegisterPropertyString('Variables', json_encode($Variables));
@@ -112,7 +113,8 @@ class Deye extends IPSModule
                     'Quantity' => $NewVariable[6],
                     'Pos'      => ++$NewPos,
                     'Factor'   => $NewVariable[7],
-                    'Keep'     => $NewVariable[8]
+                    'Offset'   => $NewVariable[8],
+                    'Keep'     => $NewVariable[9]
                 ];
             }
             IPS_SetProperty($this->InstanceID, 'Variables', json_encode($Variables));

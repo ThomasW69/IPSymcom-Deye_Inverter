@@ -41,10 +41,13 @@ class SUNxxKSG04LP3 extends Deye
 */
 
     public static $Variables = [
-	//Name, VarType, ValueType, Profile, Address, Function, Quantity, Keep
-    ['Type',    	VARIABLETYPE_INTEGER,   VALTYPE_BYTE, 	    '', 		 0, 3, 1, 1,    true],
-    ['ModbusID', 	VARIABLETYPE_INTEGER,   VALTYPE_BYTE, 	    '', 		 1, 3, 1, 0.1,  true],
-    ['ProtVer', 	VARIABLETYPE_STRING,    VALTYPE_STRING,	    '', 		 2, 3, 1, 0.1,  true],
-    ['SerNo', 	    VARIABLETYPE_STRING,    VALTYPE_ASTRING,	'', 		 3, 3, 5, 0.1,  true]
+	//Name, VarType, ValueType, Profile, Address, Function, Quantity, Factor, Offset, Keep
+    ['Type',    	    VARIABLETYPE_INTEGER,   VALTYPE_BYTE, 	    '', 		 0,     3, 1,   1,      0,  true],
+    ['ModbusID', 	    VARIABLETYPE_INTEGER,   VALTYPE_BYTE, 	    '', 		 1,     3, 1, 0.1,      0,  true],
+    ['ProtVer', 	    VARIABLETYPE_STRING,    VALTYPE_STRING,	    '', 		 2,     3, 1, 0.1,      0,  true],
+    ['SerNo', 	        VARIABLETYPE_STRING,    VALTYPE_ASTRING,	'', 		 3,     3, 5, 0.1,      0,  true]
+    ['DC_Trans_Temp', 	VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    '', 	   540,     3, 1, 0.1,   1000,  true]
+    ['Batt_Temp',    	VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    '', 	   586,     3, 1, 0.1,   1000,  true]
+
 	];
 }
