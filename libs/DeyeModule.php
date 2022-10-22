@@ -248,32 +248,23 @@ class Deye extends IPSModule
                     case VALTYPE_BYTE:
                         return ord($Value);
                     case VALTYPE_WORD:
-                        return unpack('n', $Value)[1];
+                        return unpack('n', $Value)[1]; //Vorzichenlos Short
                     case VALTYPE_DWORD:
-                        return unpack('N', $Value)[1];
+                        return unpack('N', $Value)[1]; //Vorzeichenlos Long
                     case VALTYPE_DWWORD:
-                        return unpack('J', $Value)[1];
+                        return unpack('J', $Value)[1]; //Vorzeichenlos LongLong
                 }
                 break;
             
             case VARIABLETYPE_FLOAT:
                 switch ($Variable['ValType']) {
-           /*         case VALTYPE_WORD:
+                    case VALTYPE_WORD:
                         return unpack('f', $Value)[1];
                     case VALTYPE_DWORD:
                         return unpack('f', $Value)[1];
                     case VALTYPE_DWWORD:
-                        return unpack('f', $Value)[1];*/
-                        case VALTYPE_BYTE:
-                            $vt = ord($Value);
-                        case VALTYPE_WORD:
-                            $vt = unpack('n', $Value)[1];
-                        case VALTYPE_DWORD:
-                            $vt = unpack('N', $Value)[1];
-                        case VALTYPE_DWWORD:
-                            $vt = unpack('J', $Value)[1];
+                        return unpack('f', $Value)[1];
                 } 
-                return ($vt * $Variable['Factor']);  //Ausgabe mit Wertkorrektur
                 break;
             
             case VARIABLETYPE_STRING:
