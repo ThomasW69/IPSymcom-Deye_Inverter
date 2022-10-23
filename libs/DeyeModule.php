@@ -327,7 +327,12 @@ class Deye extends IPSModule
                     case VALTYPE_WORD:
                         return unpack('v', $Value)[1]; //Vorzichenlos Short
                     case VALTYPE_DWORD:                  
-                        $Value=WordSwap($Value);
+                        $s = $Value[0];
+                        $Value[0] = $Value[2];
+                        $Value[2] = $s;
+                        $s = $Value[1];
+                        $Value[1] = $Value[3];
+                        $Value[3] = $s;
                         $this->SendDebug(' SWAP', $Value, 1);
                         return unpack('V', $Value)[1]; //Vorzeichenlos Long    
                     case VALTYPE_DWWORD:
