@@ -28,21 +28,6 @@ eval('declare(strict_types=1);namespace Deye {?>' . file_get_contents(__DIR__ . 
     const VALTYPE_ASTRING   = 5;      //Quelldaten sind ASCI-String
     const VALTYPE_STRING    = 6;      //Quelldaten sind byte Codierter String z.B. Für Versionsnummern 0x01 0x04 -> 1.04
 
-    //Die Assoziationen für den Invertertyp und den Status
-    public static $AssInType = [
-        [2,'Stringinverter','',0xFFFFFF],
-        [3,'Hybridinverter 1-ph','',0xFFFFFF],
-        [4,'Microinverter','',0xFFFFFF],
-        [5,'Hybridinverter 3-ph','',0xFFFFFF]
-        ];
-        
-        public static $AssStatus = [
-            [0,'Standby','',0xFFFFFF],
-            [1,'Self-Check','',0xFFFFFF],
-            [2,'Normal','',0xFFFFFF],
-            [3,'Alarm','',0xFF00FF],
-            [4,'Failure','',0xFF0000]
-            ];
         
 
 /**
@@ -55,6 +40,24 @@ class Deye extends IPSModule
     use \Deye\SemaphoreHelper;
     use \Deye\VariableProfileHelper;
     const Swap = true;
+
+    //Die Assoziationen für den Invertertyp und den Status
+    public static $AssInType = [
+        [2,'Stringinverter','',0xFFFFFF],
+        [3,'Hybridinverter 1-ph','',0xFFFFFF],
+        [4,'Microinverter','',0xFFFFFF],
+        [5,'Hybridinverter 3-ph','',0xFFFFFF]
+        ];
+        
+    public static $AssStatus = [
+            [0,'Standby','',0xFFFFFF],
+            [1,'Self-Check','',0xFFFFFF],
+            [2,'Normal','',0xFFFFFF],
+            [3,'Alarm','',0xFF00FF],
+            [4,'Failure','',0xFF0000]
+            ];
+
+
 
     /**
      * Interne Funktion des SDK.
