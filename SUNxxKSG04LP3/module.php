@@ -23,9 +23,9 @@ require_once __DIR__ . '/../libs/DeyeModule.php';  // diverse Klassen
  * SUNxxKSG04LP3 ist die Klasse für die SUN-xxK-SG04LP3 Hybridwechselrichter der Firma Deye
  * Erweitert Deye.
  */
-class SUNxxKSG04LP3 extends Deye
+class SUNxxKSG04LPx extends Deye
 {
-    const PREFIX = 'SUNxxKSG04LP3';
+    const PREFIX = 'SUNxxKSG04LPx';
     
 
     public static $Variables = [

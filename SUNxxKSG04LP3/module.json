@@ -1,12 +1,12 @@
 {
     "id": "{5A793A9B-ADEE-307E-20B7-FBE05C7B4C7E}",
-    "name": "SUNxxKSG04LP3",
-    "aliases": ["SUNxxKSG04LP3"],
+    "name": "SUNxxKSG04LPx",
+    "aliases": ["SUN-xxK-SG04-LPx"],
     "type": 3,
-    "vendor": "Ningbo Deye Solar",
+    "vendor": "Deye Solar",
     "parentRequirements": ["{E310B701-4AE7-458E-B618-EC13A1A6F6A8}"],
     "childRequirements": [],
     "implemented": ["{77B31ABB-18FA-4B91-BB63-E5B2AB5588F4}"],
-    "prefix": "SUNxxKSG04LP3",
+    "prefix": "SUNxxKSG04LPx",
     "url": "https://github.com/ThomasW69/IPSymcom-Deye_Inverter/master/blob/SUNxxKSG04LP3/"
 }
