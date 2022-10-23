@@ -84,6 +84,7 @@ class Deye extends IPSModule
         $this->RegisterProfileFloat('Ampere.I', 'Electricity', '', ' A', 0, 0, 0, 2);
         $this->RegisterProfileFloat('Electricity.I', '', '', ' kWh', 0, 0, 0, 2);
         //Integer Variablen
+        $this->RegisterProfileInteger('Volt.I', 'Electricity', '', ' V', 0, 0, 0);
         $this->RegisterProfileInteger('Watt.I', 'Electricity', '', ' W', 0, 0, 0);
         $this->RegisterProfileInteger('AmpHour.I', 'Electricity', '', ' Ah', 0, 0, 0);
         $this->RegisterProfileInteger('VaR.I', '', '', ' VAr', 0, 0, 0);
