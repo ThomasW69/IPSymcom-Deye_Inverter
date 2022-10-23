@@ -42,11 +42,11 @@ class Deye extends IPSModule
     const Swap = true;
 
     //Die Assoziationen für den Invertertyp und den Status
-    public static $AssInType = [
+    public static $AssInvType = [
         [2,'Stringinverter','',0xFFFFFF],
         [3,'Hybridinverter 1-ph','',0xFFFFFF],
         [4,'Microinverter','',0xFFFFFF],
-        [5,'Hybridinverter 3-ph','',0xFFFFFF]
+        [5,'Hybridinverter 3-ph','',0xFFFFFF],
         ];
         
     public static $AssStatus = [
@@ -54,7 +54,7 @@ class Deye extends IPSModule
             [1,'Self-Check','',0xFFFFFF],
             [2,'Normal','',0xFFFFFF],
             [3,'Alarm','',0xFF00FF],
-            [4,'Failure','',0xFF0000]
+            [4,'Failure','',0xFF0000],
             ];
 
 
@@ -95,7 +95,7 @@ class Deye extends IPSModule
     {
         parent::ApplyChanges();
         //Invertertyp und Status
-        RegisterProfileIntegerEx('DeyeType', '', '','', $AssInType, 5, 1);
+        RegisterProfileIntegerEx('DeyeType', '', '','', $AssInvType, 5, 1);
         RegisterProfileIntegerEx('DeyeStatus', '', '','', $AssStatus, 4, 1);
 
         //Float Variablen
