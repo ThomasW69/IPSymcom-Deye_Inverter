@@ -71,7 +71,7 @@ class SUNxxKSG04LP3 extends Deye
     ['Load_L2_Power',      	    VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    'Watt.I', 	   651,     3, 1,    1,  0,  true], // Load Leistung Phase L2 [W]
     ['Load_L3_Power',      	    VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    'Watt.I', 	   652,     3, 1,    1,  0,  true], // Load Leistung Phase L3 [W]
     ['Total_Load_Power',      	VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    'Watt.I', 	   653,     3, 1,    1,  0,  true], // Load Leistung Gesamt [W]
-    ['Load_Freq',      	        VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    'Hertz.I', 	   655,     3, 1, 0.01,  0,  true], // //Inverterfequqnz [Hz]
+    ['Load_Freq',      	        VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Hertz', 	   655,     3, 1, 0.01,  0,  true], // //Inverterfequqnz [Hz]
 //PV
     ['PV1_Inp_Power',      	    VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    'Watt.I', 	   672,     3, 1,    1,  0,  true], // PV1 Eingangsleistung [W]
     ['PV2_Inp_Power',      	    VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    'Watt.I', 	   673,     3, 1,    1,  0,  true], // PV2 Eingangsleistung [W]
