@@ -64,9 +64,9 @@ class SUNxxKSG04LP3 extends Deye
     ['Out_Grid_Total_Power',    VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    'Watt.I', 	   619,     3, 1,    1,  0,  true], // Gesamtleistung aus Netz [W]
     ['Inverter_Freq',      	    VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Hertz', 	   638,     3, 1, 0.01,  0,  true], // //Inverterfequqnz [Hz]
 //Load
-    ['Load_L1_Voltage',      	VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Volt.I', 	   644,     3, 1,  0.1,  0,  true], // Load Spannung Phase L1 [V]
-    ['Load_L2_Voltage',      	VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Volt.I', 	   645,     3, 1,  0.1,  0,  true], // Load Spannung Phase L2 [V]
-    ['Load_L3_Voltage',      	VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Volt.I', 	   646,     3, 1,  0.1,  0,  true], // Load Spannung Phase L3 [V]
+    ['Load_L1_Voltage',      	VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Volt', 	   644,     3, 1,  0.1,  0,  true], // Load Spannung Phase L1 [V]
+    ['Load_L2_Voltage',      	VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Volt', 	   645,     3, 1,  0.1,  0,  true], // Load Spannung Phase L2 [V]
+    ['Load_L3_Voltage',      	VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Volt', 	   646,     3, 1,  0.1,  0,  true], // Load Spannung Phase L3 [V]
     ['Load_L1_Power',      	    VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    'Watt.I', 	   650,     3, 1,    1,  0,  true], // Load Leistung Phase L1 [W]
     ['Load_L2_Power',      	    VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    'Watt.I', 	   651,     3, 1,    1,  0,  true], // Load Leistung Phase L2 [W]
     ['Load_L3_Power',      	    VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    'Watt.I', 	   652,     3, 1,    1,  0,  true], // Load Leistung Phase L3 [W]
