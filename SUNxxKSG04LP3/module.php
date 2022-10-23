@@ -34,22 +34,22 @@ class SUNxxKSG04LP3 extends Deye
     ['Protocol_Ver', 	        VARIABLETYPE_STRING,    VALTYPE_STRING,	    '', 		 2,     3, 1,  0.1,      0,  true],  //Protokollversion
     ['Serial_Number', 	        VARIABLETYPE_STRING,    VALTYPE_ASTRING,	'', 		 3,     3, 5,  0.1,      0,  true],  //Seriennummer
     ['Health_Status',      	    VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    '', 	   500,     3, 1,    1,  0,  true], // HealtStatus 0=Standby, 1=SelfCheck, 2=Normal, 3=Alarm, 4=Fault
-    ['Day_ActGen_Power',      	VARIABLETYPE_FLOAT,     VALTYPE_SWORD,	    '~Electricity', 	   501,     3, 1,  0.1,  0,  true], // Gesamterzeugung heute 
+ //   ['Day_ActGen_Power',      	VARIABLETYPE_FLOAT,     VALTYPE_SWORD,	    '~Electricity', 	   501,     3, 1,  0.1,  0,  true], // Gesamterzeugung heute 
     ['Day_Bat_Charge',      	VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Electricity', 	   514,     3, 1,  0.1,  0,  true], // //Batterieladung heute kWh
-    ['Total_Bat_Charge',      	VARIABLETYPE_FLOAT,     VALTYPE_DWORD,	    '~Electricity', 	   516,     3, 2,  0.1,  0,  true], // Batterieladung gesamt [kWh]
-    ['Total_Bat_Discharge',     VARIABLETYPE_FLOAT,     VALTYPE_DWORD,	    '~Electricity', 	   518,     3, 2, 0.01,  0,  true], // Batterieentladung total [kW]h
+ //   ['Total_Bat_Charge',      	VARIABLETYPE_FLOAT,     VALTYPE_DWORD,	    '~Electricity', 	   516,     3, 2,  0.1,  0,  true], // Batterieladung gesamt [kWh]
+ //   ['Total_Bat_Discharge',     VARIABLETYPE_FLOAT,     VALTYPE_DWORD,	    '~Electricity', 	   518,     3, 2, 0.01,  0,  true], // Batterieentladung total [kW]h
     ['Day_GridBuy_Power Wh',    VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Electricity', 	   520,     3, 1, 0.01,  0,  true], // Netzbezug heute [kWh]
     ['Day_GridSell_Power Wh',   VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Electricity', 	   521,     3, 1, 0.01,  0,  true], // Einspeisung heute [kWh]
-    ['Total_GridBuy_Power',     VARIABLETYPE_FLOAT,     VALTYPE_DWORD,	    '~Electricity', 	   522,     3, 1,  0.1,  0,  true], // Gesamter Netzbezug [kWh]
-    ['Total_GridSell_Power',    VARIABLETYPE_FLOAT,     VALTYPE_DWORD,	    '~Electricity', 	   524,     3, 1,  0.1,  0,  true], // Gesamte Einspeisung [kWh]
+ //   ['Total_GridBuy_Power',     VARIABLETYPE_FLOAT,     VALTYPE_DWORD,	    '~Electricity', 	   522,     3, 1,  0.1,  0,  true], // Gesamter Netzbezug [kWh]
+ //   ['Total_GridSell_Power',    VARIABLETYPE_FLOAT,     VALTYPE_DWORD,	    '~Electricity', 	   524,     3, 1,  0.1,  0,  true], // Gesamte Einspeisung [kWh]
     ['Day_Load_Power ',      	VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Electricity', 	   526,     3, 1,  0.1,  0,  true], //  Hausverbrauch  heute [kWh]
-    ['Total_Load_Power',      	VARIABLETYPE_FLOAT,     VALTYPE_DWORD,	    '~Electricity', 	   527,     3, 2,  0.1,  0,  true], // Gesamtverbrauch [kWh]
+ //   ['Total_Load_Power',      	VARIABLETYPE_FLOAT,     VALTYPE_DWORD,	    '~Electricity', 	   527,     3, 2,  0.1,  0,  true], // Gesamtverbrauch [kWh]
     ['Day_PV_Power Wh',      	VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Electricity', 	   529,     3, 1,  0.1,  0,  true], //  Solarerzeugung heute [kWh]
     ['Day_PV-1_Power Wh',      	VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Electricity', 	   530,     3, 1,  0.1,  0,  true], //  Solarerzeugung heute String 1 [kWh]
     ['Day_PV-2_Power Wh',      	VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Electricity', 	   531,     3, 1,  0.1,  0,  true], //  Solarerzeugung heute String 2[kWh]
     ['Day_PV-3_Power Wh',      	VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Electricity', 	   532,     3, 1,  0.1,  0,  true], //  Solarerzeugung heute String 3[kWh]
     ['Day_PV-4_Power Wh',      	VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Electricity', 	   533,     3, 1,  0.1,  0,  true], //  Solarerzeugung heute String 4[kWh]
-    ['Total	PV_power Wh',      	VARIABLETYPE_FLOAT,     VALTYPE_DWORD,	    '~Electricity', 	   534,     3, 1,  0.1,  0,  true], // Solarerzeugung Gesamt [kWh]
+ //   ['Total	PV_power Wh',      	VARIABLETYPE_FLOAT,     VALTYPE_DWORD,	    '~Electricity', 	   534,     3, 1,  0.1,  0,  true], // Solarerzeugung Gesamt [kWh]
     ['DC_Trans_Temp', 	        VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    'Temperature', 	   540,     3, 1, 0.1,   1000,  true], //Transprmatortemperatur [°C]
     ['Heatsink_Temp', 	        VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    'Temperature', 	   541,     3, 1, 0.1,   1000,  true], //Kühlkörpertemperatur [°C]
     ['Bat_Temp',    	        VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    'Temperature', 	   586,     3, 1, 0.1,   1000,  true], //Batterietemperatur [°C]
