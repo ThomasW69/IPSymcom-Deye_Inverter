@@ -21,11 +21,12 @@ eval('declare(strict_types=1);namespace Deye {?>' . file_get_contents(__DIR__ . 
 
     //spezielle Konstanten für die Typkonvertierung
     const VALTYPE_BYTE      = 0;      //Quelldaten sind Byte 0x00 - 0XFF
-    const VALTYPE_WORD      = 1;      //Quellsaten sind WORD 0x0000 - 0XFFFF
-    const VALTYPE_DWORD     = 2;      //Quellsaten sind WORD 0x00000000 - 0XFFFFFFFF
-    const VALTYPE_DWWORD     = 3;      //Quellsaten sind WORD 0x0000000000000000 - 0XFFFFFFFFFFFFFFFF
-    const VALTYPE_ASTRING   = 4;      //Quelldaten sind ASCI-String
-    const VALTYPE_STRING    = 54;      //Quelldaten sind byte Codierter String z.B. Für Versionsnummern 0x01 0x04 -> 1.04
+    const VALTYPE_WORD      = 1;      //Quelldaten sind WORD 0x0000 - 0XFFFF
+    const VALTYPE_SWORD      = 2;      //Quelldaten sind WORD mit Vorzeichen 0x0000 - 0XFFFF -32768,32767
+    const VALTYPE_DWORD     = 3;      //Quelldaten sind WORD 0x00000000 - 0XFFFFFFFF
+    const VALTYPE_DWWORD     = 4;      //Quelldaten sind WORD 0x0000000000000000 - 0XFFFFFFFFFFFFFFFF
+    const VALTYPE_ASTRING   = 5;      //Quelldaten sind ASCI-String
+    const VALTYPE_STRING    = 6;      //Quelldaten sind byte Codierter String z.B. Für Versionsnummern 0x01 0x04 -> 1.04
 
 /**
  * Deye ist die Basisklasse für alle  Wechselrichter der Forma Deye
@@ -254,6 +255,8 @@ class Deye extends IPSModule
                         return ord($Value);
                     case VALTYPE_WORD:
                         return unpack('v', $Value)[1]; //Vorzichenlos Short
+                    case VALTYPE_SWORD:
+                         return unpack('l', $Value)[1]; //Vorzeichenbehaftet Long
                     case VALTYPE_DWORD:
                         return unpack('V', $Value)[1]; //Vorzeichenlos Long
                     case VALTYPE_DWWORD:
