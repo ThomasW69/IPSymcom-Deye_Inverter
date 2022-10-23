@@ -234,7 +234,7 @@ class Deye extends IPSModule
     }
     
 
-    private function WordSwap(string $Wert) 
+    public function WordSwap(string $Wert) 
     {
         //$s ='';
          $s = $Wert[0];
