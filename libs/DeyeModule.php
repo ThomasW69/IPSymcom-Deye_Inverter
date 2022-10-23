@@ -238,11 +238,11 @@ class Deye extends IPSModule
     {
         //$s ='';
          $s = $Wert[0];
-         $$Wert[0] = $Wert[2];
-         $$Wert[2] = $s;
+         $Wert[0] = $Wert[2];
+         $Wert[2] = $s;
          $s = $Wert[1];
-         $$Wert[1] = $Wert[3];
-         $$Wert[3] = $s;
+         $Wert[1] = $Wert[3];
+         $Wert[3] = $s;
          $this->SendDebug(' SWAP', $Wert, 1);
 
          return $Wert; 
@@ -327,7 +327,8 @@ class Deye extends IPSModule
                     case VALTYPE_WORD:
                         return unpack('v', $Value)[1]; //Vorzichenlos Short
                     case VALTYPE_DWORD:                  
-                        $Value = WordSwap($Value);
+                        $Value=WordSwap($Value);
+                        $this->SendDebug(' SWAP', $Value, 1);
                         return unpack('V', $Value)[1]; //Vorzeichenlos Long    
                     case VALTYPE_DWWORD:
                         return unpack('P', $Value)[1]; //Vorzeichenlos LongLong
