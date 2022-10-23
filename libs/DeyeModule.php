@@ -234,8 +234,9 @@ class Deye extends IPSModule
     }
     
 
-    private function WordSwap(string $Wert ) {
-        string $s;
+    private function WordSwap(string $Wert) 
+    {
+        //$s ='';
          $s = $Wert[0];
          $$Wert[0] = $Wert[2];
          $$Wert[2] = $s;
@@ -325,24 +326,14 @@ class Deye extends IPSModule
                         return ord($Value);
                     case VALTYPE_WORD:
                         return unpack('v', $Value)[1]; //Vorzichenlos Short
-                    case VALTYPE_DWORD: {                 
-                        $Value =WordSwap($Value);
-                        return unpack('V', $Value)[1]; //Vorzeichenlos Long
-                    }    
+                    case VALTYPE_DWORD:                  
+                        $Value = WordSwap($Value);
+                        return unpack('V', $Value)[1]; //Vorzeichenlos Long    
                     case VALTYPE_DWWORD:
                         return unpack('P', $Value)[1]; //Vorzeichenlos LongLong
                 }
                 break;
-/*                switch ($Variable['ValType']) { 
-                    case VALTYPE_WORD:
-                        return unpack('f', $Value)[1];
-                    case VALTYPE_DWORD:
-                        return unpack('f', $Value)[1];
-                    case VALTYPE_DWWORD:
-                        return unpack('f', $Value)[1];
-                } 
-                break;
-*/            
+       
             case VARIABLETYPE_STRING:
                 switch ($Variable['ValType']) {
                     case VALTYPE_ASTRING:
