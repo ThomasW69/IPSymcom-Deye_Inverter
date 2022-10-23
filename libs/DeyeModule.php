@@ -234,20 +234,7 @@ class Deye extends IPSModule
     }
     
 
-    public function WordSwap(string $Wert) 
-    {
-        //$s ='';
-         $s = $Wert[0];
-         $Wert[0] = $Wert[2];
-         $Wert[2] = $s;
-         $s = $Wert[1];
-         $Wert[1] = $Wert[3];
-         $Wert[3] = $s;
-         $this->SendDebug(' SWAP', $Wert, 1);
 
-         return $Wert; 
-        }
-    
 
 	// lesen der Daten aus den übergeordneten Modbus Instanz
     private function ReadData()
