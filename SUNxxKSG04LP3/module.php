@@ -16,6 +16,7 @@ declare(strict_types=1);
  */
 require_once __DIR__ . '/../libs/DeyeModule.php';  // diverse Klassen
 
+    
 
 
 /**
@@ -29,11 +30,11 @@ class SUNxxKSG04LP3 extends Deye
 
     public static $Variables = [
 	//Name, VarType, ValueType, Profile, Address, Function, Quantity, Factor, Offset, Keep
-    ['Inverter_Type',    	    VARIABLETYPE_INTEGER,   VALTYPE_BYTE, 	    '', 		 0,     3, 1,    1,      0,  true],  //Invertertyp 2=Serial, 3=Hybrid 1ph,4= Microinverter, 5=Hybrid 3ph 
+    ['Inverter_Type',    	    VARIABLETYPE_INTEGER,   VALTYPE_BYTE, 	    'DeyeType', 		 0,     3, 1,    1,      0,  true],  //Invertertyp 2=Serial, 3=Hybrid 1ph,4= Microinverter, 5=Hybrid 3ph 
     ['Modbus_ID', 	            VARIABLETYPE_INTEGER,   VALTYPE_BYTE, 	    '', 		 1,     3, 1,  0.1,      0,  true],  // ModBusID
     ['Protocol_Ver', 	        VARIABLETYPE_STRING,    VALTYPE_STRING,	    '', 		 2,     3, 1,  0.1,      0,  true],  //Protokollversion
     ['Serial_Number', 	        VARIABLETYPE_STRING,    VALTYPE_ASTRING,	'', 		 3,     3, 5,  0.1,      0,  true],  //Seriennummer
-    ['Health_Status',      	    VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    '', 	   500,     3, 1,    1,  0,  true], // HealtStatus 0=Standby, 1=SelfCheck, 2=Normal, 3=Alarm, 4=Fault
+    ['Health_Status',      	    VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    'DeyeStatus', 	   500,     3, 1,    1,  0,  true], // HealtStatus 0=Standby, 1=SelfCheck, 2=Normal, 3=Alarm, 4=Fault
  //   ['Day_ActGen_Power',      	VARIABLETYPE_FLOAT,     VALTYPE_SWORD,	    '~Electricity', 	   501,     3, 1,  0.1,  0,  true], // Gesamterzeugung heute 
     ['Day_Bat_Charge',      	VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Electricity', 	   514,     3, 1,  0.1,  0,  true], // //Batterieladung heute kWh
  //   ['Total_Bat_Charge',      	VARIABLETYPE_FLOAT,     VALTYPE_DWORD,	    '~Electricity', 	   516,     3, 2,  0.1,  0,  true], // Batterieladung gesamt [kWh]
