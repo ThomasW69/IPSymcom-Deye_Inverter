@@ -93,6 +93,21 @@ class Deye extends IPSModule
      */
     public function ApplyChanges()
     {
+        $AssInvType = [
+            [2,'Stringinverter','',0xFFFFFF],
+            [3,'Hybridinverter 1-ph','',0xFFFFFF],
+            [4,'Microinverter','',0xFFFFFF],
+            [5,'Hybridinverter 3-ph','',0xFFFFFF]
+            ];
+            
+        $AssStatus = [
+            [0,'Standby','',0xFFFFFF],
+            [1,'Self-Check','',0xFFFFFF],
+            [2,'Normal','',0x00FF00],
+            [3,'Alarm','',0xFF00FF],
+            [4,'Failure','',0xFF0000]
+            ];
+    
         parent::ApplyChanges();
         //Invertertyp und Status
         $this->RegisterProfileIntegerEx('DeyeType', '', '','', $AssInvType, 5, 1);
