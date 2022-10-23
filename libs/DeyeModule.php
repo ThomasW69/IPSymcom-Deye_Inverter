@@ -74,19 +74,21 @@ class Deye extends IPSModule
     public function ApplyChanges()
     {
         parent::ApplyChanges();
+        //Float Variablen
         $this->RegisterProfileFloat('VaR', '', '', ' VAr', 0, 0, 0, 2);
         $this->RegisterProfileFloat('VA', '', '', ' VA', 0, 0, 0, 2);
         $this->RegisterProfileFloat('PhaseAngle', '', '', ' °', 0, 0, 0, 2);
         $this->RegisterProfileFloat('Intensity.F', '', '', ' %', 0, 100, 0, 2);
         $this->RegisterProfileFloat('kVArh', '', '', ' kVArh', 0, 100, 0, 2);
-        $this->RegisterProfileInteger('Volt.I', 'Electricity', '', ' V', 0, 0, 0);
-        $this->RegisterProfileInteger('Hertz.I', 'Electricity', '', ' Hz', 0, 0, 0);
-        $this->RegisterProfileInteger('Ampere.I', 'Electricity', '', ' A', 0, 0, 0);
+        $this->RegisterProfileFloat('Volt.I', 'Electricity', '', ' V', 0, 0, 0);
+        $this->RegisterProfileFloat('Ampere.I', 'Electricity', '', ' A', 0, 0, 0);
+        $this->RegisterProfileFloat('Electricity.I', '', '', ' kWh', 0, 0, 0);
+        //Integer Variablen
         $this->RegisterProfileInteger('Watt.I', 'Electricity', '', ' W', 0, 0, 0);
+        $this->RegisterProfileInteger('AmpHour.I', 'Electricity', '', ' Ah', 0, 0, 0);
         $this->RegisterProfileInteger('VaR.I', '', '', ' VAr', 0, 0, 0);
         $this->RegisterProfileInteger('VA.I', '', '', ' VA', 0, 0, 0);
         $this->RegisterProfileInteger('Electricity.I', '', '', ' kWh', 0, 0, 0);
-        $this->RegisterProfileInteger('Percent', '', '', ' %', 0, 0, 0);
         //Create Variables and check when new Rows in config appear after an update.
         $NewRows = static::$Variables;
         $NewPos = 0;
