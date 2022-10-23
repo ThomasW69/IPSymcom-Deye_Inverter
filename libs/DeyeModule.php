@@ -95,8 +95,8 @@ class Deye extends IPSModule
     {
         parent::ApplyChanges();
         //Invertertyp und Status
-        RegisterProfileIntegerEx('DeyeType', '', '','', $AssInvType, 5, 1);
-        RegisterProfileIntegerEx('DeyeStatus', '', '','', $AssStatus, 4, 1);
+        $this->RegisterProfileIntegerEx('DeyeType', '', '','', $AssInvType, 5, 1);
+        $this->RegisterProfileIntegerEx('DeyeStatus', '', '','', $AssStatus, 4, 1);
 
         //Float Variablen
         $this->RegisterProfileFloat('VaR', '', '', ' VAr', 0, 0, 0, 2);
