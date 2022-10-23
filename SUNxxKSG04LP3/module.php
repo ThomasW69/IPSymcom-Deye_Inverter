@@ -38,8 +38,8 @@ class SUNxxKSG04LPx extends Deye
     ['Health_Status',      	    VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    'DeyeStatus', 	   500,     3, 1,    1,  0,  true], // HealtStatus 0=Standby, 1=SelfCheck, 2=Normal, 3=Alarm, 4=Fault
  //   ['Day_ActGen_Power',      	VARIABLETYPE_FLOAT,     VALTYPE_SWORD,	    '~Electricity', 	   501,     3, 1,  0.1,  0,  true], // Gesamterzeugung heute 
     ['Day_Bat_Charge',      	VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Electricity', 	   514,     3, 1,  0.1,  0,  true], // //Batterieladung heute kWh
- //   ['Total_Bat_Charge',      	VARIABLETYPE_FLOAT,     VALTYPE_DWORD,	    '~Electricity', 	   516,     3, 2,  0.1,  0,  true], // Batterieladung gesamt [kWh]
-    ['Total_Bat_Discharge',     VARIABLETYPE_FLOAT,     VALTYPE_DWORD,	    '~Electricity', 	   518,     3, 2, 0.01,  0,  true], // Batterieentladung total [kW]h
+    ['Total_Bat_Charge',      	VARIABLETYPE_FLOAT,     VALTYPE_DWORD,	    '~Electricity', 	   516,     3, 2,  0.1,  0,  true], // Batterieladung gesamt [kWh]
+    ['Total_Bat_Discharge',     VARIABLETYPE_FLOAT,     VALTYPE_DWORD,	    '~Electricity', 	   518,     3, 2, 0.1,  0,  true], // Batterieentladung total [kW]h
     ['Day_GridBuy_Power',        VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Electricity', 	   520,     3, 1, 0.01,  0,  true], // Netzbezug heute [kWh]
     ['Day_GridSell_Power',       VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Electricity', 	   521,     3, 1, 0.01,  0,  true], // Einspeisung heute [kWh]
  //   ['Total_GridBuy_Power',     VARIABLETYPE_FLOAT,     VALTYPE_DWORD,	    '~Electricity', 	   522,     3, 1,  0.1,  0,  true], // Gesamter Netzbezug [kWh]
