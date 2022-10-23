@@ -59,6 +59,8 @@ class Deye extends IPSModule
 
 
 
+
+
     /**
      * Interne Funktion des SDK.
      */
@@ -231,6 +233,21 @@ class Deye extends IPSModule
         return true;
     }
     
+
+    private function WordSwap(string $Wert ) {
+        string $s;
+         $s = $Wert[0];
+         $$Wert[0] = $Wert[2];
+         $$Wert[2] = $s;
+         $s = $Wert[1];
+         $$Wert[1] = $Wert[3];
+         $$Wert[3] = $s;
+         $this->SendDebug($Variable['Name'] . ' SWAP', $Wert, 1);
+
+         return $Wert; 
+        }
+    
+
 	// lesen der Daten aus den übergeordneten Modbus Instanz
     private function ReadData()
     {
@@ -308,8 +325,10 @@ class Deye extends IPSModule
                         return ord($Value);
                     case VALTYPE_WORD:
                         return unpack('v', $Value)[1]; //Vorzichenlos Short
-                    case VALTYPE_DWORD:
+                    case VALTYPE_DWORD: {                 
+                        $Value =WordSwap($Value);
                         return unpack('V', $Value)[1]; //Vorzeichenlos Long
+                    }    
                     case VALTYPE_DWWORD:
                         return unpack('P', $Value)[1]; //Vorzeichenlos LongLong
                 }
