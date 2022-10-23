@@ -31,7 +31,7 @@ class SUNxxKSG04LPx extends Deye
     public static $Variables = [
 	//Name, VarType, ValueType, Profile, Address, Function, Quantity, Factor, Offset, Keep
     ['Inverter_Type',    	    VARIABLETYPE_INTEGER,   VALTYPE_BYTE, 	    'DeyeType', 		 0,     3, 1,    1,      0,  true],  //Invertertyp 2=Serial, 3=Hybrid 1ph,4= Microinverter, 5=Hybrid 3ph 
-    ['Rated_Power', 	        VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'Watt.I', 		 8,     3, 1,  0.1,      0,  true],  // Leistung
+    ['Rated_Power', 	        VARIABLETYPE_INTEGER,   VALTYPE_DWORD, 	    'Watt.I', 		 20,     3, 2,  0.1,      0,  true],  // Leistung
     ['Modbus_ID', 	            VARIABLETYPE_INTEGER,   VALTYPE_BYTE, 	    '', 		 1,     3, 1,  0.1,      0,  true],  // ModBusID
     ['Protocol_Ver', 	        VARIABLETYPE_STRING,    VALTYPE_STRING,	    '', 		 2,     3, 1,  0.1,      0,  true],  //Protokollversion
     ['Serial_Number', 	        VARIABLETYPE_STRING,    VALTYPE_ASTRING,	'', 		 3,     3, 5,  0.1,      0,  true],  //Seriennummer
