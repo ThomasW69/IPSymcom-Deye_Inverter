@@ -243,7 +243,7 @@ class Deye extends IPSModule
          $s = $Wert[1];
          $$Wert[1] = $Wert[3];
          $$Wert[3] = $s;
-         $this->SendDebug($Variable['Name'] . ' SWAP', $Wert, 1);
+         $this->SendDebug(' SWAP', $Wert, 1);
 
          return $Wert; 
         }
