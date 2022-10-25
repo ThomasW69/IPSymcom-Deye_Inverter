@@ -42,8 +42,8 @@ class SUNxxKSG04LPx extends Deye
     ['Total_Bat_Discharge',     VARIABLETYPE_FLOAT,     VALTYPE_DWORD,	    '~Electricity', 	   518,     3, 2, 0.1,  0,  true], // Batterieentladung total [kW]h
     ['Day_GridBuy_Power',        VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Electricity', 	   520,     3, 1, 0.01,  0,  true], // Netzbezug heute [kWh]
     ['Day_GridSell_Power',       VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Electricity', 	   521,     3, 1, 0.01,  0,  true], // Einspeisung heute [kWh]
-    ['Total_GridBuy_Power',     VARIABLETYPE_FLOAT,     VALTYPE_DWORD,	    '~Electricity', 	   522,     3, 1,  0.1,  0,  true], // Gesamter Netzbezug [kWh]
-    ['Total_GridSell_Power',    VARIABLETYPE_FLOAT,     VALTYPE_DWORD,	    '~Electricity', 	   524,     3, 1,  0.1,  0,  true], // Gesamte Einspeisung [kWh]
+    ['Total_GridBuy_Power',     VARIABLETYPE_FLOAT,     VALTYPE_DWORD,	    '~Electricity', 	   522,     3, 2,  0.1,  0,  true], // Gesamter Netzbezug [kWh]
+    ['Total_GridSell_Power',    VARIABLETYPE_FLOAT,     VALTYPE_DWORD,	    '~Electricity', 	   524,     3, 2,  0.1,  0,  true], // Gesamte Einspeisung [kWh]
     ['Day_Load_Power ',      	VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Electricity', 	   526,     3, 1,  0.1,  0,  true], //  Hausverbrauch  heute [kWh]
     ['Total_Load_Power',      	VARIABLETYPE_FLOAT,     VALTYPE_DWORD,	    '~Electricity', 	   527,     3, 2,  0.1,  0,  true], // Gesamtverbrauch [kWh]
     ['Day_PV_Power',      	    VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Electricity', 	   529,     3, 1,  0.1,  0,  true], //  Solarerzeugung heute [kWh]
