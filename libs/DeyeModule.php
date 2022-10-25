@@ -80,7 +80,7 @@ class Deye extends IPSModule
                 'Function' => $Variable[5],
                 'Quantity' => $Variable[6],
                 'Pos'      => $Pos + 1,
-                'Keep'     => $Variable[9]
+                'Keep'     => $Variable[9],
                 'ValType'  => $Variable[2],
 				'Factor'   => $Variable[7],
 				'Offset'   => $Variable[8]
