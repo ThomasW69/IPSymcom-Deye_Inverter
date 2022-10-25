@@ -51,7 +51,7 @@ class SUNxxKSG04LPx extends Deye
     ['Day_PV2_Power',      	    VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Electricity', 	   531,     3, 1,  0.1,  0,  true], //  Solarerzeugung heute String 2[kWh]
     ['Day_PV3_Power',       	VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Electricity', 	   532,     3, 1,  0.1,  0,  true], //  Solarerzeugung heute String 3[kWh]
     ['Day_PV4_Power',      	    VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Electricity', 	   533,     3, 1,  0.1,  0,  true], //  Solarerzeugung heute String 4[kWh]
-    ['Total	PV_power Wh',      	VARIABLETYPE_FLOAT,     VALTYPE_DWORD,	    '~Electricity', 	   534,     3, 2,  0.1,  0,  true], // Solarerzeugung Gesamt [kWh]
+    ['Total_PV_Power',      	VARIABLETYPE_FLOAT,     VALTYPE_DWORD,	    '~Electricity', 	   534,     3, 2,  0.1,  0,  true], // Solarerzeugung Gesamt [kWh]
     ['DC_Trans_Temp', 	        VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    'Temperature', 	   540,     3, 1, 0.1,   1000,  true], //Transprmatortemperatur [°C]
     ['Heatsink_Temp', 	        VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    'Temperature', 	   541,     3, 1, 0.1,   1000,  true], //Kühlkörpertemperatur [°C]
     ['Bat_Temp',    	        VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    'Temperature', 	   586,     3, 1, 0.1,   1000,  true], //Batterietemperatur [°C]
