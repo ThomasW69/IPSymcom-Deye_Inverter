@@ -75,15 +75,15 @@ class Deye extends IPSModule
                 'Ident'    => str_replace(' ', '', $Variable[0]),
                 'Name'     => $this->Translate($Variable[0]),
                 'VarType'  => $Variable[1],
-//                'ValType'  => $Variable[2],
                 'Profile'  => $Variable[3],
                 'Address'  => $Variable[4],
                 'Function' => $Variable[5],
                 'Quantity' => $Variable[6],
                 'Pos'      => $Pos + 1,
-//				'Factor'   => $Variable[7],
-//				'Offset'   => $Variable[8],
                 'Keep'     => $Variable[9]
+                'ValType'  => $Variable[2],
+				'Factor'   => $Variable[7],
+				'Offset'   => $Variable[8]
             ];
         }
         $this->RegisterPropertyString('Variables', json_encode($Variables));
@@ -148,15 +148,15 @@ class Deye extends IPSModule
                     'Ident'    => str_replace(' ', '', $NewVariable[0]),
                     'Name'     => $this->Translate($NewVariable[0]),
                     'VarType'  => $NewVariable[1],
-//                    'ValType'  => $NewVariable[2],
                     'Profile'  => $NewVariable[3],
                     'Address'  => $NewVariable[4],
                     'Function' => $NewVariable[5],
                     'Quantity' => $NewVariable[6],
                     'Pos'      => ++$NewPos,
-//                    'Factor'   => $NewVariable[7],
-//                    'Offset'   => $NewVariable[8],
-                    'Keep'     => $NewVariable[9]
+                    'Keep'     => $NewVariable[9],
+                    'ValType'  => $NewVariable[2],
+                    'Factor'   => $NewVariable[7],
+                    'Offset'   => $NewVariable[8]
                 ];
             }
             IPS_SetProperty($this->InstanceID, 'Variables', json_encode($Variables));
