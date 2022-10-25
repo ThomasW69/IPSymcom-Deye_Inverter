@@ -28,8 +28,8 @@ class SUNxxKSG04LPx extends Deye
     const PREFIX = 'SUNxxKSG04LPx';
     
 
-    public static $Variables = [
-	//Name, VarType, ValueType, Profile, Address, Function, Quantity, Factor, Offset, Keep
+    public static $Vars = [
+	//Name,                     VarType,                ValueType,          Profile,   Address, Function, Quantity, Factor, Offset, Keep
     ['Inverter_Type',    	    VARIABLETYPE_INTEGER,   VALTYPE_BYTE, 	    'DeyeType', 		 0,     3, 1,    1,      0,  true],  //Invertertyp 2=Serial, 3=Hybrid 1ph,4= Microinverter, 5=Hybrid 3ph 
     ['Rated_Power', 	        VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'Watt.I', 		     8,     3, 1,  0.1,      0,  true],  // Leistung
     ['Modbus_ID', 	            VARIABLETYPE_INTEGER,   VALTYPE_BYTE, 	    '', 		         1,     3, 1,  0.1,      0,  true],  // ModBusID
