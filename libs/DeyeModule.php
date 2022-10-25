@@ -22,9 +22,9 @@ eval('declare(strict_types=1);namespace Deye {?>' . file_get_contents(__DIR__ . 
     //spezielle Konstanten für die Typkonvertierung
     const VALTYPE_BYTE      = 0;      //Quelldaten sind Byte 0x00 - 0XFF
     const VALTYPE_WORD      = 1;      //Quelldaten sind WORD 0x0000 - 0XFFFF
-    const VALTYPE_SWORD      = 2;      //Quelldaten sind WORD mit Vorzeichen 0x0000 - 0XFFFF -32768,32767
+    const VALTYPE_SWORD     = 2;      //Quelldaten sind WORD mit Vorzeichen 0x0000 - 0XFFFF -32768,32767
     const VALTYPE_DWORD     = 3;      //Quelldaten sind WORD 0x00000000 - 0XFFFFFFFF
-    const VALTYPE_DWWORD     = 4;      //Quelldaten sind WORD 0x0000000000000000 - 0XFFFFFFFFFFFFFFFF
+    const VALTYPE_DWWORD    = 4;      //Quelldaten sind WORD 0x0000000000000000 - 0XFFFFFFFFFFFFFFFF
     const VALTYPE_ASTRING   = 5;      //Quelldaten sind ASCI-String
     const VALTYPE_STRING    = 6;      //Quelldaten sind byte Codierter String z.B. Für Versionsnummern 0x01 0x04 -> 1.04
 
@@ -86,6 +86,7 @@ class Deye extends IPSModule
 				'Offset'   => $Variable[8]
             ];
         }
+
         $this->RegisterPropertyString('Variables', json_encode($Variables));
         $this->RegisterTimer('UpdateTimer', 0, static::PREFIX . '_RequestRead($_IPS["TARGET"]);');
     }
@@ -297,9 +298,9 @@ class Deye extends IPSModule
                     case VALTYPE_BYTE:
                         return ord($Value);
                     case VALTYPE_WORD:
-                        return unpack('v', $Value)[1]; //Vorzichenlos Short
+                        return unpack('v', $Value)[1]; //Vorzichenlos word
                     case VALTYPE_SWORD:
-                         return unpack('l', $Value)[1]; //Vorzeichenbehaftet Long
+                         return unpack('s', $Value)[1]; //Vorzeichenbehaftet word
                     case VALTYPE_DWORD:
                         return unpack('V', $Value)[1]; //Vorzeichenlos Long
                     case VALTYPE_DWWORD:
@@ -314,7 +315,7 @@ class Deye extends IPSModule
                     case VALTYPE_WORD:
                         return unpack('v', $Value)[1]; //Vorzichenlos Short
                     case VALTYPE_DWORD:                  
-                       if($Value != null){
+                       if (strlen($Value) > 3) {
                         $s = $Value[0];
                         $Value[0] = $Value[2];
                         $Value[2] = $s;
