@@ -238,7 +238,7 @@ class Deye extends IPSModule
 
 
 	// lesen der Daten aus den übergeordneten Modbus Instanz
-    private function ReadData()
+    private function ReadDataOld()
     {
         $Variables = json_decode($this->ReadPropertyString('Variables'), true);
         foreach ($Variables as $Variable) {
@@ -251,8 +251,7 @@ class Deye extends IPSModule
             $SendData['Quantity'] = $Variable['Quantity'];
             $SendData['Data'] = '';
             set_error_handler([$this, 'ModulErrorHandler']);
-           // $this->SendDebug(' SendData:', $SendData, 1);
-
+    
             $ReadData = $this->SendDataToParent(json_encode($SendData));
             restore_error_handler();
             if ($ReadData === false) {
@@ -283,7 +282,126 @@ class Deye extends IPSModule
         return true;
     }
     
-	// Hier die Konvertierung der Variablen
+
+	// schnelleres blockweises lesen der Daten aus den übergeordneten Modbus Instanz
+    // Da muss aber auf zwei blöcke aufgeteilt werden.
+    private function ReadDataFast()
+    {
+        $SendData['DataID'] = '{E310B701-4AE7-458E-B618-EC13A1A6F6A8}';
+        $SendData['Function'] = $Variable['Function'];                  //in der Regel 0x03 zum lesen und 0x10 zum Schreiben
+        $SendData['Address']  = 500;                                    //Startadresse 500
+        $SendData['Quantity'] = 100;                                    //100 Werte (200 byte) im Block lesen
+        $SendData['Data'] = '';
+        set_error_handler([$this, 'ModulErrorHandler']);
+
+        $ReadData = $this->SendDataToParent(json_encode($SendData));
+        restore_error_handler();
+        if ($ReadData === false) {
+            return false;
+        }
+        $this->SendDebug('Block ReadData', $ReadData, 1);
+
+        $ReadValue = substr($ReadData, 2);
+        //jetzt durch die einzelnen Bytes durch gehen und die Werte auslesen
+        $Variables = json_decode($this->ReadPropertyString('Variables'), true);
+        foreach ($Variables as $Variable) {
+            if (!$Variable['Keep']) {
+                continue;
+            }
+            if ($Variable['Address'] > 499 ){
+             $this->SendDebug($Variable['Name'] . ' RAW', $ReadValue, 1);
+             //Den Wert aus dem Block herauslesen
+             $SValue = substr($ReadValue, $Variable['Address'] - 500, $Variable['Quantity']*2);
+
+             if (static::Swap) {
+                $SValue = strrev($SValue);
+             }
+
+             $Value = $this->ConvertValue($Variable, $SValue);
+            
+             if ($Value === null) {
+                 $this->LogMessage(sprintf($this->Translate('Combination of type and size of value (%s) not supported.'), $Variable['Name']), KL_ERROR);
+                continue;
+             }
+             //Bei Float_Variablen jetzt noch den Faktor einrechnen Hier noch eventuell den Offset einrechnen falls vorhanden
+             if ($Variable['VarType'] == VARIABLETYPE_FLOAT){
+                 $Value= ($Value - $Variable['Offset']) * $Variable['Factor'];
+             }
+
+            
+            $this->SendDebug($Variable['Name'], $Value, 0);
+            $this->SetValueExt($Variable, $Value);
+          }
+        }
+        return true;
+    }
+    
+
+    private function ReadDataBase()
+    {
+        $SendData['DataID'] = '{E310B701-4AE7-458E-B618-EC13A1A6F6A8}';
+        $SendData['Function'] = $Variable['Function'];                  //in der Regel 0x03 zum lesen und 0x10 zum Schreiben
+        $SendData['Address']  = 0;                                    //Startadresse 0
+        $SendData['Quantity'] = 20;                                    //20 Werte (200 byte) im Block lesen
+        $SendData['Data'] = '';
+        set_error_handler([$this, 'ModulErrorHandler']);
+
+        $ReadData = $this->SendDataToParent(json_encode($SendData));
+        restore_error_handler();
+        if ($ReadData === false) {
+            return false;
+        }
+        $this->SendDebug('Block ReadData', $ReadData, 1);
+
+        $ReadValue = substr($ReadData, 2);
+        //jetzt durch die einzelnen Bytes durch gehen und die Werte auslesen
+        $Variables = json_decode($this->ReadPropertyString('Variables'), true);
+        foreach ($Variables as $Variable) {
+            if (!$Variable['Keep']) {
+                continue;
+            }
+            if ($Variable['Address'] > 100 ){
+             $this->SendDebug($Variable['Name'] . ' RAW', $ReadValue, 1);
+             //Den Wert aus dem Block herauslesen
+
+             $SValue = substr($ReadValue, $Variable['Address'] - 500, $Variable['Quantity']*2);
+
+             if (static::Swap) {
+                $SValue = strrev($SValue);
+             }
+
+             $Value = $this->ConvertValue($Variable, $SValue);
+            
+             if ($Value === null) {
+                 $this->LogMessage(sprintf($this->Translate('Combination of type and size of value (%s) not supported.'), $Variable['Name']), KL_ERROR);
+                continue;
+             }
+             //Bei FloatVAriablen jetzt noch den Faktor einrechnen //Hier noch eventuell den Offset einrechnen falls vorhanden
+             if ($Variable['VarType'] == VARIABLETYPE_FLOAT){
+                 $Value= ($Value - $Variable['Offset']) * $Variable['Factor'];
+             }
+
+            
+            $this->SendDebug($Variable['Name'], $Value, 0);
+            $this->SetValueExt($Variable, $Value);
+          }
+        }
+        return true;
+    }
+
+
+
+// lesen der Daten aus den übergeordneten Modbus Instanz
+private function ReadData()
+{
+  ReadDataBase();
+  ReadDataFast();
+  return true;
+}
+
+
+
+    // Hier die Konvertierung der Variablen
     private function ConvertValue(array $Variable, string $Value)
     {
         $vt = 0; 
