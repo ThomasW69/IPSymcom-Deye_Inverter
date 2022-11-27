@@ -75,11 +75,7 @@ class Deye extends IPSModule
                 'Ident'    => str_replace(' ', '', $Variable[0]),
                 'Name'     => $this->Translate($Variable[0]),
                 'VarType'  => $Variable[1],
-<<<<<<< HEAD
                 'DataType' => $Variable[2],
-=======
-                'ValType'  => $Variable[2],
->>>>>>> fddfaa0e432afa154d9aa327ef2504de3f2db025
                 'Profile'  => $Variable[3],
                 'Address'  => $Variable[4],
                 'Function' => $Variable[5],
