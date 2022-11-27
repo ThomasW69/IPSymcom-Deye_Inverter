@@ -75,7 +75,11 @@ class Deye extends IPSModule
                 'Ident'    => str_replace(' ', '', $Variable[0]),
                 'Name'     => $this->Translate($Variable[0]),
                 'VarType'  => $Variable[1],
+<<<<<<< HEAD
                 'DataType' => $Variable[2],
+=======
+                'ValType'  => $Variable[2],
+>>>>>>> fddfaa0e432afa154d9aa327ef2504de3f2db025
                 'Profile'  => $Variable[3],
                 'Address'  => $Variable[4],
                 'Function' => $Variable[5],
@@ -150,7 +154,11 @@ class Deye extends IPSModule
                     'Ident'    => str_replace(' ', '', $NewVariable[0]),
                     'Name'     => $this->Translate($NewVariable[0]),
                     'VarType'  => $NewVariable[1],
+<<<<<<< HEAD
                     'DataType' => $NewVariable[2],
+=======
+                    'ValType'  => $NewVariable[2],
+>>>>>>> fddfaa0e432afa154d9aa327ef2504de3f2db025
                     'Profile'  => $NewVariable[3],
                     'Address'  => $NewVariable[4],
                     'Function' => $NewVariable[5],
