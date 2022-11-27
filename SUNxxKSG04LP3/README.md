@@ -12,11 +12,10 @@
 - [2. Voraussetzungen](#2-voraussetzungen)
 - [3. Software-Installation](#3-software-installation)
 - [4. Einrichten der Instanzen in IP-Symcon](#4-einrichten-der-instanzen-in-ip-symcon)
-- [5. Statusvariablen und Profile](#5-statusvariablen-und-profile)
+- [5. Konsole](#5-konsole)
 - [6. PHP-Befehlsreferenz](#6-php-befehlsreferenz)
 - [7. Anhang](#7-anhang)
   - [1. Changelog](#1-changelog)
-  - [2. Spenden](#2-spenden)
 - [8. Lizenz](#8-lizenz)
 
 ## 1. Funktionsumfang
@@ -36,37 +35,20 @@ Zusätzlich können mehrere Wechelrichter auf einem physikalischen RS485-Bus bet
 
 ## 4. Einrichten der Instanzen in IP-Symcon
 
-Das Modul ist im Dialog 'Instanz hinzufügen' unter dem Hersteller 'Deye PV Hybridwechselrichter' zu finden.  
-![Instanz hinzufügen](../imgs/addDeye.png)  
+Das Modul ist im Dialog 'Instanz hinzufügen' unter dem Hersteller 'Ningbo Deye PV Hybridwechselrichter' zu finden.  
+![Instanz hinzufügen](../imgs/add.png)  
 
 Es wird automatisch ein 'ModBus Gateway' als Splitter-Instanz, sowie ein 'Client Socket' als dessen I/O-Instanz erzeugt.  
 In dem sich öffnenden Konfigurationsformular muss der Abfrage-Zyklus eingestellt werden.  
  Über den Button 'Gateway konfigurieren' wird das Konfigurationsformular des 'ModBus Gateway' geöffnet.  
-![Instanz konfigurieren](../imgs/configDeye.png)    
-Hier muss jetzt der Modus passend zur Hardwareanbindung (TCP /RTU) sowie die Geräte-ID des Zählers eingestellt und übernommen werden.  
+![Instanz konfigurieren](../imgs/config.png)    
+Hier muss jetzt der Modus passend zur Hardwareanbindung (TCP /RTU) sowie die Geräte-ID des Deye eingestellt und übernommen werden.  
 Anschließend über den Button 'Schnittstelle konfigurieren' das Konfigurationsformular der I/O-Instanz öffnen.  
 Je nach Hardwareanbindung müssen hier die RS485 Parameter oder die IP-Adresse des ModBus-Umsetzers eingetragen werden.  
-Details hierzu sind dem Handbuch des Zählers (RS485) und dem eventuell verwendeten Umsetzer zu entnehmen.  
+Details hierzu sind dem Handbuch des Deye (RS485) und dem eventuell verwendeten Umsetzer zu entnehmen.  
 
-## 5. Statusvariablen und Profile
+## 5. Konsole
 
-Folgende Statusvariablen werden automatisch angelegt.  
-
-|                       Name                       |  Typ  |                 Ident                 |   Profil    |
-| :----------------------------------------------: | :---: | :-----------------------------------: | :---------: |
-|                   Spannung L1                    | float |               VoltageL1               |  Volt.230   |
-|                   Spannung L2                    | float |               VoltageL2               |  Volt.230   |
-|                   Spannung L3                    | float |               VoltageL3               |  Volt.230   |
-
-Folgende Profile werden automatisch angelegt.  
-
-|    Name     |  Typ  |
-| :---------: | :---: |
-| PhaseAngle  | float |
-|     VA      | float |
-|     VaR     | float |
-| Intensity.F | float |
-|    kVArh    | float |
 
 Darstellung in der Console.  
 ![Instanz](../imgs/DEYE.png) 
@@ -76,7 +58,7 @@ Darstellung in der Console.
 ```php
 bool SUNxxKSG04LP3_RequestRead(int $InstanzID);
 ```
-Ließt alle Werte vom Zähler.  
+Ließt alle Werte vom Deye.  
 Bei Erfolg wird `true` und im Fehlerfall wird `false` zurückgegeben und eine Warnung erzeugt.  
 
 

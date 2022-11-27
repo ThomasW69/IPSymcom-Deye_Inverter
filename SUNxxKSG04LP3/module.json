@@ -1,9 +1,15 @@
 {
     "id": "{5A793A9B-ADEE-307E-20B7-FBE05C7B4C7E}",
     "name": "SUNxxKSG04LPx",
-    "aliases": ["SUN-xxK-SG04-LPx"],
+    "aliases": [
+         "SUN-5K-SG04LPx",
+         "SUN-6K-SG04LPx",
+         "SUN-8K-SG04LPx",
+         "SUN-10K-SG04LPx",
+         "SUN-12K-SG04LPx"
+     ],
     "type": 3,
-    "vendor": "Deye Solar",
+    "vendor": "Ningbo Deye Solar",
     "parentRequirements": ["{E310B701-4AE7-458E-B618-EC13A1A6F6A8}"],
     "childRequirements": [],
     "implemented": ["{77B31ABB-18FA-4B91-BB63-E5B2AB5588F4}"],

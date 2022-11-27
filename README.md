@@ -15,7 +15,6 @@
 - [5. Anhang](#5-anhang)
   - [1. GUID der Module](#1-guid-der-module)
   - [2. Changelog](#2-changelog)
-  - [3. Spenden](#3-spenden)
 - [6. Lizenz](#6-lizenz)
 
 ## 1. Funktionsumfang
@@ -24,6 +23,10 @@ Ermöglicht die Einbindung von Hybridwechselrichtern der Firma Deye
 ohne mehrere ModBus-Instanzen in IPS.  
 Zusätzlich können mehrere Wechselrichter auf einem physikalischen RS485-Bus
 betrieben werden.  
+Für dieses Modul besteht kein Anspruch auf Fehlerfreiheit, Weiterentwicklung, sonstige Unterstützung oder Support.
+Bevor das Modul installiert wird, sollte unbedingt ein Backup von IP-Symcon durchgeführt werden.
+Der Entwickler haftet nicht für eventuell auftretende Datenverluste oder sonstige Schäden.
+Der Nutzer stimmt den oben angegebenen Bedingungen, sowie den Lizenzbedingungen ausdrücklich zu.
 
 Folgende Module beinhaltet die Deye Library (vorerst):
 
@@ -41,7 +44,7 @@ Folgende Module beinhaltet die Deye Library (vorerst):
 
   Über den 'Module-Store' in IPS das Modul 'Deye PV Hybrid-Wechselrichter' hinzufügen.  
    **Bei kommerzieller Nutzung (z.B. als Errichter oder Integrator) wenden Sie sich bitte an den Autor.**  
-![Module-Store](imgs/installDeye.png)  
+  
 
 ## 4. Einrichten der Instanzen in IP-Symcon
 
@@ -62,15 +65,10 @@ Ist direkt in der Dokumentation der jeweiligen Module beschrieben:
 ### 2. Changelog
 
 __Version 0.1:__
- - Erstes inoffizielles Release (Noch nicht lauffähig!!!) 
+ - Erstes inoffizielles Release (Noch nicht 100%ig lauffähig!!!) 
 
-### 3. Spenden  
-  
-  Die Library ist für die nicht kommerzielle Nutzung kostenlos, Schenkungen als Unterstützung für den Autor werden hier akzeptiert:  
 
-  PayPal:  
-<a href="https://www.paypal.com/donate?hosted_button_id=xxxxxxxxxxx" target="_blank"><img src="https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donate_LG.gif" border="0" /></a>  
-
+ 
 
 ## 6. Lizenz
 

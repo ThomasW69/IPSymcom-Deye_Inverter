@@ -75,15 +75,15 @@ class Deye extends IPSModule
                 'Ident'    => str_replace(' ', '', $Variable[0]),
                 'Name'     => $this->Translate($Variable[0]),
                 'VarType'  => $Variable[1],
+                'DataType' => $Variable[2],
                 'Profile'  => $Variable[3],
                 'Address'  => $Variable[4],
                 'Function' => $Variable[5],
                 'Quantity' => $Variable[6],
-                'Pos'      => $Pos + 1,
-                'Keep'     => $Variable[9],
-                'ValType'  => $Variable[2],
 				'Factor'   => $Variable[7],
-				'Offset'   => $Variable[8]
+				'Offset'   => $Variable[8],
+                'Keep'     => $Variable[9],
+                'Pos'      => $Pos + 1
             ];
         }
 
@@ -128,6 +128,7 @@ class Deye extends IPSModule
         $this->RegisterProfileInteger('VaR.I', '', '', ' VAr', 0, 0, 0);
         $this->RegisterProfileInteger('VA.I', '', '', ' VA', 0, 0, 0);
         $this->RegisterProfileInteger('Electricity.I', '', '', ' kWh', 0, 0, 0);
+ 
         //Create Variables and check when new Rows in config appear after an update.
         $NewRows = static::$Variables;
         $NewPos = 0;
@@ -149,15 +150,15 @@ class Deye extends IPSModule
                     'Ident'    => str_replace(' ', '', $NewVariable[0]),
                     'Name'     => $this->Translate($NewVariable[0]),
                     'VarType'  => $NewVariable[1],
+                    'DataType' => $NewVariable[2],
                     'Profile'  => $NewVariable[3],
                     'Address'  => $NewVariable[4],
                     'Function' => $NewVariable[5],
                     'Quantity' => $NewVariable[6],
-                    'Pos'      => ++$NewPos,
-                    'Keep'     => $NewVariable[9],
-                    'ValType'  => $NewVariable[2],
                     'Factor'   => $NewVariable[7],
-                    'Offset'   => $NewVariable[8]
+                    'Offset'   => $NewVariable[8],
+                    'Keep'     => $NewVariable[9],
+                    'Pos'      => ++$NewPos
                 ];
             }
             IPS_SetProperty($this->InstanceID, 'Variables', json_encode($Variables));
@@ -235,62 +236,14 @@ class Deye extends IPSModule
     }
     
 
-
-
-	// lesen der Daten aus den übergeordneten Modbus Instanz
-    private function ReadDataOld()
-    {
-        $Variables = json_decode($this->ReadPropertyString('Variables'), true);
-        foreach ($Variables as $Variable) {
-            if (!$Variable['Keep']) {
-                continue;
-            }
-            $SendData['DataID'] = '{E310B701-4AE7-458E-B618-EC13A1A6F6A8}';
-            $SendData['Function'] = $Variable['Function'];                  //in der Regel 0x03 zum lesen und 0x10 zum Schreiben
-            $SendData['Address']  = $Variable['Address'];
-            $SendData['Quantity'] = $Variable['Quantity'];
-            $SendData['Data'] = '';
-            set_error_handler([$this, 'ModulErrorHandler']);
-    
-            $ReadData = $this->SendDataToParent(json_encode($SendData));
-            restore_error_handler();
-            if ($ReadData === false) {
-                return false;
-            }
-            $this->SendDebug($Variable['Name'] . ' ReadData', $ReadData, 1);
-
-            $ReadValue = substr($ReadData, 2);
-            $this->SendDebug($Variable['Name'] . ' RAW', $ReadValue, 1);
-			 if (static::Swap) {
-                $ReadValue = strrev($ReadValue);
-             }
-            $Value = $this->ConvertValue($Variable, $ReadValue);
-            
-            if ($Value === null) {
-                $this->LogMessage(sprintf($this->Translate('Combination of type and size of value (%s) not supported.'), $Variable['Name']), KL_ERROR);
-                continue;
-            }
-            //Bei FloatVAriablen jetzt noch den Faktor einrechnen //Hier noch eventuell den Offset einrechnen falls vorhanden
-            if ($Variable['VarType'] == VARIABLETYPE_FLOAT){
-                $Value= ($Value - $Variable['Offset']) * $Variable['Factor'];
-            }
-
-            
-            $this->SendDebug($Variable['Name'], $Value, 0);
-            $this->SetValueExt($Variable, $Value);
-        }
-        return true;
-    }
-    
-
 	// schnelleres blockweises lesen der Daten aus den übergeordneten Modbus Instanz
     // Da muss aber auf zwei blöcke aufgeteilt werden.
-    private function ReadDataFast()
-    {
+    private function ReadDataBlock(int $Start, int $End)
+    {   
         $SendData['DataID'] = '{E310B701-4AE7-458E-B618-EC13A1A6F6A8}';
-        $SendData['Function'] = $Variable['Function'];                  //in der Regel 0x03 zum lesen und 0x10 zum Schreiben
-        $SendData['Address']  = 500;                                    //Startadresse 500
-        $SendData['Quantity'] = 100;                                    //100 Werte (200 byte) im Block lesen
+        $SendData['Function'] = 0x03;                  //in der Regel 0x03 zum lesen und 0x10 zum Schreiben
+        $SendData['Address']  = $Start;                //Startadresse 
+        $SendData['Quantity'] = $End-$Start+4;           //Anzahl Blöcke
         $SendData['Data'] = '';
         set_error_handler([$this, 'ModulErrorHandler']);
 
@@ -299,8 +252,7 @@ class Deye extends IPSModule
         if ($ReadData === false) {
             return false;
         }
-        $this->SendDebug('Block ReadData', $ReadData, 1);
-
+    
         $ReadValue = substr($ReadData, 2);
         //jetzt durch die einzelnen Bytes durch gehen und die Werte auslesen
         $Variables = json_decode($this->ReadPropertyString('Variables'), true);
@@ -308,94 +260,47 @@ class Deye extends IPSModule
             if (!$Variable['Keep']) {
                 continue;
             }
-            if ($Variable['Address'] > 499 ){
-             $this->SendDebug($Variable['Name'] . ' RAW', $ReadValue, 1);
-             //Den Wert aus dem Block herauslesen
-             $SValue = substr($ReadValue, $Variable['Address'] - 500, $Variable['Quantity']*2);
+            //Nur die VAriablen, die auch in diesem bereich sind           
+            if ($Variable['Address'] >= $Start && $Variable['Address'] <= $End)
+            {
+              //Den Wert aus dem Block herauslesen
+             // $this->SendDebug('Pos.: Count: ', (($Variable['Address'] - $Start) *2 . ' ' . ($Variable['Quantity']*2)) , 1);
 
-             if (static::Swap) {
-                $SValue = strrev($SValue);
-             }
+              $SValue = substr($ReadValue, ($Variable['Address'] - $Start) *2, $Variable['Quantity']*2);
 
-             $Value = $this->ConvertValue($Variable, $SValue);
+              if (static::Swap) {
+                 $SValue = strrev($SValue);
+              }
+
+              $Value = $this->ConvertValue($Variable, $SValue);
             
-             if ($Value === null) {
-                 $this->LogMessage(sprintf($this->Translate('Combination of type and size of value (%s) not supported.'), $Variable['Name']), KL_ERROR);
-                continue;
-             }
-             //Bei Float_Variablen jetzt noch den Faktor einrechnen Hier noch eventuell den Offset einrechnen falls vorhanden
-             if ($Variable['VarType'] == VARIABLETYPE_FLOAT){
-                 $Value= ($Value - $Variable['Offset']) * $Variable['Factor'];
-             }
+              if ($Value === null) {
+                  $this->LogMessage(sprintf($this->Translate('Combination of type and size of value (%s) not supported.'), $Variable['Name']), KL_ERROR);
+                 continue;
+              }
+              //Bei Float_Variablen jetzt noch den Faktor einrechnen Hier noch eventuell den Offset einrechnen falls vorhanden
+              if ($Variable['VarType'] == VARIABLETYPE_FLOAT){
+                  $Value= ($Value - $Variable['Offset']) * $Variable['Factor'];
+              }
 
-            
-            $this->SendDebug($Variable['Name'], $Value, 0);
-            $this->SetValueExt($Variable, $Value);
+             $this->SendDebug($Variable['Name'], $Value, 0);
+             $this->SetValueExt($Variable, $Value);
           }
         }
         return true;
     }
     
 
-    private function ReadDataBase()
-    {
-        $SendData['DataID'] = '{E310B701-4AE7-458E-B618-EC13A1A6F6A8}';
-        $SendData['Function'] = $Variable['Function'];                  //in der Regel 0x03 zum lesen und 0x10 zum Schreiben
-        $SendData['Address']  = 0;                                    //Startadresse 0
-        $SendData['Quantity'] = 20;                                    //20 Werte (200 byte) im Block lesen
-        $SendData['Data'] = '';
-        set_error_handler([$this, 'ModulErrorHandler']);
-
-        $ReadData = $this->SendDataToParent(json_encode($SendData));
-        restore_error_handler();
-        if ($ReadData === false) {
-            return false;
-        }
-        $this->SendDebug('Block ReadData', $ReadData, 1);
-
-        $ReadValue = substr($ReadData, 2);
-        //jetzt durch die einzelnen Bytes durch gehen und die Werte auslesen
-        $Variables = json_decode($this->ReadPropertyString('Variables'), true);
-        foreach ($Variables as $Variable) {
-            if (!$Variable['Keep']) {
-                continue;
-            }
-            if ($Variable['Address'] > 100 ){
-             $this->SendDebug($Variable['Name'] . ' RAW', $ReadValue, 1);
-             //Den Wert aus dem Block herauslesen
-
-             $SValue = substr($ReadValue, $Variable['Address'] - 500, $Variable['Quantity']*2);
-
-             if (static::Swap) {
-                $SValue = strrev($SValue);
-             }
-
-             $Value = $this->ConvertValue($Variable, $SValue);
-            
-             if ($Value === null) {
-                 $this->LogMessage(sprintf($this->Translate('Combination of type and size of value (%s) not supported.'), $Variable['Name']), KL_ERROR);
-                continue;
-             }
-             //Bei FloatVAriablen jetzt noch den Faktor einrechnen //Hier noch eventuell den Offset einrechnen falls vorhanden
-             if ($Variable['VarType'] == VARIABLETYPE_FLOAT){
-                 $Value= ($Value - $Variable['Offset']) * $Variable['Factor'];
-             }
-
-            
-            $this->SendDebug($Variable['Name'], $Value, 0);
-            $this->SetValueExt($Variable, $Value);
-          }
-        }
-        return true;
-    }
 
 
 
 // lesen der Daten aus den übergeordneten Modbus Instanz
 private function ReadData()
 {
-  ReadDataBase();
-  ReadDataFast();
+   //Daten werden in ganzen Blöcken gelesen. Das braucht nur drei Modbus anfragen und geht wesentlich schneller
+  $this->ReadDataBlock(0, 20);
+  $this->ReadDataBlock(500, 599);
+  $this->ReadDataBlock(600, 699);
   return true;
 }
 
@@ -412,7 +317,7 @@ private function ReadData()
                 }
                 break;
             case VARIABLETYPE_INTEGER:
-                switch ($Variable['ValType']) {
+                switch ($Variable['DataType']) {
                     case VALTYPE_BYTE:
                         return ord($Value);
                     case VALTYPE_WORD:
@@ -427,7 +332,7 @@ private function ReadData()
                 break;
             
             case VARIABLETYPE_FLOAT:
-                switch ($Variable['ValType']) {
+                switch ($Variable['DataType']) {
                     case VALTYPE_BYTE:
                         return ord($Value);
                     case VALTYPE_WORD:
@@ -449,7 +354,7 @@ private function ReadData()
                 break;
        
             case VARIABLETYPE_STRING:
-                switch ($Variable['ValType']) {
+                switch ($Variable['DataType']) {
                     case VALTYPE_ASTRING:
                        return strrev($Value);  //Strings immer in korrekter reihenfolge
                     case VALTYPE_STRING:
