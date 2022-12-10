@@ -265,7 +265,7 @@ class Deye extends IPSModule
             if ($Variable['Address'] >= $Start && $Variable['Address'] <= $End)
             {
               //Den Wert aus dem Block herauslesen
-             // $this->SendDebug('Pos.: Count: ', (($Variable['Address'] - $Start) *2 . ' ' . ($Variable['Quantity']*2)) , 1);
+              //$this->SendDebug('Pos.: Count: ', (($Variable['Address'] - $Start) *2 . ' ' . ($Variable['Quantity']*2)) , 1);
 
               $SValue = substr($ReadValue, ($Variable['Address'] - $Start) *2, $Variable['Quantity']*2);
 
@@ -299,7 +299,7 @@ class Deye extends IPSModule
 private function ReadData()
 {
    //Daten werden in ganzen Blöcken gelesen. Das braucht nur drei Modbus anfragen und geht wesentlich schneller
-  $this->ReadDataBlock(0, 20);
+  $this->ReadDataBlock(0, 40);
   $this->ReadDataBlock(500, 599);
   $this->ReadDataBlock(600, 699);
   return true;
