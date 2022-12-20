@@ -284,7 +284,7 @@ class Deye extends IPSModule
                   $Value= ($Value - $Variable['Offset']) * $Variable['Factor'];
               }
 
-             $this->SendDebug($Variable['Name'], $Value, 0);
+          //   $this->SendDebug($Variable['Name'], $Value, 0);
              $this->SetValueExt($Variable, $Value);
           }
         }
@@ -322,9 +322,9 @@ private function ReadData()
                     case VALTYPE_BYTE:
                         return ord($Value);
                     case VALTYPE_WORD:
-                        return unpack('v', $Value)[1]; //Vorzichenlos word
+                        return unpack('v', $Value)[1]; //Vorzeichenlos word
                     case VALTYPE_SWORD:
-                         return unpack('s', $Value)[1]; //Vorzeichenbehaftet word
+                        return unpack('s', $Value)[1]; //Vorzeichenbehaftet word
                     case VALTYPE_DWORD:
                         return unpack('V', $Value)[1]; //Vorzeichenlos Long
                     case VALTYPE_DWWORD:
@@ -337,7 +337,10 @@ private function ReadData()
                     case VALTYPE_BYTE:
                         return ord($Value);
                     case VALTYPE_WORD:
-                        return unpack('v', $Value)[1]; //Vorzichenlos Short
+                        return unpack('v', $Value)[1]; //Vorzeichenlos Short
+                    case VALTYPE_SWORD:
+                        return unpack('s', $Value)[1]; //Vorzeichenbehaftet word
+                      
                     case VALTYPE_DWORD:                  
                        if (strlen($Value) > 3) {
                         $s = $Value[0];
@@ -346,7 +349,6 @@ private function ReadData()
                         $s = $Value[1];
                         $Value[1] = $Value[3];
                         $Value[3] = $s;
-                        $this->SendDebug(' SWAP', $Value, 1);
                        }
                         return unpack('V', $Value)[1]; //Vorzeichenlos Long    
                     case VALTYPE_DWWORD:

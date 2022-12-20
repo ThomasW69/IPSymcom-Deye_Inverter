@@ -12,7 +12,7 @@ declare(strict_types=1);
  * @copyright     2022 Thomas Westerhoff
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
  * @version       0.10
- *
+ *  
  */
 require_once __DIR__ . '/../libs/DeyeModule.php';  // diverse Klassen
 
@@ -39,7 +39,7 @@ class SUNxxKSG04LPx extends Deye
   //  ['Day_ActGen_Power',      	VARIABLETYPE_FLOAT,     VALTYPE_SWORD,	    '~Electricity',    501,     3, 1,  0.1,      0,  true], // Gesamterzeugung heute 
     ['Day_Battery_Charge',      VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Electricity',    514,     3, 1,  0.1,      0,  true], // //Batterieladung heute kWh
     ['Total_Battery_Charge',    VARIABLETYPE_FLOAT,     VALTYPE_DWORD,	    '~Electricity',    516,     3, 2,  0.1,      0,  true], // Batterieladung gesamt [kWh]
-    ['Total_Battery_Discharge', VARIABLETYPE_FLOAT,     VALTYPE_DWORD,	    '~Electricity',    518,     3, 2,  0.1,       0,  true], // Batterieentladung total [kW]h
+    ['Total_Battery_Discharge', VARIABLETYPE_FLOAT,     VALTYPE_DWORD,	    '~Electricity',    518,     3, 2,  0.1,       0,  true], // Batterieentladung total [kWh]
     ['Day_GridBuy_Power',       VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Electricity',    520,     3, 1, 0.01,      0,  true], // Netzbezug heute [kWh]
     ['Day_GridSell_Power',      VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Electricity',    521,     3, 1, 0.01,      0,  true], // Einspeisung heute [kWh]
     ['Total_GridBuy_Power',     VARIABLETYPE_FLOAT,     VALTYPE_DWORD,	    '~Electricity',    522,     3, 2,  0.1,      0,  true], // Gesamter Netzbezug [kWh]
@@ -58,8 +58,8 @@ class SUNxxKSG04LPx extends Deye
     ['Battery_Temp',    	    VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    'Temperature', 	   586,     3, 1,  0.1,   1000,  true], //Batterietemperatur [°C]
     ['Battery_Voltage',      	VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Volt', 	       587,     3, 1, 0.01,      0,  true], //Battereispannung [V]
     ['Battery_SOC',      	    VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    '~Battery.100',    588,     3, 1,    1,      0,  true], //Batterielevel [%]
-    ['Battery_Out_Power',      	VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    'Watt.I', 	       590,     3, 1,    1,      0,  true], //Batterieausgangsleistung [W]
-    ['Battery_Out_Curr',      	VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Ampere', 	       591,     3, 1, 0.01,      0,  true], //Batterieausgangsstrom [A] 
+    ['Battery_Out_Power',      	VARIABLETYPE_INTEGER,   VALTYPE_SWORD,	    'Watt.I', 	       590,     3, 1,    1,      0,  true], //Batterieausgangsleistung [W]
+    ['Battery_Out_Curr',      	VARIABLETYPE_FLOAT,     VALTYPE_SWORD,	    '~Ampere', 	       591,     3, 1, 0.01,      0,  true], //Batterieausgangsstrom [A] 
     ['Battery_Capacyty',      	VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    'AmpHour.I', 	   592,     3, 1,    1,      0,  true], //Batteriekapazität [Ah] 
 //Grid
     ['Grid_L1_Voltage',      	VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Volt', 	       598,     3, 1,  0.1,      0,  true], // Netz Spannung Phase L1 [V]
