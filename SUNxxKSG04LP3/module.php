@@ -65,6 +65,9 @@ class SUNxxKSG04LPx extends Deye
     ['Grid_L1_Voltage',      	VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Volt', 	       598,     3, 1,  0.1,      0,  true], // Netz Spannung Phase L1 [V]
     ['Grid_L2_Voltage',      	VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Volt', 	       599,     3, 1,  0.1,      0,  true], // Netz Spannung Phase L2 [V]
     ['Grid_L3_Voltage',      	VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Volt', 	       600,     3, 1,  0.1,      0,  true], // Netz Spannung Phase L3 [V]
+    ['Out_Grid_L1_Power',       VARIABLETYPE_INTEGER,   VALTYPE_SWORD,	    'Watt.I', 	       616,     3, 1,    1,      0,  true], // Gesamtleistung in/aus Netz [W]
+    ['Out_Grid_L2_Power',       VARIABLETYPE_INTEGER,   VALTYPE_SWORD,	    'Watt.I', 	       617,     3, 1,    1,      0,  true], // Gesamtleistung in/aus Netz [W]
+    ['Out_Grid_L3_Power',       VARIABLETYPE_INTEGER,   VALTYPE_SWORD,	    'Watt.I', 	       618,     3, 1,    1,      0,  true], // Gesamtleistung in/aus Netz [W]
     ['Out_Grid_Total_Power',    VARIABLETYPE_INTEGER,   VALTYPE_SWORD,	    'Watt.I', 	       619,     3, 1,    1,      0,  true], // Gesamtleistung in/aus Netz [W]
     ['Inverter_Freq',      	    VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Hertz', 	       638,     3, 1, 0.01,      0,  true], // //Inverterfequqnz [Hz]
 //Load
