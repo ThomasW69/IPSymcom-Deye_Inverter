@@ -91,6 +91,44 @@ class SUNxxKSG04LPx extends Deye
     ['PV3_Current',      	    VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Ampere', 	       681,     3, 1,  0.1,      0,  true], // PV3 EingangssStrom [A]
     ['PV4_Power',      	        VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    'Watt.I', 	       675,     3, 1,    1,      0,  true], // PV4 Eingangsleistung [W]
     ['PV4_Voltage',      	    VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Volt', 	       682,     3, 1,  0.1,      0,  true], // PV4 Eingangsspannung [V]
-    ['PV4_Current',      	    VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Ampere', 	       683,     3, 1,  0.1,      0,  true]  // PV4 EingangssStrom [A]
-];
+    ['PV4_Current',      	    VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Ampere', 	       683,     3, 1,  0.1,      0,  true],  // PV4 EingangssStrom [A]
+
+//Hier die Variablen auf die Geschrieben werden kann
+//Diese werden auch von der Ladeoptimierung benutzt und geschrieben.
+	//Name,                     VarType,                ValueType,          Profile,   Address, Function, Quantity, Factor, Offset, Keep
+    //Die Akkubetriebsparameter, wenn der WR den Akku steuert. 
+    ['Epui_Voltage',    	    VARIABLETYPE_FLOAT,     VALTYPE_WORD, 	    '~Volt', 		99,     10, 1,  0.01,      0,  true],  //Equilisation-Spannung [V] 
+    ['Absorp_Voltage',    	    VARIABLETYPE_FLOAT,     VALTYPE_WORD, 	    '~Volt', 		100,    10, 1,  0.01,      0,  true],  //Absorption-Spannung [V]
+    ['Float_Voltage',    	    VARIABLETYPE_FLOAT,     VALTYPE_WORD, 	    '~Volt', 		101,    10, 1,  0.01,      0,  true],  //Float-Spannung [V]
+    ['Batt_Capacity',    	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'AmpHour.I',    102,    10, 1,  1,      0,  true],     //Batteriekapazität [Ah]
+    ['MaxChg_Current',    	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    '~Ampere',      108,    10, 1,  1,      0,  true],     //Max. Ladestrom [A]
+    // Die sechs einstellbaren Betriebszeitenbereiche, in denen eine Ladeaktion ausgeführt werden kann 
+    ['Time1',           	    VARIABLETYPE_INTEGER,   VALTYPE_TIME, 	    '~UnixTimestampTime',148,   10, 1,  1,      0,  true],     //Zeitbreich 1
+    ['Time2',           	    VARIABLETYPE_INTEGER,   VALTYPE_TIME, 	    '~UnixTimestampTime',149,   10, 1,  1,      0,  true],     //Zeitbreich 2
+    ['Time3',           	    VARIABLETYPE_INTEGER,   VALTYPE_TIME, 	    '~UnixTimestampTime',150,   10, 1,  1,      0,  true],     //Zeitbreich 3
+    ['Time4',           	    VARIABLETYPE_INTEGER,   VALTYPE_TIME, 	    '~UnixTimestampTime',151,   10, 1,  1,      0,  true],     //Zeitbreich 4
+    ['Time5',           	    VARIABLETYPE_INTEGER,   VALTYPE_TIME, 	    '~UnixTimestampTime',152,   10, 1,  1,      0,  true],     //Zeitbreich 5
+    ['Time6',           	    VARIABLETYPE_INTEGER,   VALTYPE_TIME, 	    '~UnixTimestampTime',153,   10, 1,  1,      0,  true],     //Zeitbreich 6
+    //Die Ladeleistung mit der die Batterie maximal geladen wird.
+    ['ChgPwr1',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'Watt.I'        ,154,   10, 1,  1,      0,  true],     //Ladeleistung 1
+    ['ChgPwr2',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'Watt.I'        ,155,   10, 1,  1,      0,  true],     //Ladeleistung 2
+    ['ChgPwr3',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'Watt.I'        ,156,   10, 1,  1,      0,  true],     //Ladeleistung 3
+    ['ChgPwr4',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'Watt.I'        ,157,   10, 1,  1,      0,  true],     //Ladeleistung 4
+    ['ChgPwr5',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'Watt.I'        ,158,   10, 1,  1,      0,  true],     //Ladeleistung 5
+    ['ChgPwr6',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'Watt.I'        ,159,   10, 1,  1,      0,  true],     //Ladeleistung 6
+    //Der Ladezustand der Batterie, der erreiht werden soll
+    ['Capacity1',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    '~Battery.100'  ,166,   10, 1,  1,      0,  true],     //Kapazität 1
+    ['Capacity2',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    '~Battery.100'  ,167,   10, 1,  1,      0,  true],     //Kapazität 2
+    ['Capacity3',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    '~Battery.100'  ,168,   10, 1,  1,      0,  true],     //Kapazität 3
+    ['Capacity4',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    '~Battery.100'  ,169,   10, 1,  1,      0,  true],     //Kapazität 4
+    ['Capacity5',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    '~Battery.100'  ,170,   10, 1,  1,      0,  true],     //Kapazität 5
+    ['Capacity6',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    '~Battery.100'  ,171,   10, 1,  1,      0,  true],     //Kapazität 6
+    //Der Lademodus (0:Keiner, 1:Grid-Charge, 2:Generator-Charge oder 3:beides)
+    ['Chg_Mode1',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'DeyeChgMode'   ,172,   10, 1,  1,      0,  true],     //Lademodus 1
+    ['Chg_Mode2',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'DeyeChgMode'   ,173,   10, 1,  1,      0,  true],     //Lademodus 2
+    ['Chg_Mode3',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'DeyeChgMode'   ,174,   10, 1,  1,      0,  true],     //Lademodus 3
+    ['Chg_Mode4',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'DeyeChgMode'   ,175,   10, 1,  1,      0,  true],     //Lademodus 4
+    ['Chg_Mode5',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'DeyeChgMode'   ,176,   10, 1,  1,      0,  true],     //Lademodus 5
+    ['Chg_Mode6',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'DeyeChgMode'   ,177,   10, 1,  1,      0,  true]      //Lademodus 6
+];    
 }

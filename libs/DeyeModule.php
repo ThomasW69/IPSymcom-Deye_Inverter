@@ -27,6 +27,7 @@ eval('declare(strict_types=1);namespace Deye {?>' . file_get_contents(__DIR__ . 
     const VALTYPE_DWWORD    = 4;      //Quelldaten sind WORD 0x0000000000000000 - 0XFFFFFFFFFFFFFFFF
     const VALTYPE_ASTRING   = 5;      //Quelldaten sind ASCI-String
     const VALTYPE_STRING    = 6;      //Quelldaten sind byte Codierter String z.B. Für Versionsnummern 0x01 0x04 -> 1.04
+    const VALTYPE_TIME      = 7;      //Integer als Zeit
 
         
 
@@ -68,7 +69,17 @@ class Deye extends IPSModule
     {
         parent::Create();
         $this->ConnectParent('{A5F663AB-C400-4FE5-B207-4D67CC030564}');
-        $this->RegisterPropertyInteger('Interval', 0);
+        $this->RegisterPropertyInteger('Interval', 0);                        //Abrufintervall
+        $this->RegisterPropertyBoolean('UseTibber', false);                   //Ladestrategie mit Preisminimierung nach Tibber
+        $this->RegisterPropertyBoolean('UseAWATTAR', false);                  //Ladestrategie mit Preisminimierung nach AWattAr
+        $this->RegisterPropertyInteger('GetDataTimeTibber', 0);                     //Datenabruf wann?
+        $this->RegisterPropertyInteger('GetDataTimeAWATTAR', 0);                     //Datenabruf wann?
+        $this->RegisterPropertyInteger('ID_Solarprognose', 0);                //ID der Solarprognose
+        $this->RegisterPropertyFloat('BatCapacity', 0);                       //Batteriekapazität für die  Optimierung
+        $this->RegisterPropertyString('APIKEYTibber', 0);                     //APIKey für Abrufder TibberPreise
+        
+        
+        //Zuerst due Star´tusvariablen (ReadOnly)
         $Variables = [];
         foreach (static::$Variables as $Pos => $Variable) {
             $Variables[] = [
@@ -86,7 +97,6 @@ class Deye extends IPSModule
                 'Pos'      => $Pos + 1
             ];
         }
-
         $this->RegisterPropertyString('Variables', json_encode($Variables));
         $this->RegisterTimer('UpdateTimer', 0, static::PREFIX . '_RequestRead($_IPS["TARGET"]);');
     }
@@ -110,11 +120,19 @@ class Deye extends IPSModule
             [3,'Alarm','',0xFF00FF],
             [4,'Failure','',0xFF0000]
             ];
+
+        $AssChargeMode = [
+            [0,'None','',0xFF0000],
+            [1,'Grid','',0x00FF00],
+            [2,'Generator','',0x0000FF],
+            [3,'Both','',0xFF00FF]
+            ];   
     
         parent::ApplyChanges();
         //Invertertyp und Status
         $this->RegisterProfileIntegerEx('DeyeType', '', '','', $AssInvType, 5, 1);
         $this->RegisterProfileIntegerEx('DeyeStatus', '', '','', $AssStatus, 4, 1);
+        $this->RegisterProfileIntegerEx('DeyeChgMode', '', '','', $AssChargeMode, 3, 1);
 
         //Float Variablen
         $this->RegisterProfileFloat('VaR', '', '', ' VAr', 0, 0, 0, 2);
@@ -166,6 +184,8 @@ class Deye extends IPSModule
             IPS_ApplyChanges($this->InstanceID);
             return;
         }
+
+
         if ($this->ReadPropertyInteger('Interval') < 500) {
             if ($this->ReadPropertyInteger('Interval') != 0) {
                 $this->SetStatus(IS_EBASE + 1);
@@ -235,7 +255,10 @@ class Deye extends IPSModule
         $this->SetValue($Variable['Ident'], $Value);
         return true;
     }
+
     
+
+        
 
 	// schnelleres blockweises lesen der Daten aus den übergeordneten Modbus Instanz
     // Da muss aber auf zwei blöcke aufgeteilt werden.
@@ -296,27 +319,31 @@ class Deye extends IPSModule
 
 
 // lesen der Daten aus den übergeordneten Modbus Instanz
-private function ReadData()
-{
-   //Daten werden in ganzen Blöcken gelesen. Das braucht nur drei Modbus anfragen und geht wesentlich schneller
-  $this->ReadDataBlock(0, 40);
-  $this->ReadDataBlock(500, 599);
-  $this->ReadDataBlock(600, 699);
-  return true;
-}
-
+     private function ReadData()
+     {
+    //Daten werden in ganzen Blöcken gelesen. Das braucht nur drei Modbus anfragen und geht wesentlich schneller
+      $this->ReadDataBlock(0, 40);
+      $this->ReadDataBlock(99, 177);
+      $this->ReadDataBlock(500, 599);
+      $this->ReadDataBlock(600, 699);
+      return true;
+    }
 
 
     // Hier die Konvertierung der Variablen
     private function ConvertValue(array $Variable, string $Value)
     {
         $vt = 0; 
+        $v  = 0;
+        $h  = 0;
+        $min= 0;
         switch ($Variable['VarType']) {
             case VARIABLETYPE_BOOLEAN:
                 if ($Variable['Quantity'] == 1) {
                     return ord($Value) == 0x01;
                 }
                 break;
+
             case VARIABLETYPE_INTEGER:
                 switch ($Variable['DataType']) {
                     case VALTYPE_BYTE:
@@ -329,6 +356,12 @@ private function ReadData()
                         return unpack('V', $Value)[1]; //Vorzeichenlos Long
                     case VALTYPE_DWWORD:
                         return unpack('P', $Value)[1]; //Vorzeichenlos LongLong
+                    case VALTYPE_TIME: {
+                         $v = unpack('v', $Value)[1]; //erst mal was als Platzhalter
+                         $h=intval($v/100);
+                         $min=$v%100;
+                         return ($h*3600+$min*60)-3600;
+                        } 
                 }
                 break;
             

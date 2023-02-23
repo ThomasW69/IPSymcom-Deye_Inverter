@@ -7,6 +7,37 @@
             "suffix": "ms",
             "minimum": 0
         },
+
+        {
+            "type": "ExpansionPanel",
+            "caption": "Ladeoptimierung",
+            "items": [
+                { "type": "NumberSpinner", "name": "BatCapacity", "caption": "Akkukapazität", "suffix": "kWh","digits": 2, "minimum":0},
+                { "type": "SelectVariable", "name": "ID_Solarprognose", "caption": "ID der Solarprognose", "validVariableTypes": [1, 2], "requiredLogging": 1}
+
+            ]
+        },
+
+        { "type": "ExpansionPanel",
+        "caption": "Tibber-Optimierung",
+        "items": [
+            { "type": "CheckBox", "name": "UseTibber", "caption": "Tibber-Optimierung" },
+            { "type": "ValidationTextBox", "name": "APIKEYTibber", "caption": "Tibber-API-Key" },
+            { "type": "SelectTime", "name": "GetDataTimeTibber", "caption": "Datenabruf täglich um" }
+
+        ]
+    },
+   
+    {"type": "ExpansionPanel",
+    "caption": "aWattar-Optimierung",
+    "items": [
+        { "type": "CheckBox", "name": "UseAWATTAR", "caption": "aWattar-Optimierung" },
+        { "type": "SelectTime", "name": "GetDataTimeARATTAR", "caption": "Datenabruf täglich um" }
+
+    ]
+},
+
+
         {
             "type": "List",
             "name": "Variables",
