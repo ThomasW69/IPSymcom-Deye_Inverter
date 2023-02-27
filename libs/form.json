@@ -3,39 +3,32 @@
         {
             "name": "Interval",
             "type": "NumberSpinner",
-            "caption": "milliseconds",
+            "caption": "Call Intervall",
             "suffix": "ms",
             "minimum": 0
         },
 
         {
             "type": "ExpansionPanel",
-            "caption": "Ladeoptimierung",
+            "caption": "Solar Based Optimization",
             "items": [
-                { "type": "NumberSpinner", "name": "BatCapacity", "caption": "Akkukapazität", "suffix": "kWh","digits": 2, "minimum":0},
-                { "type": "SelectVariable", "name": "ID_Solarprognose", "caption": "ID der Solarprognose", "validVariableTypes": [1, 2], "requiredLogging": 1}
+                { "type": "CheckBox", "name": "UseSolarprog", "caption": "Active" },
+                { "type": "SelectVariable", "name": "SolarProgID", "caption": "Solar forecast:", "validVariableTypes": [1, 2], "requiredLogging": 1},
+                { "type": "NumberSpinner", "name": "SolarProgTimeshift", "caption": "Timeshift of Solar forecast [h]:","value":0, "digits": 0, "minimum":-96, "maximum":0}
 
             ]
         },
 
         { "type": "ExpansionPanel",
-        "caption": "Tibber-Optimierung",
+        "caption": "Variable Energy Tariff",
         "items": [
-            { "type": "CheckBox", "name": "UseTibber", "caption": "Tibber-Optimierung" },
-            { "type": "ValidationTextBox", "name": "APIKEYTibber", "caption": "Tibber-API-Key" },
-            { "type": "SelectTime", "name": "GetDataTimeTibber", "caption": "Datenabruf täglich um" }
+            { "type": "CheckBox", "name": "UseVarTariff", "caption": "Active" },
+            { "type": "SelectVariable", "name": "VarPriceID", "caption": "Tariff forecast:", "validVariableTypes": [1, 2], "requiredLogging": 1},
+            { "type": "NumberSpinner", "name": "VarPriceTimeshift", "caption": "Timeshift of Tariff forecast [h]:","value":0, "digits": 0, "minimum":-96, "maximum":0}
 
         ]
     },
    
-    {"type": "ExpansionPanel",
-    "caption": "aWattar-Optimierung",
-    "items": [
-        { "type": "CheckBox", "name": "UseAWATTAR", "caption": "aWattar-Optimierung" },
-        { "type": "SelectTime", "name": "GetDataTimeARATTAR", "caption": "Datenabruf täglich um" }
-
-    ]
-},
 
 
         {

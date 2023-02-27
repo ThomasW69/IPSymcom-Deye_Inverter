@@ -40,6 +40,7 @@ class Deye extends IPSModule
 {
     use \Deye\SemaphoreHelper;
     use \Deye\VariableProfileHelper;
+
     const Swap = true;
 
     //Die Assoziationen für den Invertertyp und den Status
@@ -59,6 +60,13 @@ class Deye extends IPSModule
         ];
 
 
+    public static     $AssChargeMode = [
+            [0,'None','',0xFF0000],
+            [1,'Grid','',0x00FF00],
+            [2,'Generator','',0x0000FF],
+            [3,'Both','',0xFF00FF]
+            ];   
+
 
 
 
@@ -70,16 +78,18 @@ class Deye extends IPSModule
         parent::Create();
         $this->ConnectParent('{A5F663AB-C400-4FE5-B207-4D67CC030564}');
         $this->RegisterPropertyInteger('Interval', 0);                        //Abrufintervall
-        $this->RegisterPropertyBoolean('UseTibber', false);                   //Ladestrategie mit Preisminimierung nach Tibber
-        $this->RegisterPropertyBoolean('UseAWATTAR', false);                  //Ladestrategie mit Preisminimierung nach AWattAr
-        $this->RegisterPropertyInteger('GetDataTimeTibber', 0);                     //Datenabruf wann?
-        $this->RegisterPropertyInteger('GetDataTimeAWATTAR', 0);                     //Datenabruf wann?
-        $this->RegisterPropertyInteger('ID_Solarprognose', 0);                //ID der Solarprognose
-        $this->RegisterPropertyFloat('BatCapacity', 0);                       //Batteriekapazität für die  Optimierung
-        $this->RegisterPropertyString('APIKEYTibber', 0);                     //APIKey für Abrufder TibberPreise
+        //VAriable Stromtarife
+        $this->RegisterPropertyBoolean('UseVarTarif', false);                 //Ladestrategie mit Preisminimierung durch variablen Strompreis
+        $this->RegisterPropertyInteger('VarPriceID', 0);                      //ID der Preiszeitreihe
+        $this->RegisterPropertyInteger('VarPriceTimeshift', -24);               //Zeitversatz der Zeitreihe in Stunden
+        //Solarprognose
+        $this->RegisterPropertyBoolean('UseSolarprog', false);                //Einzbeziehung der Solarprognose
+        $this->RegisterPropertyInteger('SolarProgID', 0);                     //ID der Solarprognose
+        $this->RegisterPropertyInteger('SolarProgTimeshift', -24);              //Zeitversatz der Zeitreihe in Stunden
+
         
         
-        //Zuerst due Star´tusvariablen (ReadOnly)
+        //Zuerst due Statusvariablen (ReadOnly)
         $Variables = [];
         foreach (static::$Variables as $Pos => $Variable) {
             $Variables[] = [
@@ -106,7 +116,7 @@ class Deye extends IPSModule
      */
     public function ApplyChanges()
     {
-        $AssInvType = [
+         $AssInvType = [
             [2,'Stringinverter','',0xFFFFFF],
             [3,'Hybridinverter 1-ph','',0xFFFFFF],
             [4,'Microinverter','',0xFFFFFF],
@@ -116,17 +126,19 @@ class Deye extends IPSModule
         $AssStatus = [
             [0,'Standby','',0xFFFFFF],
             [1,'Self-Check','',0xFFFFFF],
-            [2,'Normal','',0x00FF00],
+            [2,'Normal','',0xFFFFFF],
             [3,'Alarm','',0xFF00FF],
             [4,'Failure','',0xFF0000]
             ];
-
+    
+    
         $AssChargeMode = [
-            [0,'None','',0xFF0000],
-            [1,'Grid','',0x00FF00],
-            [2,'Generator','',0x0000FF],
-            [3,'Both','',0xFF00FF]
-            ];   
+                [0,'None','',0xFF0000],
+                [1,'Grid','',0x00FF00],
+                [2,'Generator','',0x0000FF],
+                [3,'Both','',0xFF00FF]
+                ];   
+    
     
         parent::ApplyChanges();
         //Invertertyp und Status
@@ -153,6 +165,10 @@ class Deye extends IPSModule
         $Variables = json_decode($this->ReadPropertyString('Variables'), true);
         foreach ($Variables as $Variable) {
             @$this->MaintainVariable($Variable['Ident'], $Variable['Name'], $Variable['VarType'], $Variable['Profile'], $Variable['Pos'], $Variable['Keep']);
+            //Die schreibbaren Variablen Editierbar machen
+            if ($Variable['Pos'] >= 58 ) { 
+                $this->EnableAction($Variable['Ident']);
+            }
             foreach ($NewRows as $Index => $Row) {
                 if ($Variable['Ident'] == str_replace(' ', '', $Row[0])) {
                     unset($NewRows[$Index]);
@@ -284,7 +300,7 @@ class Deye extends IPSModule
             if (!$Variable['Keep']) {
                 continue;
             }
-            //Nur die VAriablen, die auch in diesem bereich sind           
+            //Nur die Variablen, die auch in diesem bereich sind           
             if ($Variable['Address'] >= $Start && $Variable['Address'] <= $End)
             {
               //Den Wert aus dem Block herauslesen
@@ -292,9 +308,17 @@ class Deye extends IPSModule
 
               $SValue = substr($ReadValue, ($Variable['Address'] - $Start) *2, $Variable['Quantity']*2);
 
+              if ($Variable['Address'] == 169) {
+                $this->SendDebug('String', $ReadValue, 0); 
+                $this->SendDebug('Lesen', $SValue, 0); 
+              }    
+
               if (static::Swap) {
                  $SValue = strrev($SValue);
               }
+
+    
+
 
               $Value = $this->ConvertValue($Variable, $SValue);
             
@@ -307,7 +331,7 @@ class Deye extends IPSModule
                   $Value= ($Value - $Variable['Offset']) * $Variable['Factor'];
               }
 
-          //   $this->SendDebug($Variable['Name'], $Value, 0);
+             $this->SendDebug($Variable['Name'], $Value, 0);
              $this->SetValueExt($Variable, $Value);
           }
         }
@@ -326,6 +350,7 @@ class Deye extends IPSModule
       $this->ReadDataBlock(99, 177);
       $this->ReadDataBlock(500, 599);
       $this->ReadDataBlock(600, 699);
+    //  $this->ReadDataBlock(166, 167);
       return true;
     }
 
@@ -337,6 +362,8 @@ class Deye extends IPSModule
         $v  = 0;
         $h  = 0;
         $min= 0;
+
+
         switch ($Variable['VarType']) {
             case VARIABLETYPE_BOOLEAN:
                 if ($Variable['Quantity'] == 1) {
@@ -399,4 +426,56 @@ class Deye extends IPSModule
         }        
         return null;
     }
+    
+
+
+    
+
+
+    public function RequestAction($Ident, $Value) {
+        $this->SendDebug($Ident, "Requestaction", 0);
+        $this->SendDataToDeye($Ident, $Value);
+    }
+   
+
+
+    private function SendDataToDeye($Ident, $Value){
+    $str  = '';   //zu sendende Daten
+    $Resp = '';   //Antwort
+
+    $Variables = json_decode($this->ReadPropertyString('Variables'), true);         //Modulvariablen holen 
+    foreach ($Variables as $Variable) {                                             //durch die Variablen durchgehen und suchen
+
+        if (!$Variable['Keep']) {
+           continue;
+        } 
+
+        if ($Variable['Name'] == $this->Translate($Ident)) {                        //Wenn Variable gefunden
+            $this->SetTimerInterval('UpdateTimer', 0); //Timer anhalten, damit alles reibungslos funktioniert.
+
+            $Start = $Variable['Address'];                                          //Registeradresse holen
+        
+            //Variablen zurück in einen String wandeln
+            //Bei den Schreibenden Varianten gibt es nur VARIABLETYPE_INTEGER,VARIABLETYPE_FLOAT und das als VALTYPE_WORD nd VALTYPE_TIME
+            switch ($Variable['VarType']) {
+
+                case VARIABLETYPE_INTEGER:
+                    switch ($Variable['DataType']) {
+                        case VALTYPE_WORD:
+                            $str = pack('s', $Value); //Vorzeichenlos word
+                            $str = strrev($str);
+                    }
+                    break;
+       
+            }        
+
+          
+        $Resp = $this->SendDataToParent(json_encode(Array("DataID" => "{E310B701-4AE7-458E-B618-EC13A1A6F6A8}", "Function" => 0x10, "Address" => $Start , "Quantity" => 1, "Data" => utf8_encode($str))));
+        }
+    }
+    $this->SetTimerInterval('UpdateTimer', $this->ReadPropertyInteger('Interval'));  //Timer wieder aktivieren
 }
+
+
+
+}    
