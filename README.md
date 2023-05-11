@@ -5,7 +5,7 @@
 
 
 # IPSymcon-Modul: Deye PV Hybrid-Wechselrichter <!-- omit in toc -->  
-![DeyeBild](../imgs/DeyeBild.png) 
+![DeyeBild](./imgs/DeyeBild.png) 
 
 ## Inhaltsverzeichnis <!-- omit in toc -->
 
