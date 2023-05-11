@@ -55,7 +55,7 @@ Details hierzu sind dem Handbuch des Deye (RS485) und dem eventuell verwendeten 
 In dem sich öffnenden Konfigurationsformular muss der Abfrage-Zyklus eingestellt werden. Dieser gibt an alle wieviel Millisekunden das Modul den Deye abfragt. In der Regel sind 2000 ms ausreichend. Bei eingabe von 0 ms wird die automatische Abfrage deaktiviert. Zu kleine Werte führen zu fehlerhaftem Auslesen.
 
 Die Eingaben für Solarbasierte Optimierung und Variabler Energietarif sind noch nicht belegt. Diese dienen in Zukunft dazu, den Speicher entsprechend der für den tag zu erwartenden Solarprognose zu Zeiten mit Geringem Stompreis über einen variablen Stromtarif (Tibber, Awattar) zu beladen wenn der Solarertrag zu gering ist.
-![Instanz konfigurieren](../imgs/config.png)    
+![Instanz konfigurieren](../imgs/config1.png)    
 
 Damit ist die Konfiguration im Prinzip shcon abgeschlossen und die INstanz kann in die Visualisierung eingebunden werden. Die ANgelegten Variablen können selbstverständlich auch geloggt werden. 
 
