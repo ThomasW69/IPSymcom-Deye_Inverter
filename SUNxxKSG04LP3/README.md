@@ -21,45 +21,53 @@
 ## 1. Funktionsumfang
 
 Ermöglicht die einfache Einbindung von PV Hybridwechselrichtern des Typs SUN-xxK-SG04LP3 der Firma Deye.  
-Zusätzlich können mehrere Wechelrichter auf einem physikalischen RS485-Bus betrieben werden.  
+Es können mehrere Wechelrichter auf einem physikalischen RS485-Bus bzw über Modbus-Splitter betrieben werden.  
 
 ## 2. Voraussetzungen
 
  - IPS 5.1 oder höher  
  - Deye SUN-xxK-SG04-LP3 Wechselrichter mit **ModBus-Interface**  
- - physikalisches RS485 Interface für die Zähler  
-
+ - 
 ## 3. Software-Installation
 
- Dieses Modul ist Bestandteil der [Deye Library](../README.md#3-software-installation).  
+Zur Installation des Moduls im Objektbaum unter den Kerninstanzen "Modules" Auswählen.
+Ist "Modules" geöffnet unten rechts in der Ecke auf das "+" klicken.
+Im sich Öfnenden Dialog https://github.com/ThomasW69/IPSymcom-Deye_Inverter eingeben und OK Klicken.
+![Modul installieren](../imgs/Modulinstall1.PNG) 
 
 ## 4. Einrichten der Instanzen in IP-Symcon
 
-Das Modul ist im Dialog 'Instanz hinzufügen' unter dem Hersteller 'Ningbo Deye PV Hybridwechselrichter' zu finden.  
+Das Modul ist im Dialog 'Instanz hinzufügen' unter dem Hersteller 'Ningbo Deye Solar' zu finden.  
 ![Instanz hinzufügen](../imgs/add.png)  
 
 Es wird automatisch ein 'ModBus Gateway' als Splitter-Instanz, sowie ein 'Client Socket' als dessen I/O-Instanz erzeugt.  
-In dem sich öffnenden Konfigurationsformular muss der Abfrage-Zyklus eingestellt werden.  
- Über den Button 'Gateway konfigurieren' wird das Konfigurationsformular des 'ModBus Gateway' geöffnet.  
-![Instanz konfigurieren](../imgs/config.png)    
 Hier muss jetzt der Modus passend zur Hardwareanbindung (TCP /RTU) sowie die Geräte-ID des Deye eingestellt und übernommen werden.  
-Anschließend über den Button 'Schnittstelle konfigurieren' das Konfigurationsformular der I/O-Instanz öffnen.  
+![Modbus Gateway](../imgs/Schnittstelle.png)
+
+Anschließend über den Button 'Weiter' das Konfigurationsformular der I/O-Instanz öffnen.  
 Je nach Hardwareanbindung müssen hier die RS485 Parameter oder die IP-Adresse des ModBus-Umsetzers eingetragen werden.  
 Details hierzu sind dem Handbuch des Deye (RS485) und dem eventuell verwendeten Umsetzer zu entnehmen.  
+![Modbus Gateway](../imgs/Schnittstelle2.png)
 
-## 5. Konsole
 
+In dem sich öffnenden Konfigurationsformular muss der Abfrage-Zyklus eingestellt werden. Dieser gibt an alle wieviel Millisekunden das Modul den Deye abfragt. In der Regel sind 2000 ms ausreichend. Bei eingabe von 0 ms wird die automatische Abfrage deaktiviert. Zu kleine Werte führen zu fehlerhaftem Auslesen.
 
-Darstellung in der Console.  
-![Instanz](../imgs/DEYE.png) 
+Die Eingaben für Solarbasierte Optimierung und Variabler Energietarif sind noch nicht belegt. Diese dienen in Zukunft dazu, den Speicher entsprechend der für den tag zu erwartenden Solarprognose zu Zeiten mit Geringem Stompreis über einen variablen Stromtarif (Tibber, Awattar) zu beladen wenn der Solarertrag zu gering ist.
+![Instanz konfigurieren](../imgs/config.png)    
+
+Damit ist die Konfiguration im Prinzip shcon abgeschlossen und die INstanz kann in die Visualisierung eingebunden werden. Die ANgelegten Variablen können selbstverständlich auch geloggt werden. 
+
+## 5. Visualisierung
+
+Die Darstellung in der Visualisierung.  
+![Visualisierung](../imgs/Visualisierung1.png) 
+![Visualisierung](../imgs/Visualisierung2.png) 
+![Visualisierung](../imgs/Visualisierung3.png) 
+![Visualisierung](../imgs/Visualisierung4.png) 
 
 ## 6. PHP-Befehlsreferenz
 
-```php
-bool SUNxxKSG04LP3_RequestRead(int $InstanzID);
-```
-Ließt alle Werte vom Deye.  
-Bei Erfolg wird `true` und im Fehlerfall wird `false` zurückgegeben und eine Warnung erzeugt.  
+kommt noch
 
 
 ## 7. Anhang
@@ -68,12 +76,6 @@ Bei Erfolg wird `true` und im Fehlerfall wird `false` zurückgegeben und eine Wa
 
 [Changelog der Library](../README.md#2-changelog)
 
-### 2. Spenden
-
-Die Library ist für die nicht kommerzielle Nutzung kostenlos, Schenkungen als Unterstützung für den Autor werden hier akzeptiert:  
-
-  PayPal:  
-<a href="https://www.paypal.com/donate?hosted_button_id=xxxxxxxxxxx" target="_blank"><img src="https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donate_LG.gif" border="0" /></a>  
 
 ## 8. Lizenz
 

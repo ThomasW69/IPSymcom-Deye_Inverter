@@ -72,7 +72,7 @@ Ist direkt in der Dokumentation der jeweiligen Module beschrieben:
 ### 2. Changelog
 
 __Version 0.1:__
- - Erstes inoffizielles Release (Noch nicht 100%ig lauffähig!!!) 
+ - Erstes inoffizielles Release (Noch in Entwicklung!!!) 
 
 
  
