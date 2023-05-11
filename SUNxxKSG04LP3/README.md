@@ -33,12 +33,14 @@ Es können mehrere Wechelrichter auf einem physikalischen RS485-Bus bzw über Mo
 Zur Installation des Moduls im Objektbaum unter den Kerninstanzen "Modules" Auswählen.
 Ist "Modules" geöffnet unten rechts in der Ecke auf das "+" klicken.
 Im sich Öfnenden Dialog https://github.com/ThomasW69/IPSymcom-Deye_Inverter eingeben und OK Klicken.
+
 ![Modul installieren](../imgs/Modulinstall1.PNG) 
+
 
 ## 4. Einrichten der Instanzen in IP-Symcon
 
 Das Modul ist im Dialog 'Instanz hinzufügen' unter dem Hersteller 'Ningbo Deye Solar' zu finden.  
-![Instanz hinzufügen](../imgs/add.png)  
+![Instanz hinzufügen](../imgs/add1.png)  
 
 Es wird automatisch ein 'ModBus Gateway' als Splitter-Instanz, sowie ein 'Client Socket' als dessen I/O-Instanz erzeugt.  
 Hier muss jetzt der Modus passend zur Hardwareanbindung (TCP /RTU) sowie die Geräte-ID des Deye eingestellt und übernommen werden.  
