@@ -33,7 +33,7 @@ class SUNxxKSG04LPx extends Deye
     ['Inverter_Type',    	    VARIABLETYPE_INTEGER,   VALTYPE_BYTE, 	    'DeyeType', 		 0,     3, 1,    1,      0,  true],  //Invertertyp 2=Serial, 3=Hybrid 1ph,4= Microinverter, 5=Hybrid 3ph 
     ['Rated_Power', 	        VARIABLETYPE_FLOAT,     VALTYPE_DWORD, 	    'Watt.I', 		    20,     3, 2,  0.1,      0,  true],  // Leistung   
     ['Modbus_ID', 	            VARIABLETYPE_INTEGER,   VALTYPE_BYTE, 	    '', 		         1,     3, 1,  0.1,      0,  true],  // ModBusID
-    ['Protocol_Ver', 	        VARIABLETYPE_STRING,    VALTYPE_STRING,	    '', 		         2,     3, 1,  0.1,      0,  true],  //Protokollversion
+ //   ['Protocol_Ver', 	        VARIABLETYPE_STRING,    VALTYPE_STRING,	    '', 		         2,     3, 1,  0.1,      0,  true],  //Protokollversion
     ['Serial_Number', 	        VARIABLETYPE_STRING,    VALTYPE_ASTRING,	'', 		         3,     3, 5,  0.1,      0,  true],  //Seriennummer
     ['Health_Status',      	    VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    'DeyeStatus', 	   500,     3, 1,    1,      0,  true], // HealtStatus 0=Standby, 1=SelfCheck, 2=Normal, 3=Alarm, 4=Fault
   //  ['Day_ActGen_Power',      	VARIABLETYPE_FLOAT,     VALTYPE_SWORD,	    '~Electricity',    501,     3, 1,  0.1,      0,  true], // Gesamterzeugung heute 
@@ -102,6 +102,8 @@ class SUNxxKSG04LPx extends Deye
     ['Float_Voltage',    	    VARIABLETYPE_FLOAT,     VALTYPE_WORD, 	    '~Volt', 		101,    10, 1,  0.01,      0,  true],  //Float-Spannung [V]
     ['Batt_Capacity',    	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'AmpHour.I',    102,    10, 1,  1,      0,  true],     //Batteriekapazität [Ah]
     ['MaxChg_Current',    	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    '~Ampere',      108,    10, 1,  1,      0,  true],     //Max. Ladestrom [A]
+    ['MaxDsc_Current',    	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    '~Ampere',      109,    10, 1,  1,      0,  true],     //Max. EntLadestrom [A]
+    
     // Die sechs einstellbaren Betriebszeitenbereiche, in denen eine Ladeaktion ausgeführt werden kann 
     ['Time1',           	    VARIABLETYPE_INTEGER,   VALTYPE_TIME, 	    '~UnixTimestampTime',148,   10, 1,  1,      0,  true],     //Zeitbreich 1
     ['Time2',           	    VARIABLETYPE_INTEGER,   VALTYPE_TIME, 	    '~UnixTimestampTime',149,   10, 1,  1,      0,  true],     //Zeitbreich 2

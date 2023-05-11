@@ -165,10 +165,11 @@ class Deye extends IPSModule
         $Variables = json_decode($this->ReadPropertyString('Variables'), true);
         foreach ($Variables as $Variable) {
             @$this->MaintainVariable($Variable['Ident'], $Variable['Name'], $Variable['VarType'], $Variable['Profile'], $Variable['Pos'], $Variable['Keep']);
-            //Die schreibbaren Variablen Editierbar machen
-            if ($Variable['Pos'] >= 58 ) { 
+            //Die schreibbaren Variablen im Registerbereich 99 bis 499 editierbar machen
+            if (($Variable['Address'] >= 60 ) && ($Variable['Address'] <= 499 )) {  
                 $this->EnableAction($Variable['Ident']);
             }
+
             foreach ($NewRows as $Index => $Row) {
                 if ($Variable['Ident'] == str_replace(' ', '', $Row[0])) {
                     unset($NewRows[$Index]);
@@ -288,12 +289,15 @@ class Deye extends IPSModule
         set_error_handler([$this, 'ModulErrorHandler']);
 
         $ReadData = $this->SendDataToParent(json_encode($SendData));
+        $this->SendDebug('Eingangsdaten', $ReadData,0);
         restore_error_handler();
         if ($ReadData === false) {
             return false;
         }
     
         $ReadValue = substr($ReadData, 2);
+        $this->SendDebug('ReadValue', $ReadValue,0);
+
         //jetzt durch die einzelnen Bytes durch gehen und die Werte auslesen
         $Variables = json_decode($this->ReadPropertyString('Variables'), true);
         foreach ($Variables as $Variable) {
@@ -308,15 +312,15 @@ class Deye extends IPSModule
 
               $SValue = substr($ReadValue, ($Variable['Address'] - $Start) *2, $Variable['Quantity']*2);
 
-              if ($Variable['Address'] == 169) {
-                $this->SendDebug('String', $ReadValue, 0); 
-                $this->SendDebug('Lesen', $SValue, 0); 
-              }    
+             /* if (($Variable['Address'] >= 148) && ($Variable['Address'] <= 149)){
+                $this->SendDebug('Return', $ReadValue, 0); 
+                $this->SendDebug('Value', $SValue, 0); 
+              }*/    
 
               if (static::Swap) {
                  $SValue = strrev($SValue);
               }
-
+             // $this->SendDebug('ValueSwap', $SValue, 0); 
     
 
 
@@ -331,7 +335,7 @@ class Deye extends IPSModule
                   $Value= ($Value - $Variable['Offset']) * $Variable['Factor'];
               }
 
-             $this->SendDebug($Variable['Name'], $Value, 0);
+            // $this->SendDebug($Variable['Name'], $Value, 0);
              $this->SetValueExt($Variable, $Value);
           }
         }
@@ -346,13 +350,21 @@ class Deye extends IPSModule
      private function ReadData()
      {
     //Daten werden in ganzen Blöcken gelesen. Das braucht nur drei Modbus anfragen und geht wesentlich schneller
+    if (IPS_SemaphoreEnter("DeyeModbusRequest", 1000)) {
       $this->ReadDataBlock(0, 40);
       $this->ReadDataBlock(99, 177);
       $this->ReadDataBlock(500, 599);
       $this->ReadDataBlock(600, 699);
-    //  $this->ReadDataBlock(166, 167);
+     
+     // $this->ReadDataBlock(148, 148);
+
+      IPS_SemaphoreLeave("DeyeModbusRequest");
+    } 
       return true;
     }
+
+
+
 
 
     // Hier die Konvertierung der Variablen
@@ -429,11 +441,9 @@ class Deye extends IPSModule
     
 
 
-    
 
 
     public function RequestAction($Ident, $Value) {
-        $this->SendDebug($Ident, "Requestaction", 0);
         $this->SendDataToDeye($Ident, $Value);
     }
    
@@ -442,6 +452,9 @@ class Deye extends IPSModule
     private function SendDataToDeye($Ident, $Value){
     $str  = '';   //zu sendende Daten
     $Resp = '';   //Antwort
+    $h    = 0;
+    $m    = 0;
+    if (IPS_SemaphoreEnter("DeyeModbusRequest", 1000)) {
 
     $Variables = json_decode($this->ReadPropertyString('Variables'), true);         //Modulvariablen holen 
     foreach ($Variables as $Variable) {                                             //durch die Variablen durchgehen und suchen
@@ -451,7 +464,6 @@ class Deye extends IPSModule
         } 
 
         if ($Variable['Name'] == $this->Translate($Ident)) {                        //Wenn Variable gefunden
-            $this->SetTimerInterval('UpdateTimer', 0); //Timer anhalten, damit alles reibungslos funktioniert.
 
             $Start = $Variable['Address'];                                          //Registeradresse holen
         
@@ -462,18 +474,27 @@ class Deye extends IPSModule
                 case VARIABLETYPE_INTEGER:
                     switch ($Variable['DataType']) {
                         case VALTYPE_WORD:
-                            $str = pack('s', $Value); //Vorzeichenlos word
+                            $str = pack('s', $Value); //Vorzeichenlos Word
                             $str = strrev($str);
+                            $Resp = $this->SendDataToParent(json_encode(Array("DataID" => "{E310B701-4AE7-458E-B618-EC13A1A6F6A8}", "Function" => 0x10, "Address" => $Start , "Quantity" => 1, "Data" => utf8_encode($str))));
+                            break;
+                        case VALTYPE_TIME:            //Unixtimestring 
+//                            $timezone_offset = intval(date('Z'));
+                            $h = intval(date('H', $Value));   //Stunde und Minute vertauscht!
+                            $m = intval(date('i', $Value));
+                            $Value = $h*100+$m;
+                            $str= pack('n',$Value);
+
+                            $Resp = $this->SendDataToParent(json_encode(Array("DataID" => "{E310B701-4AE7-458E-B618-EC13A1A6F6A8}", "Function" => 0x10, "Address" => $Start , "Quantity" => 1, "Data" => $str)));
+                            break;
                     }
                     break;
-       
             }        
 
-          
-        $Resp = $this->SendDataToParent(json_encode(Array("DataID" => "{E310B701-4AE7-458E-B618-EC13A1A6F6A8}", "Function" => 0x10, "Address" => $Start , "Quantity" => 1, "Data" => utf8_encode($str))));
-        }
+     }
     }
-    $this->SetTimerInterval('UpdateTimer', $this->ReadPropertyInteger('Interval'));  //Timer wieder aktivieren
+    IPS_SemaphoreLeave("DeyeModbusRequest");  
+  }
 }
 
 

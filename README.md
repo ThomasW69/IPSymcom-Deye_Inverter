@@ -4,7 +4,8 @@
 [![Version](https://img.shields.io/badge/Symcon%20Version-5.1%20%3E-green.svg)](https://www.symcon.de/service/dokumentation/installation/migrationen/v50-v51-q2-2019/)
 
 
-# Symcon-Modul: Deye PV Hybrid-Wechselrichter <!-- omit in toc -->  
+# IPSymcon-Modul: Deye PV Hybrid-Wechselrichter <!-- omit in toc -->  
+![DeyeBild](../imgs/DeyeBild.png) 
 
 ## Inhaltsverzeichnis <!-- omit in toc -->
 
@@ -19,10 +20,9 @@
 
 ## 1. Funktionsumfang
 
-Ermöglicht die Einbindung von Hybridwechselrichtern der Firma Deye
-ohne mehrere ModBus-Instanzen in IPS.  
-Zusätzlich können mehrere Wechselrichter auf einem physikalischen RS485-Bus
-betrieben werden.  
+Ermöglicht die Einbindung von 3-phasigen Hybridwechselrichtern der Firma Ningbo Deye in IPS.  
+Es können mehrere Wechselrichter auf einem physikalischen RS485-Bus betrieben werden.  
+Aktuell befindet sich das Modul noch in Entwicklung und noch nicht alle geplanten Funktionen sind umgesetzt.
 Für dieses Modul besteht kein Anspruch auf Fehlerfreiheit, Weiterentwicklung, sonstige Unterstützung oder Support.
 Bevor das Modul installiert wird, sollte unbedingt ein Backup von IP-Symcon durchgeführt werden.
 Der Entwickler haftet nicht für eventuell auftretende Datenverluste oder sonstige Schäden.
@@ -31,18 +31,25 @@ Der Nutzer stimmt den oben angegebenen Bedingungen, sowie den Lizenzbedingungen 
 Folgende Module beinhaltet die Deye Library (vorerst):
 
 - __SUN xxK_SG04LP3__  
-	Wechselrichter vom Typ SUN-xxK-SG04-LP3  
+	3-Phasen Wechselrichter vom Typ Deye SUN-xxK-SG04-LP3  
 
 
 ## 2. Voraussetzungen
 
  - IPS 5.1 oder höher  
  - Unterstützte Wechselrichter  
- - physikalisches RS485 Interface für die Zähler  
+  Deye SUN-5K-SG04-LP3
+  Deye SUN-6K-SG04-LP3
+  Deye SUN-8K-SG04-LP3
+  Deye SUN-10K-SG04-LP3
+  Deye SUN-12K-SG04-LP3
+ - physikalisches RS485-Interface bzw. RS485 to Ehternet Konverter  
 
 ## 3. Software-Installation
 
-  Über den 'Module-Store' in IPS das Modul 'Deye PV Hybrid-Wechselrichter' hinzufügen.  
+  Aktuell ist das Modul noch nicht über den Modulstore von IPSymcon ladbar. Sobald die finale Version ausgiebig getestet wurde, wird es jedoch im ModulStore verfügbar gemacht.
+  Zur Installation im Objektbaum unter 
+  
    **Bei kommerzieller Nutzung (z.B. als Errichter oder Integrator) wenden Sie sich bitte an den Autor.**  
   
 
