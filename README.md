@@ -62,7 +62,7 @@ PIN8 braun       -> RS485 A
 Mit diesem Leitungen könnte man direkt auf einen RS485-USB-Converter am IPS-Rechner gehen. Im IPS-Modul ist hier "Modbus RTU"
 einzustellen und der Port zu konfigurieren.
 
-![ModBus Buchse](../SUNxxKSG04LP3/imgs/ModbusConnector.PNG) 
+![ModBus Buchse](./imgs/ModbusConnector.PNG) 
 
 ACHTUNG: Es sind Firmwareversionen bekannt, die keine Kommuniklation über die "ModeBUS"-Buchse mehr zulassen. Hier muss dann das 
 entsprechende Signal über die "BMS"-Buchse abgegriffen werden. Hierzu ist ggf. ein Y-Kabel nötig.
@@ -70,7 +70,7 @@ entsprechende Signal über die "BMS"-Buchse abgegriffen werden. Hierzu ist ggf. 
 Um die Daten über das lokale Netzwerk zu IPSymcon zu übertragen, ist der Einsatz eines RS485-Ethernet oder RS485-WLAN Umsetzers nötig.
 diese gibt es inverschiedenen Ausführungen dürften aber alle ähnlich funktionieren. Ich habe die beiden ANchfolgenden in meiner 
 IPS-Installation im Einsatz 
-![Waveshare](./SUNxxKSG04LP3/imgs/RS485toEthernet1.PNG) 
+![Waveshare](./imgs/RS485toEthernet1.PNG) 
 ![USR-W630](./imgs/USRW630.jpg) 
 
 ## 4. Software-Installation
