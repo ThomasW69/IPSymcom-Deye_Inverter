@@ -70,6 +70,8 @@ entsprechende Signal über die "BMS"-Buchse abgegriffen werden. Hierzu ist ggf. 
 Um die Daten über das lokale Netzwerk zu IPSymcon zu übertragen, ist der Einsatz eines RS485-Ethernet oder RS485-WLAN Umsetzers nötig.
 diese gibt es inverschiedenen Ausführungen dürften aber alle ähnlich funktionieren. Ich habe die beiden ANchfolgenden in meiner 
 IPS-Installation im Einsatz 
+
+
 ![Waveshare](./imgs/RS485toEthernet1.PNG) 
 ![USR-W630](./imgs/USRW630.jpg) 
 
