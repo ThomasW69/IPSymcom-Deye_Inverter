@@ -45,7 +45,34 @@ Folgende Module beinhaltet die Deye Library (vorerst):
   Deye SUN-12K-SG04-LP3
  - physikalisches RS485-Interface bzw. RS485 to Ehternet Konverter  
 
-## 3. Software-Installation
+## 3. Hardware-Installation
+
+Die Wechselrichter von Deye haben eine auf der Unterseite eine serielle Buchse in die ein WiFi-Dongle eingesteckt 
+werden kann, welches dann im lokalen WLAN arbeiten kann. Über diese Schnittstelle lässt sich en Firmware-update 
+durchführen und wohl auch Daten des Wechselrichters nach China senden. Hier ist jedoch das genaue Protokoll unbekannt.
+
+Das vorliegende Modul wählt den Weg über die MODBUS-Schnittstelle des Deye, welche mit "ModeBUS" gekennzeichnet ist und
+sich neben der BMS Buchse befindet.
+Ein T568B-Patchkabel ist mit den Pins 6, 7 und 8 auf dem Port des DEYE-Wechselrichters aufgelegt.
+PIN6 grün        -> Ground
+PIN7 braun/weiss -> RS485 B
+PIN8 braun       -> RS485 A
+
+Mit diesem Leitungen könnte man direkt auf einen RS485-USB-Converter am IPS-Rechner gehen. Im IPS-Modul ist hier "Modbus RTU"
+einzustellen und der Port zu konfigurieren.
+
+![ModBus Buchse](../imgs/ModbusConnector.PNG) 
+
+ACHTUNG: Es sind Firmwareversionen bekannt, die keine Kommuniklation über die "ModeBUS"-Buchse mehr zulassen. Hier muss dann das 
+entsprechende Signal über die "BMS"-Buchse abgegriffen werden. Hierzu ist ggf. ein Y-Kabel nötig.
+
+Um die Daten über das lokale Netzwerk zu IPSymcon zu übertragen, ist der Einsatz eines RS485-Ethernet oder RS485-WLAN Umsetzers nötig.
+diese gibt es inverschiedenen Ausführungen dürften aber alle ähnlich funktionieren. Ich habe die beiden ANchfolgenden in meiner 
+IPS-Installation im Einsatz 
+![Waveshare](../imgs/RS485toEthernet1.PNG) 
+![USR-W630](../imgs/USRW630.jpg) 
+
+## 4. Software-Installation
 
   Aktuell ist das Modul noch nicht über den Modulstore von IPSymcon ladbar. Sobald die finale Version ausgiebig getestet wurde, wird es jedoch im ModulStore verfügbar gemacht.
   Zur Installation im Objektbaum unter 

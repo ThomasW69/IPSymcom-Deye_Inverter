@@ -36,7 +36,7 @@ class SUNxxKSG04LPx extends Deye
  //   ['Protocol_Ver', 	        VARIABLETYPE_STRING,    VALTYPE_STRING,	    '', 		         2,     3, 1,  0.1,      0,  true],  //Protokollversion
     ['Serial_Number', 	        VARIABLETYPE_STRING,    VALTYPE_ASTRING,	'', 		         3,     3, 5,  0.1,      0,  true],  //Seriennummer
     ['Health_Status',      	    VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    'DeyeStatus', 	   500,     3, 1,    1,      0,  true], // HealtStatus 0=Standby, 1=SelfCheck, 2=Normal, 3=Alarm, 4=Fault
-  //  ['Day_ActGen_Power',      	VARIABLETYPE_FLOAT,     VALTYPE_SWORD,	    '~Electricity',    501,     3, 1,  0.1,      0,  true], // Gesamterzeugung heute 
+   // ['Day_ActGen_Power',      	VARIABLETYPE_FLOAT,     VALTYPE_SWORD,	    '~Electricity',    501,     3, 1,  0.1,      0,  true], // Gesamterzeugung heute 
     ['Day_Battery_Charge',      VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Electricity',    514,     3, 1,  0.1,      0,  true], // //Batterieladung heute kWh
     ['Total_Battery_Charge',    VARIABLETYPE_FLOAT,     VALTYPE_DWORD,	    '~Electricity',    516,     3, 2,  0.1,      0,  true], // Batterieladung gesamt [kWh]
     ['Total_Battery_Discharge', VARIABLETYPE_FLOAT,     VALTYPE_DWORD,	    '~Electricity',    518,     3, 2,  0.1,       0,  true], // Batterieentladung total [kWh]
@@ -51,7 +51,7 @@ class SUNxxKSG04LPx extends Deye
     ['Day_PV2_Output',          VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Electricity',    531,     3, 1,  0.1,      0,  true], //  Solarerzeugung heute String 2[kWh]
     ['Day_PV3_Output',       	VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Electricity',    532,     3, 1,  0.1,      0,  true], //  Solarerzeugung heute String 3[kWh]
     ['Day_PV4_Output',          VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Electricity',    533,     3, 1,  0.1,      0,  true], //  Solarerzeugung heute String 4[kWh]
-    ['Total_PV_Output',      	VARIABLETYPE_FLOAT,     VALTYPE_DWORD,	    '~Electricity',    534,     3, 2,  0.0001,   0,  true], // Solarerzeugung Gesamt [kWh] (auslesewert in Wh)
+    ['Total_PV_Output',      	VARIABLETYPE_FLOAT,     VALTYPE_DWORD,	    '~Electricity',    534,     3, 2,  0.1,      0,  true], // Solarerzeugung Gesamt [kWh] (auslesewert in Wh)
     ['DC_Trans_Temp', 	        VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    'Temperature', 	   540,     3, 1,  0.1,   1000,  true], //Transprmatortemperatur [°C]
     ['Heatsink_Temp', 	        VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    'Temperature', 	   541,     3, 1,  0.1,   1000,  true], //Kühlkörpertemperatur [°C]
 //Battery

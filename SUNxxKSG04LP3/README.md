@@ -28,6 +28,8 @@ Es können mehrere Wechelrichter auf einem physikalischen RS485-Bus bzw über Mo
  - IPS 5.1 oder höher  
  - Deye SUN-xxK-SG04-LP3 Wechselrichter mit **ModBus-Interface**  
  - 
+
+
 ## 3. Software-Installation
 
 Zur Installation des Moduls im Objektbaum unter den Kerninstanzen "Modules" Auswählen.
