@@ -11,12 +11,13 @@
 
 - [1. Funktionsumfang](#1-funktionsumfang)
 - [2. Voraussetzungen](#2-voraussetzungen)
-- [3. Software-Installation](#3-software-installation)
-- [4. Einrichten der Instanzen in IP-Symcon](#4-einrichten-der-instanzen-in-ip-symcon)
-- [5. Anhang](#5-anhang)
+- [3. Software-Installation](#3-hardware-installation)
+- [4. Software-Installation](#4-software-installation)
+- [5. Einrichten der Instanzen in IP-Symcon](#5-einrichten-der-instanzen-in-ip-symcon)
+- [6. Anhang](#6-anhang)
   - [1. GUID der Module](#1-guid-der-module)
   - [2. Changelog](#2-changelog)
-- [6. Lizenz](#6-lizenz)
+- [7. Lizenz](#7-lizenz)
 
 ## 1. Funktionsumfang
 
@@ -69,8 +70,8 @@ entsprechende Signal über die "BMS"-Buchse abgegriffen werden. Hierzu ist ggf. 
 Um die Daten über das lokale Netzwerk zu IPSymcon zu übertragen, ist der Einsatz eines RS485-Ethernet oder RS485-WLAN Umsetzers nötig.
 diese gibt es inverschiedenen Ausführungen dürften aber alle ähnlich funktionieren. Ich habe die beiden ANchfolgenden in meiner 
 IPS-Installation im Einsatz 
-![Waveshare](../SUNxxKSG04LP3/imgs/RS485toEthernet1.PNG) 
-![USR-W630](../SUNxxKSG04LP3/imgs/USRW630.jpg) 
+![Waveshare](SUNxxKSG04LP3/imgs/RS485toEthernet1.PNG) 
+![USR-W630](SUNxxKSG04LP3/imgs/USRW630.jpg) 
 
 ## 4. Software-Installation
 
@@ -104,7 +105,7 @@ __Version 0.1:__
 
  
 
-## 6. Lizenz
+## 7. Lizenz
 
   IPS-Modul:  
   [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)  
