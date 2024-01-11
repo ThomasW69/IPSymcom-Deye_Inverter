@@ -22,10 +22,13 @@
         { "type": "ExpansionPanel",
         "caption": "Variable Energy Tariff",
         "items": [
-            { "type": "CheckBox", "name": "UseVarTariff", "caption": "Active" },
-            { "type": "SelectVariable", "name": "VarPriceID", "caption": "Tariff forecast:", "validVariableTypes": [1, 2], "requiredLogging": 1},
-            { "type": "NumberSpinner", "name": "VarPriceTimeshift", "caption": "Timeshift of Tariff forecast [h]:","value":0, "digits": 0, "minimum":-96, "maximum":0}
-
+            { "type": "CheckBox", "name": "UseVarTarif", "caption": "Active" },
+            { "type": "Select", "name": "Provider", "value": "Provider" ,"caption": "Provider", 
+               "options": [
+                { "caption": "Tibber", "value": 0 },
+                { "caption": "aWATTar", "value": 1 }]
+            },
+            { "type": "ValidationTextBox", "name": "Token", "caption": "Token" }
         ]
     },
    
@@ -137,8 +140,13 @@
         {
             "type": "Button",
             "caption": "Read values",
-            "onClick": ""
+            "onClick": "IPS_RequestAction($id, 'GetDeye','');"
+        },
+        {
+            "type": "Button",
+            "caption": "Read Provider",
+            "onClick": "IPS_RequestAction($id, 'GetPrice','');"
         }
-        
+       
     ]
 }

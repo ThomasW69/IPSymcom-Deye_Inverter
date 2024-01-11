@@ -29,7 +29,7 @@ class SUNxxKSG04LPx extends Deye
     
 
     public static $Variables = [
-	//Name,                     VarType,                ValueType,          Profile,   Address, Function, Quantity, Factor, Offset, Keep
+	//Name,                     VarType,                ValueType,          Profile,          Address,  Function, Quantity, Factor, Offset, Keep
     ['Inverter_Type',    	    VARIABLETYPE_INTEGER,   VALTYPE_BYTE, 	    'DeyeType', 		 0,     3, 1,    1,      0,  true],  //Invertertyp 2=Serial, 3=Hybrid 1ph,4= Microinverter, 5=Hybrid 3ph 
     ['Rated_Power', 	        VARIABLETYPE_FLOAT,     VALTYPE_DWORD, 	    'Watt.I', 		    20,     3, 2,  0.1,      0,  true],  // Leistung   
     ['Modbus_ID', 	            VARIABLETYPE_INTEGER,   VALTYPE_BYTE, 	    '', 		         1,     3, 1,  0.1,      0,  true],  // ModBusID
@@ -97,12 +97,14 @@ class SUNxxKSG04LPx extends Deye
 //Diese werden auch von der Ladeoptimierung benutzt und geschrieben.
 	//Name,                     VarType,                ValueType,          Profile,   Address, Function, Quantity, Factor, Offset, Keep
     //Die Akkubetriebsparameter, wenn der WR den Akku steuert. 
+    ['Battery_Type',    	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'DeyeBattType',	98,     10, 1,  1,         0,  true],  //Batterietyp 0x0000 Blei, 0x0001 LiIon
     ['Epui_Voltage',    	    VARIABLETYPE_FLOAT,     VALTYPE_WORD, 	    '~Volt', 		99,     10, 1,  0.01,      0,  true],  //Equilisation-Spannung [V] 
     ['Absorp_Voltage',    	    VARIABLETYPE_FLOAT,     VALTYPE_WORD, 	    '~Volt', 		100,    10, 1,  0.01,      0,  true],  //Absorption-Spannung [V]
     ['Float_Voltage',    	    VARIABLETYPE_FLOAT,     VALTYPE_WORD, 	    '~Volt', 		101,    10, 1,  0.01,      0,  true],  //Float-Spannung [V]
-    ['Batt_Capacity',    	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'AmpHour.I',    102,    10, 1,  1,      0,  true],     //Batteriekapazität [Ah]
-    ['MaxChg_Current',    	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    '~Ampere',      108,    10, 1,  1,      0,  true],     //Max. Ladestrom [A]
-    ['MaxDsc_Current',    	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    '~Ampere',      109,    10, 1,  1,      0,  true],     //Max. EntLadestrom [A]
+    ['Batt_Capacity',    	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'AmpHour.I',    102,    10, 1,  1,         0,  true],  //Batteriekapazität [Ah]
+    ['MaxChg_Current',    	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    '~Ampere',      108,    10, 1,  1,         0,  true],  //Max. Ladestrom [A]
+    ['MaxDsc_Current',    	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    '~Ampere',      109,    10, 1,  1,         0,  true],  //Max. EntLadestrom [A]
+    ['Battery_View',         	VARIABLETYPE_INTEGER,   VALTYPE_WORD,   	'DeyeBattView', 111,    10, 1,  1,         0,  true],  //Akkuanzeigemodus 0:Volt; 1:Prozent; 2:No Batt
     
     // Die sechs einstellbaren Betriebszeitenbereiche, in denen eine Ladeaktion ausgeführt werden kann 
     ['Time1',           	    VARIABLETYPE_INTEGER,   VALTYPE_TIME, 	    '~UnixTimestampTime',148,   10, 1,  1,      0,  true],     //Zeitbreich 1
@@ -131,6 +133,6 @@ class SUNxxKSG04LPx extends Deye
     ['Chg_Mode3',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'DeyeChgMode'   ,174,   10, 1,  1,      0,  true],     //Lademodus 3
     ['Chg_Mode4',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'DeyeChgMode'   ,175,   10, 1,  1,      0,  true],     //Lademodus 4
     ['Chg_Mode5',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'DeyeChgMode'   ,176,   10, 1,  1,      0,  true],     //Lademodus 5
-    ['Chg_Mode6',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'DeyeChgMode'   ,177,   10, 1,  1,      0,  true]      //Lademodus 6
+    ['Chg_Mode6',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'DeyeChgMode'   ,177,   10, 1,  1,      0,  true]     //Lademodus 6
 ];    
 }
