@@ -178,7 +178,7 @@ class Deye extends IPSModule
         $AssBattView = [
                 [0,'Volt','',0x0000],
                 [1,'Percent','',0x0001],
-                [2,'NoBatt','',0x0001]
+                [2,'NoBatt','',0x0002]
                 ];           
        
         parent::ApplyChanges();
@@ -187,7 +187,7 @@ class Deye extends IPSModule
         $this->RegisterProfileIntegerEx('DeyeStatus', '', '','', $AssStatus, 4, 1);
         $this->RegisterProfileIntegerEx('DeyeChgMode', '', '','', $AssChargeMode, 3, 1);
         $this->RegisterProfileIntegerEx('DeyeBattType', '', '','', $AssBattType, 1, 1);
-        $this->RegisterProfileIntegerEx('DeyeBattView', '', '','', $AssBattView, 1, 1);
+        $this->RegisterProfileIntegerEx('DeyeBattView', '', '','', $AssBattView, 2, 1);
 
         #Float Variablen
         $this->RegisterProfileFloat('VaR', '', '', ' VAr', 0, 0, 0, 2);
