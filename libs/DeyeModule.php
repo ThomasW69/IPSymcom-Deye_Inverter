@@ -27,7 +27,7 @@ eval('declare(strict_types=1);namespace Deye {?>' . file_get_contents(__DIR__ . 
     const VALTYPE_DWWORD    = 4;      #Quelldaten sind WORD 0x0000000000000000 - 0XFFFFFFFFFFFFFFFF
     const VALTYPE_ASTRING   = 5;      #Quelldaten sind ASCI-String
     const VALTYPE_STRING    = 6;      #Quelldaten sind byte Codierter String z.B. Für Versionsnummern 0x01 0x04 -> 1.04
-    const VALTYPE_TIME      = 7;      #Integer als Zeit
+    const VALTYPE_TIME      = 7;      #Integer als Zeit 0000-2359
 
         
 
@@ -61,13 +61,20 @@ class Deye extends IPSModule
 
 
     public static     $AssChargeMode = [
-            [0,'None','',0xFF0000],
-            [1,'Grid','',0x00FF00],
-            [2,'Generator','',0x0000FF],
-            [3,'Both','',0xFF00FF]
-            ];   
+        [0,'None','',0xFF0000],
+        [1,'Grid','',0x00FF00],
+        [2,'Generator','',0x0000FF],
+        [3,'Both','',0xFF00FF]
+        ];   
 
-    /**
+    public static     $AssLimitControl = [
+        [0,'Selling First','',0xFF0000],
+        [1,'Zero To Load','',0x00FF00],
+        [2,'Zero To CT','',0x0000FF]
+        ];   
+    
+
+            /**
      * Update interval for a cyclic timer.
      *
      * @param string $ident  Name and ident of the timer.
@@ -86,6 +93,8 @@ class Deye extends IPSModule
         $this->SetTimerInterval($ident, $interval);
     }
 
+
+    
 
     /**
      * Interne Funktion des SDK.
@@ -124,7 +133,7 @@ class Deye extends IPSModule
                 'Ident'    => str_replace(' ', '', $Variable[0]),
                 'Name'     => $this->Translate($Variable[0]),
                 'VarType'  => $Variable[1],
-                'DataType' => $Variable[2],
+                'ValType'  => $Variable[2],
                 'Profile'  => $Variable[3],
                 'Address'  => $Variable[4],
                 'Function' => $Variable[5],
@@ -180,6 +189,12 @@ class Deye extends IPSModule
                 [1,'Percent','',0x0001],
                 [2,'NoBatt','',0x0002]
                 ];           
+
+        $AssLimitControl = [
+                [0,'Selling First','',0xFF0000],
+                [1,'Zero To Load','',0x00FF00],
+                [2,'Zero To CT','',0x0000FF]
+                ];   
        
         parent::ApplyChanges();
         #Invertertyp und Status
@@ -188,6 +203,7 @@ class Deye extends IPSModule
         $this->RegisterProfileIntegerEx('DeyeChgMode', '', '','', $AssChargeMode, 3, 1);
         $this->RegisterProfileIntegerEx('DeyeBattType', '', '','', $AssBattType, 1, 1);
         $this->RegisterProfileIntegerEx('DeyeBattView', '', '','', $AssBattView, 2, 1);
+        $this->RegisterProfileIntegerEx('DeyeLimControl', '', '','', $AssLimitControl, 2, 1);
 
         #Float Variablen
         $this->RegisterProfileFloat('VaR', '', '', ' VAr', 0, 0, 0, 2);
@@ -228,7 +244,6 @@ class Deye extends IPSModule
                     'Ident'    => str_replace(' ', '', $NewVariable[0]),
                     'Name'     => $this->Translate($NewVariable[0]),
                     'VarType'  => $NewVariable[1],
-                    'DataType' => $NewVariable[2],
                     'ValType'  => $NewVariable[2],
                     'Profile'  => $NewVariable[3],
                     'Address'  => $NewVariable[4],
@@ -311,7 +326,7 @@ class Deye extends IPSModule
     }
 
     /**
-     * Setzte eine IPS-Variableauf den Wert von $value.
+     * Setzte eine IPS-Variable auf den Wert von $value.
      *
      * @param array $Variable Statusvariable
      * @param mixed $Value    Neuer Wert der Statusvariable.
@@ -342,14 +357,14 @@ class Deye extends IPSModule
         set_error_handler([$this, 'ModulErrorHandler']);
 
         $ReadData = $this->SendDataToParent(json_encode($SendData));
-        $this->SendDebug('Eingangsdaten', $ReadData,0);
+       // $this->SendDebug('Eingangsdaten', $ReadData,0);
         restore_error_handler();
         if ($ReadData === false) {
             return false;
         }
     
         $ReadValue = substr($ReadData, 2);
-        $this->SendDebug('ReadValue', $ReadValue,0);
+        //$this->SendDebug('ReadValue', $ReadValue,0);
 
         #jetzt durch die einzelnen Bytes durch gehen und die Werte auslesen
         $Variables = json_decode($this->ReadPropertyString('Variables'), true);
@@ -437,7 +452,7 @@ class Deye extends IPSModule
                 break;
 
             case VARIABLETYPE_INTEGER:
-                switch ($Variable['DataType']) {
+                switch ($Variable['ValType']) {
                     case VALTYPE_BYTE:
                         return ord($Value);
                     case VALTYPE_WORD:
@@ -449,16 +464,16 @@ class Deye extends IPSModule
                     case VALTYPE_DWWORD:
                         return unpack('P', $Value)[1]; #Vorzeichenlos LongLong
                     case VALTYPE_TIME: {
-                         $v = unpack('v', $Value)[1]; #erst mal was als Platzhalter
-                         $h=intval($v/100);
-                         $min=$v%100;
-                         return ($h*3600+$min*60)-3600;
+                         $v   = unpack('v', $Value)[1]; #vorzeichenloser Short-Typ (immer 16 Bit (Word), Byte-Folge Little-Endian)
+                         $h   = intval($v/100); #Die Stunden sind das erste Byte dezimal-Codiert 
+                         $min = $v%100;                #die Minuten der Rest im zweiten Byte Dezimalcodiert
+                         return ($h*3600+$min*60)-3600; # in einen Unix Timestring umwandeln
                         } 
                 }
                 break;
             
             case VARIABLETYPE_FLOAT:
-                switch ($Variable['DataType']) {
+                switch ($Variable['ValType']) {
                     case VALTYPE_BYTE:
                         return ord($Value);
                     case VALTYPE_WORD:
@@ -482,7 +497,7 @@ class Deye extends IPSModule
                 break;
        
             case VARIABLETYPE_STRING:
-                switch ($Variable['DataType']) {
+                switch ($Variable['ValType']) {
                     case VALTYPE_ASTRING:
                        return strrev($Value);  #Strings immer in korrekter reihenfolge
                     case VALTYPE_STRING:
@@ -525,9 +540,9 @@ class Deye extends IPSModule
         if (!$Variable['Keep']) {
            continue;
         } 
-
+        #$this->SendDebug('Suche ',$this->Translate($Ident).' | '. $Variable['Name'] , 0);
+        
         if ($Variable['Name'] == $this->Translate($Ident)) {                        #Wenn Variable gefunden
-
             $Start = $Variable['Address'];                                          #Registeradresse holen
         
             #Variablen zurück in einen String wandeln
@@ -535,20 +550,23 @@ class Deye extends IPSModule
             switch ($Variable['VarType']) {
 
                 case VARIABLETYPE_INTEGER:
-                    switch ($Variable['DataType']) {
+                    switch ($Variable['ValType']) {
+                        case VALTYPE_TIME:           
+                           // Konvertiere den Timestamp in Stunden und Minuten
+                            $hours = (int) date('H', $Value);
+                            $minutes = (int) date('i', $Value);
+                            // Kodierung: Stunden als Hunderter und Minuten als Einer
+                            $decimalValue = ($hours * 100) + $minutes;
+                            $formatted_hex = sprintf("%04x", $decimalValue);   #umformatierung in Hex
+                            $first_char = chr(hexdec(substr($formatted_hex, 0, 2))); #aufspaltung in zwei ASCII Zeichen
+                            $second_char = chr(hexdec(substr($formatted_hex, 2, 2)));
+                            $str = $first_char . $second_char ; #ASCII Zusammenbauen
+                            $Resp = $this->SendDataToParent(json_encode(Array("DataID" => "{E310B701-4AE7-458E-B618-EC13A1A6F6A8}", "Function" => 0x10, "Address" => $Start , "Quantity" => 1, "Data" => utf8_encode($str))));
+                            break;
                         case VALTYPE_WORD:
                             $str = pack('s', $Value); #Vorzeichenlos Word
                             $str = strrev($str);
                             $Resp = $this->SendDataToParent(json_encode(Array("DataID" => "{E310B701-4AE7-458E-B618-EC13A1A6F6A8}", "Function" => 0x10, "Address" => $Start , "Quantity" => 1, "Data" => utf8_encode($str))));
-                            break;
-                        case VALTYPE_TIME:            #Unixtimestring 
-#                            $timezone_offset = intval(date('Z'));
-                            $h = intval(date('H', $Value));   #Stunde und Minute vertauscht!
-                            $m = intval(date('i', $Value));
-                            $Value = $h*100+$m;
-                            $str= pack('n',$Value);
-
-                            $Resp = $this->SendDataToParent(json_encode(Array("DataID" => "{E310B701-4AE7-458E-B618-EC13A1A6F6A8}", "Function" => 0x10, "Address" => $Start , "Quantity" => 1, "Data" => $str)));
                             break;
                     }
                     break;
