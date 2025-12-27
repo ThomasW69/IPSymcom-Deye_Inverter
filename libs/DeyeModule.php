@@ -27,7 +27,7 @@ eval('declare(strict_types=1);namespace Deye {?>' . file_get_contents(__DIR__ . 
     const VALTYPE_DWWORD    = 4;      #Quelldaten sind WORD 0x0000000000000000 - 0XFFFFFFFFFFFFFFFF
     const VALTYPE_ASTRING   = 5;      #Quelldaten sind ASCI-String
     const VALTYPE_STRING    = 6;      #Quelldaten sind byte Codierter String z.B. Für Versionsnummern 0x01 0x04 -> 1.04
-    const VALTYPE_TIME      = 7;      #Integer als Zeit 0000-2359
+    const VALTYPE_TIME      = 7;      #Quelldaten sind Zeit als Integerzahl 0000-2359
 
         
 
@@ -341,6 +341,74 @@ class Deye extends IPSModule
         return true;
     }
 
+
+    /*****************************************************************************************************/
+    /* ab hier funktionen zum Setzen einzelner Betriebezustände 
+    /* zunächst Hilfsfunktionen zum setzen einzelner Variablentypen
+    /*****************************************************************************************************/
+    
+    
+    
+    /*
+     * Setzt eine boolesche Variable deren Name angegeben wird
+     * 
+     * @param string $VariableName Name der zu setzenden Variable
+     * @param bool $Value Boolescher Wert, der gesetzt werden soll
+     * @return bool True wenn erfolgreich, sonst false
+     */
+    protected function SetVariableByBool(string $VariableName, bool $Value): bool
+    {
+        $Variables = json_decode($this->ReadPropertyString('Variables'), true);
+        foreach ($Variables as $Variable) {
+            if ($Variable['Name'] == $this->Translate($VariableName)) {
+                return $this->SetValueExt($Variable, $Value);
+            }
+        }
+        return false;
+    }
+
+    /*
+     * Setzt eine integer Variable deren Name angegeben wird
+     * 
+     * @param string $VariableName Name der zu setzenden Variable
+     * @param bool $Value Boolescher Wert, der gesetzt werden soll
+     * @return bool True wenn erfolgreich, sonst false
+     */
+    protected function SetVariableByInteger(string $VariableName, int $Value): bool
+    {
+        $Variables = json_decode($this->ReadPropertyString('Variables'), true);
+        foreach ($Variables as $Variable) {
+            if ($Variable['Name'] == $this->Translate($VariableName) && $Variable['VarType'] == VARIABLETYPE_INTEGER) {
+                return $this->SetValueExt($Variable, $Value);
+            }
+        }
+        return false;
+    }
+
+
+     /*
+     * Aktiviert bzw Deaktiviert die Akku-Ladung
+     *
+     * @param bool $Value Boolescher Wert, der gesetzt werden soll
+     * @return bool True wenn erfolgreich, sonst false
+     */
+    public function SetAkkuCharging(bool $Value): bool
+    { 
+        if ($Value) {
+           $this->SetVariableByInteger('Limit_Control', 2); //Limitcontrol auf Zero to CT setzen
+           $this->SetVariableByInteger('Max_Sell_Power', 5000); //Maximale Einspeiseleistung auf 5000W setzen
+           $this->SetVariablebyInteger( 'Chg_Mode1',1); 
+    
+        } else {
+           $this->SetVariableByInteger('Limit_Control', 0); //Limitcontrol auf Selling First setzen
+           $this->SetVariableByInteger('Max_Sell_Power', 0); //Maximale Einspeiseleistung auf 0 setzen
+           $this->SetVariablebyInteger( 'Chg_Mode1',0); 
+
+        }
+        return true;
+    }
+   
+
     
 
         
@@ -352,7 +420,7 @@ class Deye extends IPSModule
         $SendData['DataID'] = '{E310B701-4AE7-458E-B618-EC13A1A6F6A8}';
         $SendData['Function'] = 0x03;                  #in der Regel 0x03 zum lesen und 0x10 zum Schreiben
         $SendData['Address']  = $Start;                #Startadresse 
-        $SendData['Quantity'] = $End-$Start+4;           #Anzahl Blöcke
+        $SendData['Quantity'] = $End-$Start+4;         #Anzahl Blöcke
         $SendData['Data'] = '';
         set_error_handler([$this, 'ModulErrorHandler']);
 
@@ -419,13 +487,10 @@ class Deye extends IPSModule
      {
     #Daten werden in ganzen Blöcken gelesen. Das braucht nur drei Modbus anfragen und geht wesentlich schneller
     if (IPS_SemaphoreEnter("DeyeModbusRequest", 1000)) {
-      $this->ReadDataBlock(0, 40);
-      $this->ReadDataBlock(98, 177);
-      $this->ReadDataBlock(500, 599);
-      $this->ReadDataBlock(600, 699);
-     
-     # $this->ReadDataBlock(148, 148);
-
+      $this->ReadDataBlock(0, 40);  //allgemeines
+      $this->ReadDataBlock(98, 177); //Akkuparameter und Lademodus
+      $this->ReadDataBlock(500, 599); //Statistiken 2
+      $this->ReadDataBlock(600, 699); //Statistiken 2 
       IPS_SemaphoreLeave("DeyeModbusRequest");
     } 
       return true;
@@ -527,11 +592,19 @@ class Deye extends IPSModule
         }  
     }
 
+
+    /*******************************************************
+    //Hier werden die Daten direkt an den Deye WR gesendet 
+    //******************************************************
+    */  
+    
+
     private function SendDataToDeye($Ident, $Value){
     $str  = '';   #zu sendende Daten
     $Resp = '';   #Antwort
-    $h    = 0;
-    $m    = 0;
+    $h    = 0;    #Hilfsvariable Stunden
+    $m    = 0;    #Hilfsvariable Minuten
+
     if (IPS_SemaphoreEnter("DeyeModbusRequest", 1000)) {
 
     $Variables = json_decode($this->ReadPropertyString('Variables'), true);         #Modulvariablen holen 
@@ -546,7 +619,7 @@ class Deye extends IPSModule
             $Start = $Variable['Address'];                                          #Registeradresse holen
         
             #Variablen zurück in einen String wandeln
-            #Bei den Schreibenden Varianten gibt es nur VARIABLETYPE_INTEGER,VARIABLETYPE_FLOAT und das als VALTYPE_WORD nd VALTYPE_TIME
+            #Bei den schreibenden Varianten gibt es nur VARIABLETYPE_INTEGER, VARIABLETYPE_FLOAT und das als VALTYPE_WORD nd VALTYPE_TIME
             switch ($Variable['VarType']) {
 
                 case VARIABLETYPE_INTEGER:
@@ -579,49 +652,16 @@ class Deye extends IPSModule
 }
 
 
-//eigene Funktion um ein zyklisches Event für die Abfrage der morgigen Energietarife zu erstellen 
-/*private function RegisterEventTarif($Name, $Ident, $Typ, $Parent, $Position)
-	{
-		$eid = @$this->GetIDForIdent($Ident);
-
-        if($eid === false) {
-			$eid = 0;
-		} else if(IPS_GetEvent($eid)['EventType'] <> $Typ) {
-            $this->LogMessage("Eventregister Delete: $eid, $Typ",KL_NOTIFY);
-			IPS_DeleteEvent($eid);
-			$eid = 0;
-		}
-
-        //we need to create one
-		if ($eid == 0) 
-	        {
-	        $EventID = IPS_CreateEvent($Typ);
-            $this->LogMessage("Eventregister Crate: $EventID, $Typ",KL_NOTIFY);
-
-            IPS_SetEventCyclicTimeFrom($EventID, 23, 0, 0);     #Täglich um 23Uhr
-            IPS_SetParent($EventID, $Parent);                   #Parent Setzen-> dieses Modul
-			IPS_SetIdent($EventID, $Ident);                     #Ident setzen
-			IPS_SetName($EventID, $Name);                       #Name Setzen
-			IPS_SetPosition($EventID, $Position);               #Position im Modul setzen
-			// Initiale Befüllung
-            IPS_SetEventAction ($EventID, getVariableTarif(),[]); #Auszuführende Funktion
-            IPS_SetEventActive($EventID, true);                 #aktivieren
-
-	        }
-		
-	}
-*/
-
 
 
 /**************************************************************************************************************
 Ab Hier dann die Funktionen für die Vartiablen Stromtarife
+Wird nicht mehr benötiggt, da steuerung über Energiemanager
 ***************************************************************************************************************/
 
 public function getVariableTarif() {
 #Irgendwas tun
 $this->GetTibberPrice();
-
 
 //Danach den Timer anpassen, damit er am kommenden Tag ausgeführt wird
 $this->UpdateTimerInterval('TarifTimer', 23, 30, 00);
@@ -714,6 +754,7 @@ private function GetLowestPrices($prices, $duration) {
 
     
 }
+
 
 
 }    

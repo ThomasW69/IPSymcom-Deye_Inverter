@@ -5,35 +5,10 @@
             "type": "NumberSpinner",
             "caption": "Call Intervall",
             "suffix": "ms",
-            "minimum": 0
+            "minimum": 0,
+            "maximum": 5000
         },
-
-        {
-            "type": "ExpansionPanel",
-            "caption": "Solar Based Optimization",
-            "items": [
-                { "type": "CheckBox", "name": "UseSolarprog", "caption": "Active" },
-                { "type": "SelectVariable", "name": "SolarProgID", "caption": "Solar forecast:", "validVariableTypes": [1, 2], "requiredLogging": 1},
-                { "type": "NumberSpinner", "name": "SolarProgTimeshift", "caption": "Timeshift of Solar forecast [h]:","value":0, "digits": 0, "minimum":-96, "maximum":0}
-
-            ]
-        },
-
-        { "type": "ExpansionPanel",
-        "caption": "Variable Energy Tariff",
-        "items": [
-            { "type": "CheckBox", "name": "UseVarTarif", "caption": "Active" },
-            { "type": "Select", "name": "Provider", "value": "Provider" ,"caption": "Provider", 
-               "options": [
-                { "caption": "Tibber", "value": 0 },
-                { "caption": "aWATTar", "value": 1 }]
-            },
-            { "type": "ValidationTextBox", "name": "Token", "caption": "Token" }
-        ]
-    },
-   
-
-
+        
         {
             "type": "List",
             "name": "Variables",

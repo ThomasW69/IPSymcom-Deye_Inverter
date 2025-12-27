@@ -95,7 +95,8 @@ class SUNxxKSG04LPx extends Deye
 
 //Hier die Variablen auf die Geschrieben werden kann
 //Diese werden auch von der Ladeoptimierung benutzt und geschrieben.
-	//Name,                     VarType,                ValueType,          Profile,   Address, Function, Quantity, Factor, Offset, Keep
+
+    //Name,                     VarType,                ValueType,          Profile,   Address, Function, Quantity, Factor, Offset, Keep
     //Die Akkubetriebsparameter, wenn der WR den Akku steuert. 
     ['Battery_Type',    	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'DeyeBattType',	98,     10, 1,  1,         0,  true],  //Batterietyp 0x0000 Blei, 0x0001 LiIon
     ['Epui_Voltage',    	    VARIABLETYPE_FLOAT,     VALTYPE_WORD, 	    '~Volt', 		99,     10, 1,  0.01,      0,  true],  //Equilisation-Spannung [V] 
@@ -106,7 +107,6 @@ class SUNxxKSG04LPx extends Deye
     ['MaxChg_Current',    	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'Ampere.I',     108,    10, 1,  1,         0,  true],  //Max. Ladestrom [A]
     ['MaxDsc_Current',    	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'Ampere.I',     109,    10, 1,  1,         0,  true],  //Max. EntLadestrom [A]
     ['Battery_View',         	VARIABLETYPE_INTEGER,   VALTYPE_WORD,   	'DeyeBattView', 111,    10, 1,  1,         0,  true],  //Akkuanzeigemodus 0:Volt; 1:Prozent; 2:No Batt
-
     ['Energy_Manag_Model',     	VARIABLETYPE_INTEGER,   VALTYPE_WORD,   	'',             141,    10, 1,  1,         0,  true],  //EnergiemanagementModell 
                                                                                                                                    //Bit0-1 10 battery first mode
                                                                                                                                    //       11 load first mode
@@ -116,11 +116,11 @@ class SUNxxKSG04LPx extends Deye
                                                                                                                                    //Bit4-5 Represents active grid-connection power balance function
                                                                                                                                    //       10 close
                                                                                                                                    //       11 open
-    ['Limit_Control',       	VARIABLETYPE_INTEGER,   VALTYPE_WORD,   	'DeyeLimControl',142,    10, 1,  1,         0,  true], //Limit Control
+    ['Limit_Control',       	VARIABLETYPE_INTEGER,   VALTYPE_WORD,   	'DeyeLimControl',142,    10, 1,  1,        0,  true],  //Limit Control
                                                                                                                                    //0x00 selling first
                                                                                                                                    //0x01 Zero to Load
                                                                                                                                    //0x02 Zero to CT
-    ['Max_Sell_Power',       	VARIABLETYPE_INTEGER,   VALTYPE_WORD,   	'Watt.I',        143,    10, 1,  1,         0,  true],  //Maximale Einspeiseleistung [W] 
+    ['Max_Sell_Power',       	VARIABLETYPE_INTEGER,   VALTYPE_WORD,   	'Watt.I',        143,    10, 1,  1,        0,  true],  //Maximale Einspeiseleistung [W] 
                                                                                                                                    
 
     // Die sechs einstellbaren Betriebszeitenbereiche, in denen eine Ladeaktion ausgeführt werden kann 
