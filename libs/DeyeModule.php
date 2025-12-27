@@ -36,7 +36,7 @@ eval('declare(strict_types=1);namespace Deye {?>' . file_get_contents(__DIR__ . 
  * Erweitert ipsmodule.
  * @property array $Variables
  */
-class Deye extends IPSModule
+class Deye extends IPSModuleStrict
 {
     use \Deye\SemaphoreHelper;
     use \Deye\VariableProfileHelper;
