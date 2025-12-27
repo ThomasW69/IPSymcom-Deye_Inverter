@@ -395,14 +395,16 @@ class Deye extends IPSModule
     public function SetAkkuCharging(bool $Value): bool
     { 
         if ($Value) {
-           $this->SetVariableByInteger('Limit_Control', 2); //Limitcontrol auf Zero to CT setzen
-           $this->SetVariableByInteger('Max_Sell_Power', 5000); //Maximale Einspeiseleistung auf 5000W setzen
-           $this->SetVariablebyInteger( 'Chg_Mode1',1); 
+           $this->SendDataToDeye('Chg_Mode1', 1); 
+           //$this->SetVariableByInteger('Limit_Control', 2); //Limitcontrol auf Zero to CT setzen
+           //$this->SetVariableByInteger('Max_Sell_Power', 5000); //Maximale Einspeiseleistung auf 5000W setzen
+           //$this->SetVariablebyInteger( 'Chg_Mode1',1); 
     
         } else {
-           $this->SetVariableByInteger('Limit_Control', 0); //Limitcontrol auf Selling First setzen
-           $this->SetVariableByInteger('Max_Sell_Power', 0); //Maximale Einspeiseleistung auf 0 setzen
-           $this->SetVariablebyInteger( 'Chg_Mode1',0); 
+           $this->SendDataToDeye('Chg_Mode1', 0);
+           //$this->SetVariableByInteger('Limit_Control', 0); //Limitcontrol auf Selling First setzen
+           //$this->SetVariableByInteger('Max_Sell_Power', 0); //Maximale Einspeiseleistung auf 0 setzen
+           //$this->SetVariablebyInteger( 'Chg_Mode1',0); 
 
         }
         return true;
