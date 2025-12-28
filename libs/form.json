@@ -19,8 +19,8 @@
                 {
                     "caption": "Ident",
                     "name": "Ident",
-                    "visible": false,
-                    "width": "0px",
+                    "visible": true,
+                    "width": "100px",
                     "save": true
                 },
                 {
@@ -32,28 +32,28 @@
                 {
                     "caption": "Function",
                     "name": "Name",
-                    "width": "auto",
+                    "width": "200px",
                     "save": true
                 },
                 {
                     "caption": "Type",
                     "name": "VarType",
-                    "visible": false,
-                    "width": "0px",
+                    "visible": true,
+                    "width": "100px",
                     "save": true
                 },
                 {
                     "caption": "DataType",
-                    "name": "DataType",
-                    "visible": false,
-                    "width": "0px",
+                    "name": "ValType",
+                    "visible": true,
+                    "width": "100px",
                     "save": true
                 },
                 {
                     "caption": "Profile",
                     "name": "Profile",
-                    "visible": false,
-                    "width": "0px",
+                    "visible": true,
+                    "width": "100px",
                     "save": true
                 },
                 {
@@ -66,29 +66,29 @@
                 {
                     "caption": "Function",
                     "name": "Function",
-                    "visible": false,
-                    "width": "0px",
+                    "visible": true,
+                    "width": "100px",
                     "save": true
                 },
                 {
                     "caption": "Quantity",
                     "name": "Quantity",
-                    "visible": false,
-                    "width": "0px",
+                    "visible": true,
+                    "width": "20px",
                     "save": true
                 },
                 {
                     "caption": "Factor",
                     "name": "Factor",
-                    "visible": false,
-                    "width": "0px",
+                    "visible": true,
+                    "width": "30px",
                     "save": true
                 },
                 {
                     "caption": "Offset",
                     "name": "Offset",
-                    "visible": false,
-                    "width": "0px",
+                    "visible": true,
+                    "width": "30px",
                     "save": true
                 },
                 {

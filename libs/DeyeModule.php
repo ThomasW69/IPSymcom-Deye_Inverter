@@ -36,7 +36,7 @@ eval('declare(strict_types=1);namespace Deye {?>' . file_get_contents(__DIR__ . 
  * Erweitert ipsmodule.
  * @property array $Variables
  */
-class Deye extends IPSModuleStrict
+class Deye extends IPSModule
 {
     use \Deye\SemaphoreHelper;
     use \Deye\VariableProfileHelper;
@@ -146,8 +146,7 @@ class Deye extends IPSModuleStrict
         }
         $this->RegisterPropertyString('Variables', json_encode($Variables));
         $this->RegisterTimer('UpdateTimer', 0, static::PREFIX . '_RequestRead($_IPS["TARGET"]);');  #Timer zum Abruf der Daten vom Deye
-        $this->RegisterTimer('TarifTimer', 0, static::PREFIX . '_getVariableTarif($_IPS["TARGET"]);');  #Timer zum Abruf der Daten vom Tarifanbieter Erster Aufruf 
-        
+       
 
     }
 
@@ -196,7 +195,9 @@ class Deye extends IPSModuleStrict
                 [2,'Zero To CT','',0x0000FF]
                 ];   
        
-        parent::ApplyChanges();
+        parent::ApplyChanges();  //Nicht löschen
+
+        #Profile Registrieren
         #Invertertyp und Status
         $this->RegisterProfileIntegerEx('DeyeType', '', '','', $AssInvType, 5, 1);
         $this->RegisterProfileIntegerEx('DeyeStatus', '', '','', $AssStatus, 4, 1);
@@ -218,15 +219,17 @@ class Deye extends IPSModuleStrict
         $this->RegisterProfileInteger('VA.I', '', '', ' VA', 0, 0, 0);
         $this->RegisterProfileInteger('Electricity.I', '', '', ' kWh', 0, 0, 0);
  
-        #Create Variables and check when new Rows in config appear after an update.
+        #Variablen aus dem Array Erzeugen und prüfung, ob nach Update neue VAriablen dazu gekommen sind.
         $NewRows = static::$Variables;
         $NewPos = 0;
         $Variables = json_decode($this->ReadPropertyString('Variables'), true);
         foreach ($Variables as $Variable) {
             @$this->MaintainVariable($Variable['Ident'], $Variable['Name'], $Variable['VarType'], $Variable['Profile'], $Variable['Pos'], $Variable['Keep']);
-            #Die schreibbaren Variablen im Registerbereich 99 bis 499 editierbar machen
-            if (($Variable['Address'] >= 60 ) && ($Variable['Address'] <= 499 )) {  
+        
+            #Die schreibbaren Variablen im Registerbereich 90 bis 499 editierbar machen
+            if (($Variable['Address'] >= 90 ) && ($Variable['Address'] <= 499 )) {  
                 $this->EnableAction($Variable['Ident']);
+                $this->SendDebug('Editierbar', $Variable['Name'],0);
             }
 
             foreach ($NewRows as $Index => $Row) {
@@ -243,14 +246,14 @@ class Deye extends IPSModuleStrict
                 $Variables[] = [
                     'Ident'    => str_replace(' ', '', $NewVariable[0]),
                     'Name'     => $this->Translate($NewVariable[0]),
-                    'VarType'  => $NewVariable[1],
-                    'ValType'  => $NewVariable[2],
-                    'Profile'  => $NewVariable[3],
-                    'Address'  => $NewVariable[4],
-                    'Function' => $NewVariable[5],
-                    'Quantity' => $NewVariable[6],
-                    'Factor'   => $NewVariable[7],
-                    'Offset'   => $NewVariable[8],
+                    'VarType'  => $NewVariable[1],  // Symcon Variablentyp
+                    'ValType'  => $NewVariable[2],  // Deye Datentyp
+                    'Profile'  => $NewVariable[3],  //Symcon Variablenprofil
+                    'Address'  => $NewVariable[4],  // Deye Speicheradresse
+                    'Function' => $NewVariable[5],  // Deye Schreib-Lese-Funktion
+                    'Quantity' => $NewVariable[6],  // Anzahl Bytes
+                    'Factor'   => $NewVariable[7],  // Umrechnungsfaktor
+                    'Offset'   => $NewVariable[8],  // Umrechnungsoffset
                     'Keep'     => $NewVariable[9],
                     'Pos'      => ++$NewPos
                 ];
@@ -273,15 +276,7 @@ class Deye extends IPSModuleStrict
             $this->SetStatus(IS_ACTIVE);
         }
         
-        //Timer für die Tarifabfrage aktualisieren
-        if ($this->ReadPropertyInteger('Provider') < 1) {
-            $this->SetTimerInterval('TarifTimer', 0);
-        } else {
-            $this->UpdateTimerInterval('TarifTimer',23,30,0);
-        }
-
-
-
+     
     }
 
     /**
@@ -386,31 +381,7 @@ class Deye extends IPSModuleStrict
     }
 
 
-     /*
-     * Aktiviert bzw Deaktiviert die Akku-Ladung
-     *
-     * @param bool $Value Boolescher Wert, der gesetzt werden soll
-     * @return bool True wenn erfolgreich, sonst false
-     */
-    public function SetAkkuCharging(bool $Value): bool
-    { 
-        if ($Value) {
-           $this->SendDataToDeye('Chg_Mode1', 1); 
-           //$this->SetVariableByInteger('Limit_Control', 2); //Limitcontrol auf Zero to CT setzen
-           //$this->SetVariableByInteger('Max_Sell_Power', 5000); //Maximale Einspeiseleistung auf 5000W setzen
-           //$this->SetVariablebyInteger( 'Chg_Mode1',1); 
-    
-        } else {
-           $this->SendDataToDeye('Chg_Mode1', 0);
-           //$this->SetVariableByInteger('Limit_Control', 0); //Limitcontrol auf Selling First setzen
-           //$this->SetVariableByInteger('Max_Sell_Power', 0); //Maximale Einspeiseleistung auf 0 setzen
-           //$this->SetVariablebyInteger( 'Chg_Mode1',0); 
-
-        }
-        return true;
-    }
-   
-
+     
     
 
         
@@ -442,7 +413,12 @@ class Deye extends IPSModuleStrict
             if (!$Variable['Keep']) {
                 continue;
             }
-            #Nur die Variablen, die auch in diesem bereich sind           
+            #schreibbare VAriablen Editierbar machen
+           // if (($Variable['Address'] >= 80 ) && ($Variable['Address'] <= 499 )) {  
+           //     $this->EnableAction($Variable['Ident']);
+           // }
+
+            #Nur die Variablen, die auch in diesem Bereich sind           
             if ($Variable['Address'] >= $Start && $Variable['Address'] <= $End)
             {
               #Den Wert aus dem Block herauslesen
@@ -575,27 +551,7 @@ class Deye extends IPSModuleStrict
     }
     
 
-
-
-
-
-    public function RequestAction($Ident, $Value) {
-        $this->LogMessage("RequestAction : $Ident, $Value",KL_NOTIFY);
-        switch ($Ident) {
-           // case "GetDeye":
-           //     $this->SendDataToDeye($Ident, $Value);
-           //     break;
-            case "GetPrice":
-                $this->getVariableTarif();
-                break;
-            default:     
-                $this->SendDataToDeye($Ident, $Value);
-
-        }  
-    }
-
-
-    /*******************************************************
+/*******************************************************
     //Hier werden die Daten direkt an den Deye WR gesendet 
     //******************************************************
     */  
@@ -621,10 +577,9 @@ class Deye extends IPSModuleStrict
             $Start = $Variable['Address'];                                          #Registeradresse holen
         
             #Variablen zurück in einen String wandeln
-            #Bei den schreibenden Varianten gibt es nur VARIABLETYPE_INTEGER, VARIABLETYPE_FLOAT und das als VALTYPE_WORD nd VALTYPE_TIME
+            #Bei den schreibenden Varianten gibt es nur VARIABLETYPE_INTEGER und das als VALTYPE_WORD und VALTYPE_TIME
             switch ($Variable['VarType']) {
-
-                case VARIABLETYPE_INTEGER:
+                case VARIABLETYPE_INTEGER:   //Derzeit nur reine Symcon Integertypen
                     switch ($Variable['ValType']) {
                         case VALTYPE_TIME:           
                            // Konvertiere den Timestamp in Stunden und Minuten
@@ -636,12 +591,20 @@ class Deye extends IPSModuleStrict
                             $first_char = chr(hexdec(substr($formatted_hex, 0, 2))); #aufspaltung in zwei ASCII Zeichen
                             $second_char = chr(hexdec(substr($formatted_hex, 2, 2)));
                             $str = $first_char . $second_char ; #ASCII Zusammenbauen
-                            $Resp = $this->SendDataToParent(json_encode(Array("DataID" => "{E310B701-4AE7-458E-B618-EC13A1A6F6A8}", "Function" => 0x10, "Address" => $Start , "Quantity" => 1, "Data" => utf8_encode($str))));
+                            $Resp = $this->SendDataToParent(json_encode(Array("DataID"   => "{E310B701-4AE7-458E-B618-EC13A1A6F6A8}", 
+                                                                                    "Function"  => 0x10, 
+                                                                                    "Address"   => $Start , 
+                                                                                    "Quantity"  => $Variable['Quantity'], 
+                                                                                    "Data"      => utf8_encode($str))));
                             break;
                         case VALTYPE_WORD:
                             $str = pack('s', $Value); #Vorzeichenlos Word
                             $str = strrev($str);
-                            $Resp = $this->SendDataToParent(json_encode(Array("DataID" => "{E310B701-4AE7-458E-B618-EC13A1A6F6A8}", "Function" => 0x10, "Address" => $Start , "Quantity" => 1, "Data" => utf8_encode($str))));
+                            $Resp = $this->SendDataToParent(json_encode(Array("DataID"   => "{E310B701-4AE7-458E-B618-EC13A1A6F6A8}", 
+                                                                                     "Function" => 0x10, 
+                                                                                     "Address"  => $Start , 
+                                                                                     "Quantity" => $Variable['Quantity'], 
+                                                                                     "Data"     => utf8_encode($str))));
                             break;
                     }
                     break;
@@ -649,113 +612,61 @@ class Deye extends IPSModuleStrict
 
      }
     }
+    
     IPS_SemaphoreLeave("DeyeModbusRequest");  
   }
 }
 
 
+    /******************************************************************************************
+     * Public Functions
+     ******************************************************************************************/
 
+    /*
+     * Aktiviert bzw Deaktiviert die Akku-Ladung
+     *
+     * @param bool $Value Boolescher Wert, der gesetzt werden soll true-Akku wird geladen
+     * @return bool True wenn erfolgreich, sonst false
+     * Aufruf SUNxxKSG04LPx_SetAkkuCHarging($Id,$Value)
+     */
+    public function SetAkkuCharging(bool $Value): bool
+    { 
+        if ($Value) {
+           $this->SendDataToDeye('Chg_Mode1', 1); 
+           //$this->SetVariableByInteger('Limit_Control', 2); //Limitcontrol auf Zero to CT setzen
+           //$this->SetVariableByInteger('Max_Sell_Power', 5000); //Maximale Einspeiseleistung auf 5000W setzen
+           //$this->SetVariablebyInteger( 'Chg_Mode1',1); 
+    
+        } else {
+           $this->SendDataToDeye('Chg_Mode1', 0);
+           //$this->SetVariableByInteger('Limit_Control', 0); //Limitcontrol auf Selling First setzen
+           //$this->SetVariableByInteger('Max_Sell_Power', 0); //Maximale Einspeiseleistung auf 0 setzen
+           //$this->SetVariablebyInteger( 'Chg_Mode1',0); 
 
-/**************************************************************************************************************
-Ab Hier dann die Funktionen für die Vartiablen Stromtarife
-Wird nicht mehr benötiggt, da steuerung über Energiemanager
-***************************************************************************************************************/
-
-public function getVariableTarif() {
-#Irgendwas tun
-$this->GetTibberPrice();
-
-//Danach den Timer anpassen, damit er am kommenden Tag ausgeführt wird
-$this->UpdateTimerInterval('TarifTimer', 23, 30, 00);
-
-}
-
-
-
-
-
-#Abruf der tibberdaten
-private function GetTibberPrice() {
-    # tibber Chart heute und morgen erstellen
-# Stundenpreise in geloggte Variable schreiben um Diagramm von heute und morgen zu erstellen
-# Script Ausführung immer um 13:30 (ab 13:00 liegen neue Daten für morgen bei tibber vor)
-
-# *** Konfiguration ***
-# eigener Token 
-$ID_Variable = IPS_GetProperty($this->InstanceID,"PriceID");                      # ID zur PreisVariablen
-$Token       = IPS_GetProperty($this->InstanceID,"Token");                              # eigenen tibber Token einsetzen
-
-#Erst nmal zum Test
-$ID_Variable = 29578;                                                                # ID der zu loggenden Variablen eintragen (leere Float-Variable, Cent)
-$Token = '9fbTxxJXoc_G8D1FsKM9IM0efo6iexVv9mxMjd7fmUk';                                     # eigenen tibber Token einsetzen
+        }
+        return true;
+    }
+   
 
 
 
-$ID_Archive = IPS_GetInstanceListByModuleID('{43192F0B-135B-4CE7-A0A7-1475603F3060}')[0];
+    public function RequestAction($Ident, $Value) {
+        $this->LogMessage("RequestAction : $Ident, $Value",KL_NOTIFY);
+        switch ($Ident) {
+            case "GetDeye":
+                $this->SendDataToDeye($Ident, $Value);
+                break;
+            default:     
+                $this->SendDataToDeye($Ident, $Value);
 
-$this->LogMessage("GetTibberPrice : $ID_Variable, $Token",KL_NOTIFY);
+        }  
+    }
 
-
-# =============== ab hier nichts mehr ändern! ================
-$json = '{"query":"{viewer {homes {currentSubscription {priceInfo {tomorrow{ total energy tax startsAt }}}}}}"}';
-
-# Verbindung zur API
-$ch = curl_init('https://api.tibber.com/v1-beta/gql');
-
-# Optionen
-curl_setopt($ch, CURLOPT_URL, 'https://api.tibber.com/v1-beta/gql');
-
-curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json','Authorization: Bearer '.$Token));
-
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-# Antwort holen und Verbindung schließen
-$response = curl_exec($ch);
-curl_close($ch);
-
-# Daten Decodieren
-$data = json_decode($response);
-$this->LogMessage("GetTibberPriceResponse : $response",KL_NOTIFY);
-
-$prices_tomorrow = $data->data->viewer->homes[0]->currentSubscription->priceInfo->tomorrow;
-
-# In VAriable Schreiben
-$zaehler = 0;
-foreach($prices_tomorrow as $price)
-{
-    $timestamp = strtotime($price->startsAt);
-    $total = ($price->total);                               # Wert in ct/kWh
-    AC_DeleteVariableData($ID_Archive, $ID_Variable, $timestamp-172800, $timestamp-172800); #    Eventuell schon vorhandene Archivwerte entfernen
-    AC_AddLoggedValues($ID_Archive, $ID_Variable, [
-    [
-    'TimeStamp' => ($timestamp-172800),                     #um zwei Tage zurück versetzen, da in IPS keine zukunftswerte geloggt werden können
-    'Value' => $total
-    ]
-]);
-    $zaehler++;
-}
-AC_ReAggregateVariable ($ID_Archive, $ID_Variable);         #Variable Reaggregieren, damit wieder alles passt
-
-
-# Ab hier dann die Suche nach dem günstigsten Zeitpunkt
- # $this-> GetLowestPrices($prices_tomorrow,2);
-  
-
-
-
-}
-
-private function GetLowestPrices($prices, $duration) {
- $duration=1;
- $Lowest         = array();                     #Erstelle ein leeres Array für die Ostanlage
-   asort($prices);                              # zuerst aufsteigend nach den Preisen sortieren. Somit sind die günstigsten am Anfang
-   array_splice($prices,$duration,24);          #alle unnötigen löschen
-   ksort($prices);                              #nun nach der Zeit sortieren
 
     
-}
+
+
+
 
 
 
