@@ -31,7 +31,7 @@ class SUNxxKSG04LPx extends Deye
     public static $Variables = [
 	//Name,                     VarType,                ValueType,          Profile,          Address,  Function, Quantity, Factor, Offset, Keep
     ['Inverter_Type',    	    VARIABLETYPE_INTEGER,   VALTYPE_BYTE, 	    'DeyeType', 		 0,     3, 1,    1,      0,  true],  //Invertertyp 2=Serial, 3=Hybrid 1ph,4= Microinverter, 5=Hybrid 3ph 
-    ['Rated_Power', 	        VARIABLETYPE_FLOAT,     VALTYPE_DWORD, 	    'Watt.I', 		    20,     3, 2,  0.1,      0,  true],  // Leistung   
+    ['Rated_Power', 	        VARIABLETYPE_FLOAT,     VALTYPE_DWORD, 	    'Deye.Watt.I', 		    20,     3, 2,  0.1,      0,  true],  // Leistung   
     ['Modbus_ID', 	            VARIABLETYPE_INTEGER,   VALTYPE_BYTE, 	    '', 		         1,     3, 1,  0.1,      0,  true],  // ModBusID
  //   ['Protocol_Ver', 	        VARIABLETYPE_STRING,    VALTYPE_STRING,	    '', 		         2,     3, 1,  0.1,      0,  true],  //Protokollversion
     ['Serial_Number', 	        VARIABLETYPE_STRING,    VALTYPE_ASTRING,	'', 		         3,     3, 5,  0.1,      0,  true],  //Seriennummer
@@ -58,56 +58,56 @@ class SUNxxKSG04LPx extends Deye
     ['Battery_Temp',    	    VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    'Temperature', 	   586,     3, 1,  0.1,   1000,  true],  // Batterietemperatur [°C]
     ['Battery_Voltage',      	VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Volt', 	       587,     3, 1, 0.01,      0,  true],  // Battereispannung [V]
     ['Battery_SOC',      	    VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    '~Battery.100',    588,     3, 1,    1,      0,  true],  // Batterielevel [%]
-    ['Battery_Out_Power',      	VARIABLETYPE_INTEGER,   VALTYPE_SWORD,	    'Watt.I', 	       590,     3, 1,    1,      0,  true],  // Batterieausgangsleistung [W]
+    ['Battery_Out_Power',      	VARIABLETYPE_INTEGER,   VALTYPE_SWORD,	    'Deye.Watt.I', 	   590,     3, 1,    1,      0,  true],  // Batterieausgangsleistung [W]
     ['Battery_Out_Curr',      	VARIABLETYPE_FLOAT,     VALTYPE_SWORD,	    '~Ampere',         591,     3, 1, 0.01,      0,  true],  // Batterieausgangsstrom [A] 
-    ['Battery_Capacyty',      	VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    'AmpHour.I', 	   592,     3, 1,    1,      0,  true],  // Batteriekapazität [Ah] 
+    ['Battery_Capacyty',      	VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    'Deye.AmpHour.I',  592,     3, 1,    1,      0,  true],  // Batteriekapazität [Ah] 
 //Grid
     ['Grid_L1_Voltage',      	VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Volt', 	       598,     3, 1,  0.1,      0,  true],  // Netz Spannung Phase L1 [V]
     ['Grid_L2_Voltage',      	VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Volt', 	       599,     3, 1,  0.1,      0,  true],  // Netz Spannung Phase L2 [V]
     ['Grid_L3_Voltage',      	VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Volt', 	       600,     3, 1,  0.1,      0,  true],  // Netz Spannung Phase L3 [V]
-    ['Out_Grid_L1_Power',       VARIABLETYPE_INTEGER,   VALTYPE_SWORD,	    'Watt.I', 	       616,     3, 1,    1,      0,  true],  // Gesamtleistung in/aus Netz [W]
-    ['Out_Grid_L2_Power',       VARIABLETYPE_INTEGER,   VALTYPE_SWORD,	    'Watt.I', 	       617,     3, 1,    1,      0,  true],  // Gesamtleistung in/aus Netz [W]
-    ['Out_Grid_L3_Power',       VARIABLETYPE_INTEGER,   VALTYPE_SWORD,	    'Watt.I', 	       618,     3, 1,    1,      0,  true],  // Gesamtleistung in/aus Netz [W]
-    ['Out_Grid_Total_Power',    VARIABLETYPE_INTEGER,   VALTYPE_SWORD,	    'Watt.I', 	       619,     3, 1,    1,      0,  true],  // Gesamtleistung in/aus Netz [W]
+    ['Out_Grid_L1_Power',       VARIABLETYPE_INTEGER,   VALTYPE_SWORD,	    'Deye.Watt.I', 	   616,     3, 1,    1,      0,  true],  // Gesamtleistung in/aus Netz [W]
+    ['Out_Grid_L2_Power',       VARIABLETYPE_INTEGER,   VALTYPE_SWORD,	    'Deye.Watt.I', 	   617,     3, 1,    1,      0,  true],  // Gesamtleistung in/aus Netz [W]
+    ['Out_Grid_L3_Power',       VARIABLETYPE_INTEGER,   VALTYPE_SWORD,	    'Deye.Watt.I', 	   618,     3, 1,    1,      0,  true],  // Gesamtleistung in/aus Netz [W]
+    ['Out_Grid_Total_Power',    VARIABLETYPE_INTEGER,   VALTYPE_SWORD,	    'Deye.Watt.I', 	   619,     3, 1,    1,      0,  true],  // Gesamtleistung in/aus Netz [W]
     ['Inverter_Freq',      	    VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Hertz', 	       638,     3, 1, 0.01,      0,  true],  // //Inverterfequqnz [Hz]
 //Load
     ['Load_L1_Voltage',      	VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Volt', 	       644,     3, 1,  0.1,      0,  true],  // Load Spannung Phase L1 [V]
     ['Load_L2_Voltage',      	VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Volt', 	       645,     3, 1,  0.1,      0,  true],  // Load Spannung Phase L2 [V]
     ['Load_L3_Voltage',      	VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Volt', 	       646,     3, 1,  0.1,      0,  true],  // Load Spannung Phase L3 [V]
-    ['Load_L1_Power',      	    VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    'Watt.I', 	       650,     3, 1,    1,      0,  true],  // Load Leistung Phase L1 [W]
-    ['Load_L2_Power',      	    VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    'Watt.I', 	       651,     3, 1,    1,      0,  true],  // Load Leistung Phase L2 [W]
-    ['Load_L3_Power',      	    VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    'Watt.I', 	       652,     3, 1,    1,      0,  true],  // Load Leistung Phase L3 [W]
-    ['Total_Load_Power',      	VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    'Watt.I', 	       653,     3, 1,    1,      0,  true],  // Load Leistung Gesamt [W]
+    ['Load_L1_Power',      	    VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    'Deye.Watt.I', 	   650,     3, 1,    1,      0,  true],  // Load Leistung Phase L1 [W]
+    ['Load_L2_Power',      	    VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    'Deye.Watt.I', 	   651,     3, 1,    1,      0,  true],  // Load Leistung Phase L2 [W]
+    ['Load_L3_Power',      	    VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    'Deye.Watt.I', 	   652,     3, 1,    1,      0,  true],  // Load Leistung Phase L3 [W]
+    ['Total_Load_Power',      	VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    'Deye.Watt.I', 	   653,     3, 1,    1,      0,  true],  // Load Leistung Gesamt [W]
     ['Load_Freq',      	        VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Hertz', 	       655,     3, 1, 0.01,      0,  true],  // //Inverterfequqnz [Hz]
 //PV
-    ['PV1_Power',      	        VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    'Watt.I', 	       672,     3, 1,    1,      0,  true],  // PV1 Eingangsleistung [W]
+    ['PV1_Power',      	        VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    'Deye.Watt.I', 	   672,     3, 1,    1,      0,  true],  // PV1 Eingangsleistung [W]
     ['PV1_Voltage',      	    VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Volt', 	       676,     3, 1,  0.1,      0,  true],  // PV1 Eingangsspannung [V]
     ['PV1_Current',      	    VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Ampere',         677,     3, 1,  0.1,      0,  true],  // PV1 EingangssStrom [A]
-    ['PV2_Power',      	        VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    'Watt.I', 	       673,     3, 1,    1,      0,  true],  // PV2 Eingangsleistung [W]
+    ['PV2_Power',      	        VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    'Deye.Watt.I', 	   673,     3, 1,    1,      0,  true],  // PV2 Eingangsleistung [W]
     ['PV2_Voltage',      	    VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Volt', 	       678,     3, 1,  0.1,      0,  true],  // PV2 Eingangsspannung [V]
     ['PV2_Current',      	    VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Ampere',	       679,     3, 1,  0.1,      0,  true],  // PV2 EingangssStrom [A]
-    ['PV3_Power',      	        VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    'Watt.I', 	       674,     3, 1,    1,      0,  true],  // PV3 Eingangsleistung [W]
+    ['PV3_Power',      	        VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    'Deye.Watt.I', 	   674,     3, 1,    1,      0,  true],  // PV3 Eingangsleistung [W]
     ['PV3_Voltage',      	    VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Volt', 	       680,     3, 1,  0.1,      0,  true],  // PV3 Eingangsspannung [V]
     ['PV3_Current',      	    VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Ampere',	       681,     3, 1,  0.1,      0,  true],  // PV3 EingangssStrom [A]
-    ['PV4_Power',      	        VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    'Watt.I', 	       675,     3, 1,    1,      0,  true],  // PV4 Eingangsleistung [W]
+    ['PV4_Power',      	        VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    'Deye.Watt.I', 	   675,     3, 1,    1,      0,  true],  // PV4 Eingangsleistung [W]
     ['PV4_Voltage',      	    VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Volt', 	       682,     3, 1,  0.1,      0,  true],  // PV4 Eingangsspannung [V]
     ['PV4_Current',      	    VARIABLETYPE_FLOAT,     VALTYPE_WORD,	    '~Ampere',	       683,     3, 1,  0.1,      0,  true],  // PV4 EingangssStrom [A]
 
-//Hier die Variablen auf die Geschrieben werden kann
-//Diese werden auch von der Ladeoptimierung benutzt und geschrieben.
 
     //Name,                     VarType,                ValueType,          Profile,   Address, Function, Quantity, Factor, Offset, Keep
     //Die Akkubetriebsparameter, wenn der WR den Akku steuert. 
     ['Battery_Type',    	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'DeyeBattType',	    98,     10, 1,  1,         0,  true],   // Batterietyp 0x0000 Blei, 0x0001 LiIon
-    ['Epui_Voltage',    	    VARIABLETYPE_FLOAT,     VALTYPE_WORD, 	    '~Volt', 		    99,     10, 1,  0.01,      0,  true],   // Equilisation-Spannung [V] 
+    ['Equi_Voltage',    	    VARIABLETYPE_FLOAT,     VALTYPE_WORD, 	    '~Volt', 		    99,     10, 1,  0.01,      0,  true],   // Equilisation-Spannung [V] 
     ['Absorp_Voltage',    	    VARIABLETYPE_FLOAT,     VALTYPE_WORD, 	    '~Volt', 		    100,    10, 1,  0.01,      0,  true],   // Absorption-Spannung [V]
     ['Float_Voltage',    	    VARIABLETYPE_FLOAT,     VALTYPE_WORD, 	    '~Volt', 		    101,    10, 1,  0.01,      0,  true],   // Float-Spannung [V]
-    ['Batt_Capacity',    	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'AmpHour.I',        102,    10, 1,  1,         0,  true],   // Batteriekapazität [Ah]
-    ['Zero_Exp_PWR',    	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'Watt.I',           104,    10, 1,  1,         0,  true],   // Zero Export Power [W]
-    ['MaxChg_Current',    	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'Ampere.I',         108,    10, 1,  1,         0,  true],   // Max. Ladestrom [A]
-    ['MaxDsc_Current',    	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'Ampere.I',         109,    10, 1,  1,         0,  true],   // Max. EntLadestrom [A]
+    ['Batt_Capacity',    	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'Deye.AmpHour.I',   102,    10, 1,  1,         0,  true],   // Batteriekapazität [Ah]
+    ['Zero_Exp_PWR',    	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'Deye.Watt.I',      104,    10, 1,  1,         0,  true],   // Zero Export Power [W]
+    ['MaxChg_Current',    	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'Deye.Ampere.I',    108,    10, 1,  1,         0,  true],   // Max. Ladestrom [A]
+    ['MaxDsc_Current',    	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'Deye.Ampere.I',    109,    10, 1,  1,         0,  true],   // Max. EntLadestrom [A]
     ['Battery_View',         	VARIABLETYPE_INTEGER,   VALTYPE_WORD,   	'DeyeBattView',     111,    10, 1,  1,         0,  true],   // Akkuanzeigemodus 0:Volt; 1:Prozent; 2:No Batt
-    ['Energy_Manag_Model',     	VARIABLETYPE_INTEGER,   VALTYPE_WORD,   	'',                 141,    10, 1,  1,         0,  true],   // EnergiemanagementModell 
+    ['Battery_Res',      	    VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    'Deye.MilliOhm.I',  113,    3 , 1,  1,         0,  true],   // Batterie Innenwiderstand [mOhm]
+    ['BatChgEffic',      	    VARIABLETYPE_INTEGER,   VALTYPE_WORD,	    '',         	    114,    3 , 1,  0.1,       0,  true],   // Batterie Ladeeffizienz 957 =95,7%
+    ['Energy_Manag_Model',     	VARIABLETYPE_INTEGER,   VALTYPE_WORD,   	'',                 141,    3 , 1,  1,         0,  true],   // EnergiemanagementModell 
                                                                                                                                         //Bit0-1 10 battery first mode
                                                                                                                                         //       11 load first mode
                                                                                                                                         //Bit2-3 Represents passive grid-connected power balance function
@@ -120,7 +120,7 @@ class SUNxxKSG04LPx extends Deye
                                                                                                                                         //0x00 selling first
                                                                                                                                         //0x01 Zero to Load
                                                                                                                                         //0x02 Zero to CT
-    ['Max_Sell_Power',       	VARIABLETYPE_INTEGER,   VALTYPE_WORD,   	'Watt.I',           143,    10, 1,  1,        0,  true],    //Maximale Einspeiseleistung [W] 
+    ['Max_Sell_Power',       	VARIABLETYPE_INTEGER,   VALTYPE_WORD,   	'Deye.Watt.I',      143,    10, 1,  1,        0,  true],    //Maximale Einspeiseleistung [W] 
                                                                                                                                    
 
     // Die sechs einstellbaren Betriebszeitenbereiche, in denen eine Ladeaktion ausgeführt werden kann 
@@ -131,12 +131,12 @@ class SUNxxKSG04LPx extends Deye
     ['Time5',           	    VARIABLETYPE_INTEGER,   VALTYPE_TIME, 	    '~UnixTimestampTime',152,   10, 1,  1,      0,  true],     //Zeitbreich 5
     ['Time6',           	    VARIABLETYPE_INTEGER,   VALTYPE_TIME, 	    '~UnixTimestampTime',153,   10, 1,  1,      0,  true],     //Zeitbreich 6
     //Die Ladeleistung mit der die Batterie maximal geladen wird.
-    ['ChgPwr1',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'Watt.I'        ,    154,   10, 1,  1,      0,  true],     //Ladeleistung 1
-    ['ChgPwr2',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'Watt.I'        ,    155,   10, 1,  1,      0,  true],     //Ladeleistung 2
-    ['ChgPwr3',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'Watt.I'        ,    156,   10, 1,  1,      0,  true],     //Ladeleistung 3
-    ['ChgPwr4',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'Watt.I'        ,    157,   10, 1,  1,      0,  true],     //Ladeleistung 4
-    ['ChgPwr5',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'Watt.I'        ,    158,   10, 1,  1,      0,  true],     //Ladeleistung 5
-    ['ChgPwr6',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'Watt.I'        ,    159,   10, 1,  1,      0,  true],     //Ladeleistung 6
+    ['ChgPwr1',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'Deye.Watt.I'   ,    154,   10, 1,  1,      0,  true],     //Ladeleistung 1
+    ['ChgPwr2',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'Deye.Watt.I'   ,    155,   10, 1,  1,      0,  true],     //Ladeleistung 2
+    ['ChgPwr3',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'Deye.Watt.I'   ,    156,   10, 1,  1,      0,  true],     //Ladeleistung 3
+    ['ChgPwr4',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'Deye.Watt.I'   ,    157,   10, 1,  1,      0,  true],     //Ladeleistung 4
+    ['ChgPwr5',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'Deye.Watt.I'   ,    158,   10, 1,  1,      0,  true],     //Ladeleistung 5
+    ['ChgPwr6',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'Deye.Watt.I'   ,    159,   10, 1,  1,      0,  true],     //Ladeleistung 6
     //Der Ladezustand der Batterie, der erreiht werden soll
     ['Capacity1',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    '~Battery.100'  ,    166,   10, 1,  1,      0,  true],     //Kapazität 1
     ['Capacity2',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    '~Battery.100'  ,    167,   10, 1,  1,      0,  true],     //Kapazität 2
@@ -150,6 +150,10 @@ class SUNxxKSG04LPx extends Deye
     ['Chg_Mode3',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'DeyeChgMode'   ,    174,   10, 1,  1,      0,  true],     //Lademodus 3
     ['Chg_Mode4',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'DeyeChgMode'   ,    175,   10, 1,  1,      0,  true],     //Lademodus 4
     ['Chg_Mode5',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'DeyeChgMode'   ,    176,   10, 1,  1,      0,  true],     //Lademodus 5
-    ['Chg_Mode6',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'DeyeChgMode'   ,    177,   10, 1,  1,      0,  true]      //Lademodus 6
+    ['Chg_Mode6',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'DeyeChgMode'   ,    177,   10, 1,  1,      0,  true],      //Lademodus 6
+
+//Variablen für Interne Steuerungen 
+    ['Chg_Battery',       	    VARIABLETYPE_BOOLEAN,   VALTYPE_BYTE, 	    '~Switch'       ,     -1,   10, 0,  0,      0,  true]      //Forchiere Batterieladung aus Netz
+
 ];    
 }

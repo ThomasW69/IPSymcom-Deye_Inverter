@@ -8,7 +8,10 @@
             "minimum": 0,
             "maximum": 5000
         },
-        
+                {
+        "type": "TestCenter"
+        },
+
         {
             "type": "List",
             "name": "Variables",
@@ -122,6 +125,6 @@
             "caption": "Read Provider",
             "onClick": "IPS_RequestAction($id, 'GetPrice','');"
         }
-       
+      
     ]
 }
