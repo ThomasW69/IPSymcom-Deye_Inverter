@@ -129,6 +129,8 @@ class Deye extends IPSModule
                 'Pos'      => $Pos + 1
             ];
         }
+        
+        $this->RegisterVariableBoolean("Chg_Battery", "Batterie Laden", ["PRESENTATION" => VARIABLE_PRESENTATION_SWITCH]);
         $this->RegisterPropertyString('Variables', json_encode($Variables));  //Variablenarray für die Deye-RegisterVariablen
         $this->RegisterTimer('UpdateTimer', 0, static::PREFIX . '_RequestRead($_IPS["TARGET"]);');  #Timer zum Abruf der Daten vom Deye
        
@@ -181,6 +183,7 @@ class Deye extends IPSModule
                 ];   
        
         parent::ApplyChanges();  //Nicht löschen!!
+     //   $this->RegisterVariableBoolean("Chg_Battery", "Batterie Laden", ["PRESENTATION" => VARIABLE_PRESENTATION_SWITCH]);
 
         #Profile Registrieren
         #Invertertyp und Status
@@ -602,7 +605,6 @@ class Deye extends IPSModule
            $this->SendDataToDeye('Chg_Mode1', 1); //Laden aus Netz
            $this->SendDataToDeye('Time2', 82500); //00:00
            $this->SendDataToDeye('Capacity1', 99); //99%
-    
         } else {
            $this->SendDataToDeye('Chg_Mode1', 0); //Kein Laden
            $this->SendDataToDeye('Time2', -3600 ); //23:55
@@ -613,17 +615,32 @@ class Deye extends IPSModule
    
 
 
-
     public function RequestAction($Ident, $Value) {
         switch ($Ident) { 
-        case 'Chg_Battery':                         //wenn es die Akkulad3efunktion ist
+        
+        //wenn der Akku aus dem Netz geladen werden soll
+        case 'EM_Chg_Battery':                         
+            $this->SetValue('EM_Chg_Battery', $Value);
             $this->SetAkkuCharging($Value);
             break;     
+        
+        //wenn es der Ladestrom ist
+        
+        case 'EM_Chg_Power':                         
+           $this->SetValue('ChgPwr1', $Value); //Dann die Variable für den Maximalen ladestrom setzen 
+           // $this->SendDataToDeye('ChgPwr1', $Value); 
+            break;     
+
+        //Wenn es der Entladestrom ist
+        case 'EM_Dsc_Power':                          //nichts tun. macht der Deye selbst. Dem EM muss man nur etwas vorgaukeln
+            $this->SetValue('Chg_Battery', $Value); 
+        //    $this->SetAkkuCharging($Value);
+        break;     
+
         default:                                    //ansonsten Daten an Deye Senden
           $this->SendDataToDeye($Ident, $Value);  
         }
         
-        $this->SendDebug("RequestAction:", $Ident,0);                                                        
         $this->LogMessage("RequestAction : $Ident, $Value",KL_NOTIFY);
     
     }

@@ -153,7 +153,9 @@ class SUNxxKSG04LPx extends Deye
     ['Chg_Mode6',          	    VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'DeyeChgMode'   ,    177,   10, 1,  1,      0,  true],      //Lademodus 6
 
 //Variablen für Interne Steuerungen 
-    ['Chg_Battery',       	    VARIABLETYPE_BOOLEAN,   VALTYPE_BYTE, 	    '~Switch'       ,     -1,   10, 0,  0,      0,  true]      //Forchiere Batterieladung aus Netz
+    ['EM_Chg_Battery',       	VARIABLETYPE_BOOLEAN,   VALTYPE_BYTE, 	    '~Switch'       ,     -1,   10, 0,  0,      0,  true],     //Forciere Batterieladung aus Netz
+    ['EM_Chg_Power',        	VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'Deye.Watt.I'   ,     -1,   10, 0,  0,      0,  true],     //Ladeleistung für den Akku
+    ['EM_Dsc_Power',        	VARIABLETYPE_INTEGER,   VALTYPE_WORD, 	    'Deye.Watt.I'   ,     -1,   10, 0,  0,      0,  true]      //Entladeleistung für den Akku
 
 ];    
 }

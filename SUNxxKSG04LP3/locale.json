@@ -113,7 +113,9 @@
             "Selling First":        "Zuerst verkaufen",
             "Zero To Load":         "Null an Last",
             "Zero To CT":           "Null am CT",    
-            "Chg_Battery":          "Netzladung Batterie",
+            "EM_Chg_Battery":       "Netzladung Batterie (E-Manager)",
+            "EM_Chg_Power":         "Ladeleistung (E-Manager)",
+            "EM_Dsc_Power":         "Entladeleistung (E-Manager)",
             "This module is free for non-commercial use,\r\nDonations in support of the author are accepted here:": "Dieses Modul ist für die nicht kommerzielle Nutzung kostenlos,\r\nSchenkungen als Unterstützung für den Autor werden hier akzeptiert:"
         }
     }
